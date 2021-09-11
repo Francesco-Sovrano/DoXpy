@@ -8,3 +8,5 @@ This project has been tested on Debian 9 and macOS Mojave 10.14 with Python 3.7.
 
 Before running the [Scripts/setup.sh](Scripts/setup.sh) script you have to install: virtualenv, python3-dev, python3-pip and make. 
 The [Scripts/run.sh](Scripts/run.sh) script runs all the experiments described in the paper, a few demos to assess the degree of explainability of a Credit Approval System and an Heart Disease Predictor.
+
+This documentation will be updated soon.
