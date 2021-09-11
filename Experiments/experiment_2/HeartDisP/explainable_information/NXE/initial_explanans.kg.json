@@ -1,0 +1,94 @@
+[
+    {
+        "@id": "my:heart_disease_predictor",
+        "my:input_list": [
+            {
+                "@id": "my:age",
+                "my:description": "One parameter of the heart disease predictor is Age (years)",
+                "rdfs:label": "Age (years)"
+            },
+            {
+                "@id": "my:gender",
+                "my:description": "One parameter of the heart disease predictor is Gender",
+                "rdfs:label": "Gender"
+            },
+            {
+                "@id": "my:resting_bp",
+                "my:description": "One parameter of the heart disease predictor is Diastolic Blood Pressure (mmHg)",
+                "rdfs:label": "Diastolic Blood Pressure (mmHg)"
+            },
+            {
+                "@id": "my:maximum_hr",
+                "my:description": "One parameter of the heart disease predictor is Max. heart rate (bpm)",
+                "rdfs:label": "Max. heart rate (bpm)"
+            },
+            {
+                "@id": "my:serum_cholesterol",
+                "my:description": "One parameter of the heart disease predictor is Serum Cholesterol",
+                "rdfs:label": "Serum Cholesterol"
+            },
+            {
+                "@id": "my:high_fasting_blood_sugar",
+                "my:description": "One parameter of the heart disease predictor is Fasting blood sugar greater than 120mg/dl",
+                "rdfs:label": "Fasting blood sugar greater than 120mg/dl"
+            },
+            {
+                "@id": "my:chest_pain",
+                "my:description": "One parameter of the heart disease predictor is Chest-pain type",
+                "rdfs:label": "Chest-pain type"
+            },
+            {
+                "@id": "my:exercise_induced_angina",
+                "my:description": "One parameter of the heart disease predictor is Exercise induced angina",
+                "rdfs:label": "Exercise induced angina"
+            },
+            {
+                "@id": "my:resting_ecg",
+                "my:description": "One parameter of the heart disease predictor is Rest Electrocardiographic (ECG) results",
+                "rdfs:label": "Rest Electrocardiographic (ECG) results"
+            },
+            {
+                "@id": "my:ST_depression_exercise_vs_rest",
+                "my:description": "One parameter of the heart disease predictor is ST depression after exercise stress (mm)",
+                "rdfs:label": "ST depression after exercise stress (mm)"
+            },
+            {
+                "@id": "my:peak_exercise_ST_segment_slope",
+                "my:description": "One parameter of the heart disease predictor is ST-segment slope after exercise stress",
+                "rdfs:label": "ST-segment slope after exercise stress"
+            }
+        ],
+        "my:explanatory_targets": [
+            {
+                "my:question_template": "How is likely that patient X has a heart disease?",
+                "my:answer_template": "The probability is P.",
+                "my:explanatory_template": "Patient X is likely to have a heart disease with probability P."
+            },
+            {
+                "my:question_template": "What is the risk of heart disease for patient X?",
+                "my:answer_template": "The risk is R.",
+                "my:explanatory_template": "Patient X has risk R of having a heart disease."
+            },
+            {
+                "my:question_template": "What is the recommended action, for patient X to cure or prevent a heart disease?",
+                "my:answer_template": "The recommended action is A, because the risk is R.",
+                "my:explanatory_template": "In order to cure or prevent a heart disease, the recommended action for patient X is A because the risk is R."
+            },
+            {
+                "my:question_template": "What would happen if patient X would have factor Y equal to A instead of B?",
+                "my:answer_template": "The likelihood of heart disease would be L, because of the factors contributing C.",
+                "my:explanatory_template": "If patient X would have factor Y equal to A instead of B, the likelihood of heart disease would be L, because of the factors contributing C."
+            },
+            {
+                "my:question_template": "What are the most important factors contributing to the predicted likelihood of heart disease, for patient X?",
+                "my:answer_template": "The most important factors are F.",
+                "my:explanatory_template": "The most important factors contributing to the predicted likelihood of heart disease, for patient X, are F."
+            },
+            {
+                "my:question_template": "How factor Y contributes to the predicted likelihood of heart disease, for patient X?",
+                "my:answer_template": "The contribution of Y is C.",
+                "my:explanatory_template": "The contribution of Y to the predicted likelihood of heart disease, for patient X, is C."
+            }   
+        ]
+    }
+]

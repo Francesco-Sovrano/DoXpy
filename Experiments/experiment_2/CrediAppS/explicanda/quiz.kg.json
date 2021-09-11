@@ -1,0 +1,12 @@
+[{
+	"@id": "my:credit_approval_system",
+	"my:explicandum_target": [
+		"What did the Credit Approval System decide for Mary's application? It was rejected",
+		"What is an inquiry (in this context)? An item that can occur on a credit report",
+		"What type of inquiries can affect Mary's score, the hard or the soft ones? Hard inquiries",
+		"What is an example of hard inquiry? Actively applying for a new credit card or mortgage",
+		"How can an account become delinquent? With late payments",
+		"Which specific process was used by the Bank to automatically decide whether to assign the loan? An artificial neural network and CEM",
+		"What are the known issues of the specific technology used by the Bank (to automatically predict Mary's risk performance and to suggest avenues for improvement)? It is not possible to know it's inner logic precisely"
+	]
+}]

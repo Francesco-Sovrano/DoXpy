@@ -1,0 +1,727 @@
+<html><head>
+		<!-- Add Bootstrap and Bootstrap-Vue CSS to the <head> section -->
+		<link type="text/css" rel="stylesheet" href="/resources/static/lib/bootstrap-4.5.2.min.css">
+		<link type="text/css" rel="stylesheet" href="/resources/static/lib/bootstrap-vue-2.16.0.min.css">
+		<!--FontAwesome import-->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<!-- App -->
+		<link type="text/css" rel="stylesheet" href="/resources/static/style.css">
+		<link type="text/css" rel="stylesheet" href="/resources/static/tree.css">
+	<style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style></head>
+	<body>
+		<div id="app" class="container-fluid siteBody"><!----> <div id="header" class="navbar sticky-top navbar-expand navbar-dark bg-dark"><div id="appTitle">Explaining Decisions on Loan Application</div></div> <br> <div id="initial_explanans"><div id="appWelcome"><h1><span>Welcome</span> <i>Mary</i></h1></div> <hr flex=""> <div><input placeholder="Write a question about loans that is not too specific to your loan application, we'll try to answer.. e.g. What is an inquiry?" type="text" aria-label="Write a question about loans that is not too specific to your loan application, we'll try to answer.. e.g. What is an inquiry?" aria-describedby="inputGroup-sizing-sm" class="form-control input-lg"> <!----> <!----> <!----> <!----> <!----> <!----></div> <hr flex=""> <div><div id="appIntroDesc"><img src="/resources/static/cust.png" id="appIntroImg"> <div id="appIntroTitle" class="col"><strong>Here you can:</strong> <ul id="customerTitle"><li>Check the results of your loan application.</li><li>Understand why your loan application was rejected/approved by the Bank.</li><li>Understand what you can improve to increase the likelihood that your loan application is going to be accepted.</li></ul></div></div> <hr flex=""> <strong style="display: none;">Loading...</strong> <strong style="">Final Decision</strong> <p id="appOutcome" style="">Your <annotation><span class="link" data-topic="my:RiskPerformance">Risk Performance</span></annotation> has been predicted to be <b>Bad</b>, thus your <annotation><span class="link" data-topic="my:loan_application">loan application</span></annotation> has been <b>Denied</b>.</p> <hr flex=""> <div id="appContrastiveExplanation" style=""><div><strong>Factors contributing to application Denial</strong> <p></p> <p>Some things in your loan application fall outside the acceptable range. All would need to improve before acceptance was recommended:</p> <ul><li>Your <b><annotation><span class="link" data-topic="my:AverageMInFile">Average age of accounts in months</span></annotation></b> should be increased from 73 to 80. </li><li>Your <b><annotation><span class="link" data-topic="my:PercentTradesNeverDelq">Percentage of accounts that were never delinquent</span></annotation></b> should be increased from 87 to 89. </li><li>Your <b><annotation><span class="link" data-topic="my:MSinceMostRecentInqexcl7days">Months since most recent credit inquiry not within the last 7 days</span></annotation></b> should be increased from 0 to 2. </li></ul></div> <div style="position: relative;"><hr flex=""> <strong>Relative importance of factors contributing to Denial</strong> <p></p> <p>While all 3 factors need to improve as indicated above, the most important to improve first is the <b><annotation><span class="link" data-topic="my:MSinceMostRecentInqexcl7days">Months since most recent credit inquiry not within the last 7 days</span></annotation></b>. You now have insight into what you can do to improve your likelihood of being accepted.</p> <div style="min-height: 365px;"><div id="apexchartsxlc9ju3v" class="apexcharts-canvas apexchartsxlc9ju3v apexcharts-theme-light" style="width: 797px; height: 350px;"><svg id="SvgjsSvg1168" width="797" height="350" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG1170" class="apexcharts-inner apexcharts-graphical" transform="translate(172, 30)"><defs id="SvgjsDefs1169"><linearGradient id="SvgjsLinearGradient1174" x1="0" y1="0" x2="0" y2="1"><stop id="SvgjsStop1175" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)" offset="0"></stop><stop id="SvgjsStop1176" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop><stop id="SvgjsStop1177" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop></linearGradient><clipPath id="gridRectMaskxlc9ju3v"><rect id="SvgjsRect1179" width="619" height="282.348" x="-2" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectMarkerMaskxlc9ju3v"><rect id="SvgjsRect1180" width="619" height="286.348" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath></defs><rect id="SvgjsRect1178" width="0" height="282.348" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke-dasharray="3" fill="url(#SvgjsLinearGradient1174)" class="apexcharts-xcrosshairs" y2="282.348" filter="none" fill-opacity="0.9"></rect><g id="SvgjsG1212" class="apexcharts-yaxis apexcharts-xaxis-inversed" rel="0"><g id="SvgjsG1213" class="apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g" transform="translate(0, 0)"><text id="SvgjsText1214" font-family="Helvetica, Arial, sans-serif" x="-15" y="51.336000000000006" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1215">Months since most ...</tspan><title>Months since most recent credit inquiry not within the last 7 days</title></text><text id="SvgjsText1216" font-family="Helvetica, Arial, sans-serif" x="-15" y="145.452" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1217">Average age of acc...</tspan><title>Average age of accounts in months</title></text><text id="SvgjsText1218" font-family="Helvetica, Arial, sans-serif" x="-15" y="239.56799999999998" text-anchor="end" dominant-baseline="auto" font-size="11px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-yaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1219">Percentage of accou...</tspan><title>Percentage of accounts that were never delinquent</title></text></g><line id="SvgjsLine1220" x1="0" y1="1" x2="0" y2="282.348" stroke="#e0e0e0" stroke-dasharray="0"></line></g><g id="SvgjsG1191" class="apexcharts-xaxis apexcharts-yaxis-inversed"><g id="SvgjsG1192" class="apexcharts-xaxis-texts-g" transform="translate(0, -8)"><text id="SvgjsText1193" font-family="Helvetica, Arial, sans-serif" x="615" y="312.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1195">0.5</tspan><title>0.5</title></text><text id="SvgjsText1196" font-family="Helvetica, Arial, sans-serif" x="491.9" y="312.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1198">0.4</tspan><title>0.4</title></text><text id="SvgjsText1199" font-family="Helvetica, Arial, sans-serif" x="368.80000000000007" y="312.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1201">0.3</tspan><title>0.3</title></text><text id="SvgjsText1202" font-family="Helvetica, Arial, sans-serif" x="245.70000000000005" y="312.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1204">0.2</tspan><title>0.2</title></text><text id="SvgjsText1205" font-family="Helvetica, Arial, sans-serif" x="122.60000000000002" y="312.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1207">0.1</tspan><title>0.1</title></text><text id="SvgjsText1208" font-family="Helvetica, Arial, sans-serif" x="-0.5" y="312.348" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;"><tspan id="SvgjsTspan1210">0.0</tspan><title>0.0</title></text></g><line id="SvgjsLine1211" x1="0" y1="282.348" x2="615" y2="282.348" stroke="#e0e0e0" stroke-dasharray="0" stroke-width="1"></line></g><g id="SvgjsG1221" class="apexcharts-grid"><g id="SvgjsG1222" class="apexcharts-gridlines-horizontal"><line id="SvgjsLine1230" x1="0" y1="0" x2="615" y2="0" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1231" x1="0" y1="94.116" x2="615" y2="94.116" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1232" x1="0" y1="188.232" x2="615" y2="188.232" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line><line id="SvgjsLine1233" x1="0" y1="282.348" x2="615" y2="282.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-gridline"></line></g><g id="SvgjsG1223" class="apexcharts-gridlines-vertical"></g><line id="SvgjsLine1224" x1="0" y1="283.348" x2="0" y2="289.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1225" x1="123.3" y1="283.348" x2="123.3" y2="289.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1226" x1="246.60000000000002" y1="283.348" x2="246.60000000000002" y2="289.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1227" x1="369.90000000000003" y1="283.348" x2="369.90000000000003" y2="289.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1228" x1="493.20000000000005" y1="283.348" x2="493.20000000000005" y2="289.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1229" x1="616.5" y1="283.348" x2="616.5" y2="289.348" stroke="#e0e0e0" stroke-dasharray="0" class="apexcharts-xaxis-tick"></line><line id="SvgjsLine1235" x1="0" y1="282.348" x2="615" y2="282.348" stroke="transparent" stroke-dasharray="0"></line><line id="SvgjsLine1234" x1="0" y1="1" x2="0" y2="282.348" stroke="transparent" stroke-dasharray="0"></line></g><g id="SvgjsG1181" class="apexcharts-bar-series apexcharts-plot-series"><g id="SvgjsG1182" class="apexcharts-series" rel="1" seriesName="Importance" data:realIndex="0"><path id="SvgjsPath1186" d="M 0.1 14.117400000000004L 615.1 14.117400000000004Q 615.1 14.117400000000004 615.1 14.117400000000004L 615.1 79.9986Q 615.1 79.9986 615.1 79.9986L 615.1 79.9986L 0.1 79.9986L 0.1 79.9986z" fill="rgba(0,143,251,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskxlc9ju3v)" pathTo="M 0.1 14.117400000000004L 615.1 14.117400000000004Q 615.1 14.117400000000004 615.1 14.117400000000004L 615.1 79.9986Q 615.1 79.9986 615.1 79.9986L 615.1 79.9986L 0.1 79.9986L 0.1 79.9986z" pathFrom="M 0.1 14.117400000000004L 1114.1 14.117400000000004Q 1114.1 14.117400000000004 1114.1 14.117400000000004L 1114.1 79.9986Q 1114.1 79.9986 1114.1 79.9986L 1114.1 79.9986L 0.1 79.9986L 0.1 79.9986zL 0.1 14.117400000000004L 0.1 79.9986L 0.1 79.9986L 0.1 79.9986L 0.1 79.9986L 0.1 79.9986L 0.1 14.117400000000004" cy="108.2334" cx="615.1" j="0" val="0.5" barHeight="65.88119999999999" barWidth="615"></path><path id="SvgjsPath1188" d="M 0.1 108.2334L 246.1 108.2334Q 246.1 108.2334 246.1 108.2334L 246.1 174.1146Q 246.1 174.1146 246.1 174.1146L 246.1 174.1146L 0.1 174.1146L 0.1 174.1146z" fill="rgba(0,143,251,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskxlc9ju3v)" pathTo="M 0.1 108.2334L 246.1 108.2334Q 246.1 108.2334 246.1 108.2334L 246.1 174.1146Q 246.1 174.1146 246.1 174.1146L 246.1 174.1146L 0.1 174.1146L 0.1 174.1146z" pathFrom="M 0.1 108.2334L 445.70000000000005 108.2334Q 445.70000000000005 108.2334 445.70000000000005 108.2334L 445.70000000000005 174.1146Q 445.70000000000005 174.1146 445.70000000000005 174.1146L 445.70000000000005 174.1146L 0.1 174.1146L 0.1 174.1146zL 0.1 108.2334L 0.1 174.1146L 0.1 174.1146L 0.1 174.1146L 0.1 174.1146L 0.1 174.1146L 0.1 108.2334" cy="202.3494" cx="246.1" j="1" val="0.2" barHeight="65.88119999999999" barWidth="246"></path><path id="SvgjsPath1190" d="M 0.1 202.3494L 123.1 202.3494Q 123.1 202.3494 123.1 202.3494L 123.1 268.2306Q 123.1 268.2306 123.1 268.2306L 123.1 268.2306L 0.1 268.2306L 0.1 268.2306z" fill="rgba(0,143,251,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskxlc9ju3v)" pathTo="M 0.1 202.3494L 123.1 202.3494Q 123.1 202.3494 123.1 202.3494L 123.1 268.2306Q 123.1 268.2306 123.1 268.2306L 123.1 268.2306L 0.1 268.2306L 0.1 268.2306z" pathFrom="M 0.1 202.3494L 222.9 202.3494Q 222.9 202.3494 222.9 202.3494L 222.9 268.2306Q 222.9 268.2306 222.9 268.2306L 222.9 268.2306L 0.1 268.2306L 0.1 268.2306zL 0.1 202.3494L 0.1 268.2306L 0.1 268.2306L 0.1 268.2306L 0.1 268.2306L 0.1 268.2306L 0.1 202.3494" cy="296.4654" cx="123.1" j="2" val="0.1" barHeight="65.88119999999999" barWidth="123"></path><g id="SvgjsG1184" class="apexcharts-bar-goals-markers" style="pointer-events: none"><g id="SvgjsG1185" className="apexcharts-bar-goals-groups"></g><g id="SvgjsG1187" className="apexcharts-bar-goals-groups"></g><g id="SvgjsG1189" className="apexcharts-bar-goals-groups"></g></g></g><g id="SvgjsG1183" class="apexcharts-datalabels" data:realIndex="0"></g></g><line id="SvgjsLine1236" x1="0" y1="0" x2="615" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine1237" x1="0" y1="0" x2="615" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line><g id="SvgjsG1238" class="apexcharts-yaxis-annotations"></g><g id="SvgjsG1239" class="apexcharts-xaxis-annotations"></g><g id="SvgjsG1240" class="apexcharts-point-annotations"></g></g><g id="SvgjsG1171" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend" style="max-height: 175px;"></div><div class="apexcharts-tooltip apexcharts-theme-light"><div class="apexcharts-tooltip-title" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"></div><div class="apexcharts-tooltip-series-group" style="order: 1;"><span class="apexcharts-tooltip-marker" style="background-color: rgb(0, 143, 251);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div><div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light"><div class="apexcharts-yaxistooltip-text"></div></div><div class="apexcharts-toolbar" style="top: 0px; right: 3px;"><div class="apexcharts-menu-icon" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></div><div class="apexcharts-menu"><div class="apexcharts-menu-item exportSVG" title="Download SVG">Download SVG</div><div class="apexcharts-menu-item exportPNG" title="Download PNG">Download PNG</div><div class="apexcharts-menu-item exportCSV" title="Download CSV">Download CSV</div></div></div></div></div><div class="resize-triggers"><div class="expand-trigger"><div style="width: 798px; height: 523px;"></div></div><div class="contract-trigger"></div></div></div> <hr flex=""> <div id="appIntroSummary"><strong>The AI-Powered Credit Approval System</strong> <p></p> <p>The Bank is using an <annotation><span class="link" data-topic="my:neural_network">Artificial Neural Network</span></annotation> for predicting your <annotation><span class="link" data-topic="my:risk_performance">Risk Performance</span></annotation>, and on top of it the Bank is using the&nbsp;<annotation><span class="link" data-topic="my:cem">Contrastive Explanations Method (CEM)</span></annotation> to suggest avenues for improvement. CEM should help you to detect the things (e.g. amount of time since last credit <annotation><span class="link" data-topic="my:inquiry">inquiry</span></annotation>, average age of accounts) that caused your <annotation><span class="link" data-topic="my:loan_application">loan application</span></annotation> rejection, by falling outside the acceptable range.</p></div> <hr flex=""></div></div></div></div>
+		<footer>
+			<!-- JQUERY -->
+			<script type="text/javascript" src="/resources/static/lib/jquery-3.5.1.min.js"></script>
+			<!-- Add Vue and Bootstrap-Vue JS just before the closing </body> tag -->
+			<script type="text/javascript" src="/resources/static/lib/vue-2.6.11.min.js"></script>
+			<script type="text/javascript" src="/resources/static/lib/bootstrap-vue-2.16.0.min.js"></script>
+			<!-- Load apexcharts -->
+			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+			<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue-apexcharts"></script>
+			<!-- Load d3.js -->
+			<script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
+			
+			<!-- Internal libs, keep this exact order of import -->
+			<script type="text/javascript" src="/resources/static/lib/common_fn.js"></script>
+			<!-- Shared popup stuff, keep this exact order of import -->
+			<script type="text/javascript" src="/resources/static/template/template_lib.js"></script>
+			<script type="text/javascript" src="/resources/static/template/template.js"></script>
+			<script type="text/javascript" src="/resources/static/template/jsonld_handler.js"></script>
+			<!-- Content Script, keep this exact order of import -->
+			<script type="text/javascript" src="/resources/static/stage_builder/item_stage_builder.js"></script>
+			<script type="text/javascript" src="/resources/static/stage_builder/domain_stage_builder.js"></script>
+			<script type="text/javascript" src="/resources/static/stage_builder/api_lib.js"></script>
+			<!-- App, keep this exact order of import -->
+			<script type="text/javascript" src="/resources/static/vue_component/explanation_components.js"></script>
+			<script type="text/javascript" src="/resources/static/app.js"></script>
+		</footer>
+	
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg></body></html>

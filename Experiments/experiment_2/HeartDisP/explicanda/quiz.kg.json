@@ -1,0 +1,24 @@
+[{
+	"@id": "my:heart_disease_predictor",
+	"my:explicandum_target": [
+		"What are the most important factors leading that patient to a medium risk of heart disease? The gender, the diastolic blood pressure, and the ST-segment slope after exercise stress",
+		"What is the easiest thing that the patient could actually do to change his heart disease risk from medium to low? Increase the average diastolic blood pressure to 145",
+		"According to the predictor, what level of serum cholesterol is needed to shift the heart disease risk from medium to high? 225 mg/dl",
+		"How could the patient avoid raising bad cholesterol, preventing his heart disease risk to shift from medium to high? Eating healthy, reducing weight in excess",
+		"What kind of tests can be done to measure bad cholesterol levels in the blood? The cholesterol test",
+		"What are the risks of high cholesterol? Heart attack or stroke",
+		"What is LDL? Low-density lipoprotein (Bad) cholesterol",
+		"What is Serum Cholestrol? The amount of triglycerides and LDL and HDL",
+		"What types of chest pain are typical of heart disease? Angina",
+		"What is the most common type of heart disease in the USA? Coronary artery disease",
+		"What are the causes of angina? Inadequate supply of oxygen, either due toreduced blood flowor due to obstruction in the vascular system",
+		"What kind of chest pain do you feel with angina? The pain or discomfort associated with angina usually feels tight, gripping or squeezing, and can vary from mild to severe",
+		"What are the effects of high blood pressure? Heart diseases, heart attacks, and strokes",
+		"What are the symptoms of high blood pressure? High blood pressureusually hasno symptoms",
+		"What are the effects of smoking to the cardiovascular system? Smoking damages your blood vessels, and it speeds up the hardening of the arteries",
+		"How can the patient increase his heart rate? The heart rate increases during exercise",
+		"How can the patient try to prevent a stroke? Adopting healthy lifestyle habits",
+		"What is a Thallium stress test? A thallium stress testis a nuclear imaging test that shows how well blood flows into your heart",
+		"What is the most probable age to get a heart disease? Over 40"
+	]
+}]

@@ -1,0 +1,64 @@
+[
+	{
+		"@id": "my:heart_disease",
+		"rdfs:label": "Heart Disease",
+		"dbo:abstract": {
+			"@value": "The term “heart disease” refers to several types of heart conditions. The most common type of heart disease in the United States is coronary artery disease (CAD), which affects the blood flow to the heart. Decreased blood flow can cause a heart attack.",
+			"@source": "https://www.cdc.gov/heartdisease/about.htm"
+		},
+		"my:symptoms": "Sometimes heart disease may be “silent” and not diagnosed until a person experiences signs or symptoms of a heart attack, heart failure, or an arrhythmia. When these events happen, symptoms may include: Heart attack (chest pain or discomfort, upper back or neck pain, indigestion, heartburn, nausea or vomiting, extreme fatigue, upper body discomfort, dizziness, and shortness of breath), Arrhythmia (fluttering feelings in the chest or palpitations), Heart failure (shortness of breath, fatigue, or swelling of the feet, ankles, legs, abdomen, or neck veins).",
+		"my:risk_factors": "High blood pressure, high blood cholesterol, and smoking are key risk factors for heart disease. About half of Americans (47%) have at least one of these three risk factors.2 Several other medical conditions and lifestyle choices can also put people at a higher risk for heart disease, including: Diabetes, Overweight and obesity, Unhealthy diet, Physical inactivity, Excessive alcohol use.",
+		"my:rehabilitation": "Cardiac rehabilitation (rehab) is an important program for anyone recovering from a heart attack, heart failure, or some types of heart surgery. Cardiac rehab is a supervised program that includes: Physical activity, Education about healthy living (e.g. eating, taking medicine as prescribed, and ways to help you quit smoking), Counseling to find ways to relieve stress and improve mental health. A team of people may help you through cardiac rehab, including your health care team, exercise and nutrition specialists, physical therapists, and counselors or mental health professionals.",
+		"rdfs:seeAlso": [
+			"my:uci_heart_disease_data"
+		]
+	},
+	{
+		"@id": "my:st_segment",
+		"dbo:abstract": {
+			"@value": "The ST segment represents the isoelectric period when the ventricles are in between depolarization and repolarization. In electrocardiography, the ST segment connects the QRS complex and the T wave and has a duration of 0.005 to 0.150 sec (5 to 150 ms).",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:ST_depression_exercise_vs_rest",
+			"my:peak_exercise_ST_segment_slope_upsloping"
+		],
+		"rdfs:label": "ST-Segment"
+	},
+	{
+		"@id": "my:angina",
+		"dbo:abstract": {
+			"@value": "Angina is chest pain or discomfort caused when your heart muscle doesn’t get enough oxygen-rich blood. It may feel like pressure or squeezing in your chest. The discomfort also can occur in your shoulders, arms, neck, jaw, or back. Angina pain may even feel like indigestion. But, angina is not a disease. It is a symptom of an underlying heart problem, usually coronary heart disease (CHD).There are many types of angina, including microvascular angina, Prinzmetal's angina, stable angina, unstable angina and variant angina.",
+			"@source": "https://www.heart.org/en/health-topics/heart-attack/angina-chest-pain"
+		},
+		"rdf:type": "my:chest_pain_type",
+		"rdfs:seeAlso": [
+			"my:exercise_induced_angina_yes"
+		],
+		"rdfs:label": "Angina"
+	},
+	{
+		"@id": "my:atypical_angina",
+		"dbo:abstract": {
+			"@value": "The term atypical angina is used to describe angina which is not associated with classical symptoms of angina. Instead individuals with atypical angina may manifest symptoms like fainting, nausea and generalized weakness. This type of angina is more often observed in older individuals or individuals with diabetes. Lack of symptoms associated with angina make the diagnosis of the condition difficult. Atypical angina is attributed to the same cause that is responsible for classical angina i.e. narrowing of the coronary arteries that supply to the heart, which results in reduced supply of oxygen to the heart. However individuals suffering from atypical angina may not manifest the symptoms of classical angina which include chest pain radiating down to the left arm or to the neck.",
+			"@source": "https://www.tandurust.com/heart-health/atypical-angina-symptoms-treatment.html"
+		},
+		"rdf:type": "my:chest_pain_type",
+		"rdfs:seeAlso": [
+			"my:exercise_induced_angina_yes"
+		],
+		"rdfs:label": "Atypical Angina"
+	},
+	{
+		"@id": "my:non_anginal_pain",
+		"dbo:abstract": {
+			"@value": "Non-cardiac chest pain is the term that is used to describe pain in the chest that is not caused by heart disease or a heart attack. In most people, non-cardiac chest pain is related to a problem with the esophagus, such as gastroesophageal reflux disease. Other causes include muscle or bone problems, lung conditions or diseases, stomach problems, stress, anxiety, and depression.",
+			"@source": "https://www.belmarrahealth.com/atypical-angina-causes-symptoms-treatment/"
+		},
+		"rdf:type": "my:chest_pain_type",
+		"rdfs:seeAlso": [
+			"my:exercise_induced_angina_yes"
+		],
+		"rdfs:label": "Non—anginal Pain"
+	}
+]

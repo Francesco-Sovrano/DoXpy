@@ -1,0 +1,629 @@
+[
+    {
+        "@id": "my:aix360",
+        "dbo:abstract": {
+            "@value": "AI Explainability 360 is an open source toolkit by IBM.",
+            "@source": "http://aix360.mybluemix.net/"
+        },
+        "rdfs:label": "AIX360",
+        "rdf:type": "my:framework",
+        "my:algorithms": [
+            {
+                "@value": "my:cem", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:protodash", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:glrm", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:ted", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:dip_vae", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:profweight", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:cem_maf", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:brcg", 
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            }
+        ],
+        "my:algorithm_code": "https://github.com/ibm/aix360"
+    },
+    {
+        "@id": "my:framework",
+        "dbo:abstract": {
+            "@value": "In computer programming, a software framework is an abstraction in which software providing generic functionality can be selectively changed by additional user-written code, thus providing application-specific software.",
+            "@source": "https://en.wikipedia.org/wiki/Software_framework"
+        },
+        "rdfs:label": "Framework",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Software_framework"
+    },
+    {
+        "@id": "my:black_box_model",
+        "dbo:abstract": {
+            "@value": "A black box model is a complicated model that people is not easily able to understand. An example of black box model are the deep neural networks.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:artificial_neural_network"],
+        "rdfs:label": "Black Box Model",
+        "rdf:type": "my:model",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Black_box",
+        "my:isEquivalent": ["my:black_box", "my:blackbox"]
+    },
+    {
+        "@id": "my:model",
+        "rdf:type": "my:function",
+        "rdfs:label": "Model",
+        "dbo:abstract": {
+            "@value": "A model is a function that takes features as input and predicts labels as output. An explanation can be for understand the model or the data.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:label","my:explanation","my:data","my:model"],
+        "my:explanation_types": [
+            {
+                "@value": "my:global_explanation",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:local_explanation",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            }
+        ],
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Conceptual_model"
+    },
+    {
+        "@id": "my:classifier",
+        "dbo:abstract": {
+            "@value": "A classifier is a model that predicts categorical labels from features.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:label","my:feature","my:model"],
+        "rdfs:label": "Classifier",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Classification_rule",
+        "rdf:type": "my:model"
+    },
+    {
+        "@id": "my:consumer",
+        "dbo:abstract": {
+            "@value": "A consumer is a human receiving an explanation.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:explanation"],
+        "rdfs:label": "Consumer",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Consumer",
+        "rdf:type": "my:person"
+    },
+    {
+        "@id": "my:person",
+        "rdf:type": "owl:Class",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Person",
+        "rdfs:label": "Person"
+    },
+    {
+        "@id": "my:directly_interpretable_model",
+        "dbo:abstract": {
+            "@value": "A directly interpretable model is a model that consumers can usually understand, such as a simple decision tree or Boolean rule set.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:consumer"],
+        "rdfs:label": "Directly Interpretable Model",
+        "rdf:type": "my:model",
+        "my:explanation_types": {
+            "@value": "my:global_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:post_hoc_explanation",
+        "dbo:abstract": {
+            "@value": "A post hoc explanation is an explanation coming from a model that approximates a black box model. The experts that differentiate the terms explanation and interpretation limit the term explanation only to post hoc explanation.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:black_box_model"],
+        "rdfs:label": "Post Hoc Explanation",
+        "rdf:type": "my:explanation",
+        "my:explanation_types": {
+            "@value": "my:global_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:loan_application",
+        "rdfs:label": "Loan Application",
+        "dbo:abstract": {
+            "@value": "A loan application is used by borrowers to apply for a loan. Through the loan application, borrowers reveal key details about their finances to the lender. The loan application is crucial to determining whether the lender will grant the request for funds or credit.",
+            "@source": "https://www.bankrate.com/glossary/l/loan-application/"
+        }
+    },
+    {
+        "@id": "my:explanation",
+        "rdf:type": "owl:Class",
+        "rdfs:label": "Explanation",
+        "dbo:abstract": {
+            "@value": "An explanation is a reason or justification for the predicted label. Some experts differentiate explanations from interpretations. Explanations come from surrogate models and interpretations come from the models themselves.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:model"],
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Explanation",
+        "my:explanation_types": [
+            {
+                "@value": "my:global_explanation",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:local_explanation",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            }
+        ]
+    },
+    {
+        "@id": "my:disentangled_representation",
+        "dbo:abstract": {
+            "@value": "A Disentangled representation is a representation in which changes to one feature leave other features unchanged.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:feature"],
+        "rdf:type": "my:representation",
+        "rdfs:label": "Disentangled Representation"
+    },
+    {
+        "@id": "my:feature",
+        "dbo:abstract": {
+            "@value": " A feature is an individual measurable property or characteristic.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:label": "Feature",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Feature_(machine_learning)",
+        "rdf:type": "my:data"
+    },
+    {
+        "@id": "my:global_explanation",
+        "dbo:abstract": {
+            "@value": "A global explanation is an explanation for an entire model. Global explanations about entire models are most appropriate for data scientist, regulators and decision makers such as physicians, loan officiers and judges.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:model"],
+        "rdfs:label": "Global Explanation",
+        "rdf:type": "my:explanation",
+        "my:explanation_types": [
+            {
+                "@value": "my:directly_interpretable_model",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:post_hoc_explanation",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            }
+        ],
+        "my:understand": {
+            "@value": "Global explanations are used to understand models.",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:opposite": {
+            "@value": "my:local_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:label",
+        "dbo:abstract": {
+            "@value": "A label is a value indicating the outcome or category for a sample.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:sample"],
+        "rdfs:label": "Label"
+    },
+    {
+        "@id": "my:local_explanation",
+        "dbo:abstract": {
+            "@value": "A local explanation is an explanation for a sample. Local explanations about individual samples are most appropriate for affected users such as patients, applicants and defendants.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:sample"],
+        "rdfs:label": "Local Explanation",
+        "rdf:type": "my:explanation",
+        "my:explanation_types": [
+            {
+                "@value": "my:based_on_samples",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:based_on_features",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            },
+            {
+                "@value": "my:elicited",
+                "@source": "http://aix360.mybluemix.net/resources#guidance"
+            }
+        ],
+        "my:understand": {
+            "@value": "Local explanation are used to understand models",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:opposite": {
+            "@value": "my:global_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:artificial_neural_network",
+        "dbo:abstract": "An Artificial Neural Network (ANN) is a Machine Learning algorithm that can be trained to solve a given problem. A trained ANN is said to be a black box, this means that it is not always possible to exactly know its inner logic. ANNs are used because in practice they work very well, but not always.",
+        "rdfs:seeAlso": ["my:machine_learning","my:sample","my:black_box_model"],
+        "rdfs:label": "Artificial Neural Network",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Artificial_neural_network",
+        "rdf:type": "my:algorithm",
+        "my:isEquivalent": ["my:neural_network","my:deep_neural_network"]
+    },
+    {
+        "@id": "my:machine_learning",
+        "dbo:abstract": {
+            "@value": "Machine learning is a general approach for determining models from data.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:model","my:data"],
+        "rdfs:label": "Machine Learning",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Machine_learning",
+        "rdf:type": "my:approach"
+    },
+    {
+        "@id": "my:approach",
+        "rdf:type": "owl:Class",
+        "rdfs:label": "Approach"
+    },
+    {
+        "@id": "my:modality",
+        "dbo:abstract": {
+            "@value": "A modality is the type of data, such as tabular data, images, audio signals, or natural language text.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:data"],
+        "rdfs:label": "Modality"
+    },
+    {
+        "@id": "my:function",
+        "rdf:type": "owl:Class",
+        "rdfs:label": "Function"
+    },
+    {
+        "@id": "my:data",
+        "dbo:abstract": {
+            "@value": "Data are characteristics or information, usually numerical, that are collected through observation.",
+            "@source": "https://en.wikipedia.org/wiki/Data"
+        },
+        "rdfs:label": "Data",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Data"
+    },
+    {
+        "@id": "my:persona",
+        "dbo:abstract": {
+            "@value": "A persona is the role of the consumer, such as a decision maker, regulator, data scientist, or patient.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:consumer"],
+        "rdfs:label": "Persona",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Persona",
+        "rdf:type": "my:person"
+    },
+    {
+        "@id": "my:prototype",
+        "dbo:abstract": {
+            "@value": "A prototype is a sample that exhibits the essence of a dataset.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:dataset","my:sample"],
+        "rdfs:label": "Prototype",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Prototype"
+    },
+    {
+        "@id": "my:sample",
+        "rdf:type": "my:data",
+        "rdfs:label": "Sample",
+        "dbo:abstract": {
+            "@value": "A sample is a single data point, instance, or example.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Sample_(statistics)"
+    },
+    {
+        "@id": "my:regressor",
+        "dbo:abstract": {
+            "@value": "A regressor is a model that predicts numerical labels from features.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:feature"],
+        "rdfs:label": "Regressor",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Dependent_and_independent_variables#Statistics_synonyms",
+        "rdf:type": "my:model"
+    },
+    {
+        "@id": "my:representation",
+        "dbo:abstract": {
+            "@value": "A representation is a mathematical transformation of data into features suitable for models.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:data","my:model"],
+        "rdfs:label": "Representation",
+        "rdf:type": "my:function"
+    },
+    {
+        "@id": "my:score",
+        "dbo:abstract": {
+            "@value": "Score is a continuous valued output from a classifier. Applying a threshold to a score results in a predicted label.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:label"],
+        "rdfs:label": "Score"
+    },
+    {
+        "@id": "my:supervised_learning",
+        "dbo:abstract": {
+            "@value": "Supervised learning refers to determining models from data having features and labels.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:model","my:label"],
+        "rdfs:label": "Supervised Learning",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Supervised_learning",
+        "rdf:type": "my:approach"
+    },
+    {
+        "@id": "my:training_data",
+        "dbo:abstract": {
+            "@value": "Training data is a dataset from which a model is learned.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:dataset","my:model"],
+        "rdfs:label": "Training Data",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Training,_validation,_and_test_sets#training_set",
+        "rdf:type": "my:data"
+    },
+    {
+        "@id": "my:unsupervised_learning",
+        "dbo:abstract": {
+            "@value": "Unsupervised learning refers to determining models or representations from data having only features, no labels.",
+            "@source": "http://aix360.mybluemix.net/resources#glossary"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:model","my:label","my:data"],
+        "rdfs:label": "Unsupervised Learning",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Unsupervised_learning",
+        "rdf:type": "my:approach"
+    },
+    {
+        "@id": "my:cem",
+        "dbo:abstract": {
+            "@value": "The Contrastive Explanations Method (CEM) is an algorithm that tries to find the minimally sufficient changes to the input (of an automated process like an Artificial Neural Network) that can change the output. Sometimes CEM is not able to find these minimally sufficient changes, but it can go close to that.",
+            "@source": "https://aix360.readthedocs.io/en/latest/lwbe.html#contrastive-explainers"
+        },
+        "rdfs:seeAlso": ["my:artificial_neural_network","my:explanation"],
+        "rdfs:label": "Contrastive Explanations Method",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:based_on_features",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:reference": "https://arxiv.org/abs/1802.07623",
+        "my:algorithm_code": "https://github.com/IBM/AIX360/blob/master/aix360/algorithms/contrastive/CEM.py"
+    },
+    {
+        "@id": "my:algorithm",
+        "rdf:type": "owl:Class",
+        "rdfs:label": "Algorithm",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Algorithm",
+        "dbo:abstract": "An algorithm is a finite sequence of instructions tipically to solve a class of problems or to perform a computation."
+    },
+    {
+        "@id": "my:protodash",
+        "dbo:abstract": {
+            "@value": "Protodash provides exemplar-based explanations for summarizing datasets as well as explaining predictions made by an AI model. It employs a fast gradient based algorithm to find prototypes along with their (non-negative) importance weights. The algorithm minimizes the maximum mean discrepancy metric and has constant factor approximation guarantees for this weakly submodular function.",
+            "@source": "https://aix360.readthedocs.io/en/latest/die.html#protodash-explainer"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:explanation","my:prototype"],
+        "rdfs:label": "Protodash",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:based_on_samples",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:reference": "https://arxiv.org/abs/1707.01212",
+        "my:algorithm_code": "https://github.com/IBM/AIX360/blob/master/aix360/algorithms/protodash/PDASH.py"
+    },
+    {
+        "@id": "my:ted",
+        "dbo:abstract": {
+            "@value": "TED is an explainability framework that leverages domain-relevant explanations in the training dataset to predict both labels and explanations for new instances. The simplest instantiation of TED is called the Cartesian Product.",
+            "@source": "https://aix360.readthedocs.io/en/latest/dise.html#teaching-explanations-for-decisions-ted-cartesian-product-explainer"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:explanation","my:label"],
+        "rdfs:label": "TED",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:elicited",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:reference": "https://doi.org/10.1145/3306618.3314273",
+        "my:algorithm_code": "https://github.com/IBM/AIX360/blob/master/aix360/algorithms/ted/TED_Cartesian.py"
+    },
+    {
+        "@id": "my:brcg",
+        "dbo:abstract": {
+            "@value": "Learns a small, interpretable Boolean rule in disjunctive normal form (DNF) for binary classification.",
+            "@source": "https://arxiv.org/abs/1909.03012"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:explanation"],
+        "rdfs:label": "BRCG",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:directly_interpretable_model",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:profweight",
+        "dbo:abstract": {
+            "@value": "Learns a reweighting of the training set based on a given interpretable model and a high-performing complex neural network.",
+            "@source": "https://arxiv.org/abs/1909.03012"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:explanation","my:artificial_neural_network"],
+        "rdfs:label": "ProfWeight",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:post_hoc_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:glrm",
+        "dbo:abstract": {
+            "@value": "Generalized Linear Rule Models (GLRM) learns a linear combination of conjunctions for real-valued regression through a generalized linear model (GLM) link function.",
+            "@source": "https://arxiv.org/abs/1909.03012"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:explanation"],
+        "rdfs:label": "GLRM",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:directly_interpretable_model",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:cem_maf",
+        "dbo:abstract": {
+            "@value": "Contrastive Explanations Method with Monotonic Attribute Functions (CEM-MAF) creates contrastive explanations for complex images like CEM but based on high-level semantically meaningful attributes.",
+            "@source": "https://arxiv.org/abs/1909.03012"
+        },
+        "rdfs:seeAlso": ["my:cem","my:explanation"],
+        "rdfs:label": "CEM-MAF",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:based_on_features",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:dip_vae",
+        "dbo:abstract": {
+            "@value": "Disentangled Inferred Prior (DIP) Variational Autoencoder (VAE) learns high-level independent features from images that possibly have semantic interpretation.",
+            "@source": "https://arxiv.org/abs/1909.03012"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:explanation","my:artificial_neural_network","my:feature"],
+        "rdfs:label": "DIP VAE",
+        "rdf:type": "my:algorithm",
+        "my:kind_of": {
+            "@value": "my:based_on_features",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:pertinent_positive",
+        "dbo:abstract": {
+            "@value": "Pertinent Positive (PP) is what is minimally sufficient to make positive an outcome. PPs are used by CEM algorithms to produce explanations.",
+            "@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb#prototypes"
+        },
+        "rdfs:label": "Pertinent Positive",
+        "my:isEquivalent": ["my:pp","my:pps"]
+    },
+    {
+        "@id": "my:pertinent_negative",
+        "dbo:abstract": {
+            "@value": "Pertinent Negative (PN) is what is necessarily absent to make negative an outcome. PNs are used by CEM algorithms to produce explanations.",
+            "@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb#prototypes"
+        },
+        "rdfs:label": "Pertinent Negative",
+        "my:isEquivalent": ["my:pn","my:pns"]
+    },
+    {
+        "@id": "my:based_on_samples",
+        "dbo:abstract": {
+            "@value": "An algorithm for producing explanations Based on Samples uses a set of available examples to produce the explanation. If something unknown is similar to one of the available examples, than it has the same properties of those examples. An algorithm Based on Samples, is in terms of prototypes and criticisms, a form of case-based reasoning.",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "rdfs:seeAlso": ["my:explanation","my:sample","my:feature","my:prototype"],
+        "rdfs:label": "based on Samples",
+        "rdf:type": "my:algorithm",
+        "my:explanation_types": {
+            "@value": "my:local_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:algorithms": {
+            "@value": "my:protodash",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:based_on_features",
+        "dbo:abstract": {
+            "@value": "An algorithm for producing explanations Based on Features highlight features that are necessarily present or absent for an outcome to occur.",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "rdfs:seeAlso": ["my:explanation","my:feature","my:pertinent_positive","my:ppn"],
+        "rdfs:label": "Based on Features",
+        "rdf:type": "my:algorithm",
+        "my:explanation_types": {
+            "@value": "my:local_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:algorithms": {
+            "@value": "my:cem",
+            "@source": "http://aix360.mybluemix.net/resources#guidance/"
+        }
+    },
+    {
+        "@id": "my:elicited",
+        "dbo:abstract": {
+            "@value": "An algorithm for producing Elicited explanations uses (ad-hoc) domain-relevant explanations made by humans, to predict both labels and explanations for new unknown instances.",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "rdfs:seeAlso": ["my:explanation","my:label"],
+        "rdfs:label": "Elicited",
+        "rdf:type": "my:algorithm",
+        "my:explanation_types": {
+            "@value": "my:local_explanation",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        },
+        "my:algorithms": {
+            "@value": "my:ted",
+            "@source": "http://aix360.mybluemix.net/resources#guidance"
+        }
+    },
+    {
+        "@id": "my:xgboost",
+        "dbo:abstract": {
+            "@value": "XGBoost is a tree based ensemble machine learning algorithm which is a scalable machine learning system for tree boosting. XGBoost stands for Extreme Gradient Boosting. Gradient boosting is a supervised learning algorithm that attempts to accurately predict a target variable by combining an ensemble of estimates from a set of simpler and weaker models.",
+            "@source": "https://xgboost.readthedocs.io/en/latest/"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:feature"],
+        "rdfs:label": "XGBoost",
+        "rdf:type": "my:algorithm"
+    },
+    {
+        "@id": "my:tree_shap",
+        "dbo:abstract": {
+            "@value": "Tree SHAP is an algorithm to compute exact SHAP values for Decision Trees based models. SHAP (SHapley Additive exPlanation) is a game theoretic approach to explain the output of any machine learning model. The goal of SHAP is to explain the prediction for any instance xᵢ as a sum of contributions from it’s individual feature values.",
+            "@source": "https://shap.readthedocs.io/en/latest/generated/shap.explainers.Tree.html"
+        },
+        "rdfs:seeAlso": ["my:machine_learning","my:feature"],
+        "rdfs:label": "Tree SHAP",
+        "rdf:type": "my:algorithm"
+    },
+    {
+        "@id": "my:dataset",
+        "dbo:abstract": "A dataset is a collection of data.",
+        "rdfs:seeAlso": ["my:data"],
+        "rdf:type": "owl:Class",
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Data_set",
+        "rdfs:label": "Dataset"
+    }
+]

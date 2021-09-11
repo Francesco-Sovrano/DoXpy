@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- GUIDANCE -->
+    <div class="tab-pane fade" id="guidance">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="title">Guidance on choosing algorithms</h2>
+                    <br/>
+                    <p>
+                        AI Explainability 360 (AIX360) includes many different algorithms capturing many ways of explaining <a href="https://dl.acm.org/citation.cfm?doid=3325198.3313096" target="_blank">[1]</a>, which may result in a daunting problem of selecting the right one for a given application.  We provide some guidance to help. The following decision tree will help you in selecting. The text below provides further exposition.
+                    </p>
+                    <div class="decision-tree">
+                        <img src="static/images/methods-choice.gif" alt="Decision tree to assist in algorithm choice" width="1000px">
+                    </div>
+                    <br/>
+                    <h3>Appropriateness of toolkit</h3>
+                    <p>
+                        The algorithms in the toolkit are primarily intended for high-stakes applications of machine learning from data that support decision making with humans in the loop, either as the decision makers, the subjects of the decisions, or as regulators of the decision making processes. Other modes of AI such as knowledge graph induction or planning, and even other modes of machine learning such as reinforcement learning are not appropriate settings in which to use AIX360.
+                    </p>
+                    <h3>Data explanation</h3>
+                    <p>
+                        Machine learning begins with data. It is often useful for people to understand the characteristics of the data and the features of the data before any supervised learning takes place.
+                    </p>
+                    <h3>Model explanation</h3>
+                    <p>
+                        There are several ways to make a machine learning model comprehensible to consumers. The first distinction is direct interpretability vs. post hoc explanation <a href="https://www.nature.com/articles/s42256-019-0048-x" target="_blank">[2]</a>. Directly interpretable models are model formats such as decision trees, Boolean rule sets, and generalized additive models, that are fairly easily understood by people and learned straight from the training data.  Post hoc explanation methods first train a black box model and then build another explanation model on top of the black box model. The second distinction is global vs. local explanation.  Global explanations are for entire models whereas local explanations are for single sample points.  AIX360 contains model explanation methods for all of these categories of explanation.
+                    </p>
+                    <p>
+                        Global directly interpretable models are important for personas that need to understand the entire decision making process and ensure its safety, reliability, or compliance.  Such personas include regulators and data scientists responsible for the deployment of systems.  Global post hoc explanations are useful for decision maker personas that are being supported by the machine learning model. Physicians, judges, and loan officers develop an overall understanding of how the model works, but there is necessarily a gap between the black box model and the explanation. Therefore, a global post hoc explanation may hide some safety issues but its antecedent black box model may have favorable accuracy.  Local models are the most useful for affected user personas such as patients, defendants, and applicants who need to understand the decision on a single sample (theirs).
+                    </p>
+                    <h4>Local post hoc explanations</h4>
+                    <p>
+                        Among local post hoc explanation methods, the initial release of AIX360 contains two variants of the Contrastive Explanations Method. The first variant of the <a href="https://github.com/IBM/AIX360/tree/master/aix360/algorithms/contrastive/CEM.py" target="_blank">Contrastive Explanations Method</a> is the basic version for classification with numerical features and presents minimally sufficient features as well as minimally and critically absent features for a prediction. The second variant, <a href="https://github.com/IBM/AIX360/tree/master/aix360/algorithms/contrastive/CEM_MAF.py" target="_blank">Contrastive Explanations Method with Monotonic Attribute Functions</a>, is specific for image data, with a particular focus on colored images and images with rich structure.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

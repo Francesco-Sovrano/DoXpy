@@ -1,0 +1,490 @@
+[
+	{
+		"@id": "my:biological_parameter",
+		"rdf:type": "my:feature",
+		"dbo:abstract": {
+			"@value": "Biological parameters can be used by a physician to can gain insight about what lifestyle changes or treatment strategies to recommend for preventing or treating heart diseases. The main parameters used are: demographics (age and gender), health status (cholesterol, heart rate, blood pressure, pain, etc..), ECG results, and thallium stress test results.",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		},
+		"rdfs:label": "Biological Parameter"
+	},
+	{
+		"@id": "my:uci_heart_disease_data",
+		"my:isEquivalent": [
+			"my:cleveland_database"
+		],
+		"rdfs:seeAlso": [
+			"my:training_data"
+		],
+		"dbo:abstract": {
+			"@value": "This is a multivariate type of dataset which means providing or involving a variety of separate mathematical or statistical variables, multivariate numerical data analysis. The 'UCI heart disease dataset' is composed of 14 attributes which are age, sex, chest pain type, resting blood pressure, serum cholesterol, fasting blood sugar, resting electrocardiographic results, maximum heart rate achieved, exercise-induced angina, oldpeak — ST depression induced by exercise relative to rest, the slope of the peak exercise ST segment, number of major vessels and Thalassemia. This database includes 76 attributes, but all published studies relate to the use of a subset of 14 of them. The Cleveland database is the only one used by ML researchers to date. One of the major tasks on this dataset is to predict based on the given attributes of a patient that whether that particular person has heart disease or not and other is the experimental task to diagnose and find out various insights from this dataset which could help in understanding the problem more.",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		},
+		"rdfs:label": "UCI Heart Disease Data",
+		"rdf:type": "my:dataset",
+		"my:fields": [
+			{
+				"@value": "my:age",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:resting_bp",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:serum_cholesterol",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:maximum_hr",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:ST_depression_exercise_vs_rest",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:num_affected_major_vessels",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:sex",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:chest_pain",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:high_fasting_blood_sugar",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:resting_ecg",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:exercise_induced_angina",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:peak_exercise_ST_segment_slope",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			},
+			{
+				"@value": "my:thallium_stress_test_bf",
+				"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+			}
+		]
+	},
+	{
+		"@id": "my:age",
+		"dbo:abstract": {
+			"@value": "Age is the most important risk factor in developing cardiovascular or heart diseases, with approximately a tripling of risk with each decade of life. Coronary fatty streaks can begin to form in adolescence. It is estimated that 82 percent of people who die of coronary heart disease are 65 and older. Simultaneously, the risk of stroke doubles every decade after age 55.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"my:isEquivalent": [
+			"my:year"
+		],
+		"rdfs:seeAlso": [
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Age (years)",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:resting_bp",
+		"my:isEquivalent": [
+			"my:blood_pressure"
+		],
+		"dbo:abstract": {
+			"@value": "Diastolic blood pressure indicates how much pressure your blood is exerting against your artery walls while the heart is resting between beats. Over time, high blood pressure can damage arteries that feed your heart. High blood pressure that occurs with other conditions, such as obesity, high cholesterol or diabetes, increases your risk even more.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Diastolic Blood Pressure (mmHg)",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:serum_cholesterol",
+		"dbo:abstract": {
+			"@value": "Cholesterol is a type of body fat, or lipid. A serum cholesterol level is a measurement of certain elements in the blood, including the amount of high- and low-density lipoprotein cholesterol (HDL and LDL) in a person’s blood. A high level of low-density lipoprotein (LDL) cholesterol (the “bad” cholesterol) is most likely to narrow arteries. A high level of triglycerides, a type of blood fat related to your diet, also ups your risk of a heart attack. However, a high level of high-density lipoprotein (HDL) cholesterol (the “good” cholesterol) lowers your risk of a heart attack.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:cholesterol",
+			"my:age",
+			"my:resting_bp",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Serum Cholesterol",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:maximum_hr",
+		"my:isEquivalent": [
+			"my:heart_rate_measure",
+			"my:heart_rate",
+			"my:maximum_heart_rate"
+		],
+		"dbo:abstract": {
+			"@value": "The heart rate is one of the ‘vital signs’, or the important indicators of health in the human body. It measures the number of times per minute that the heart contracts or beats. The increase in cardiovascular risk, associated with the acceleration of heart rate, was comparable to the increase in risk observed with high blood pressure. It has been shown that an increase in heart rate by 10 beats per minute was associated with an increase in the risk of cardiac death by at least 20%, and this increase in the risk is similar to the one observed with an increase in systolic blood pressure by 10 mm Hg.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Max. heart rate (bpm)",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:ST_depression_exercise_vs_rest",
+		"dbo:abstract": {
+			"@value": "ST depression refers to a finding on an electrocardiogram, wherein the trace in the ST segment (during physical exercise) is abnormally low below the baseline (at rest). It is often a sign of myocardial ischemia, of which coronary insufficiency is a major cause. ST segment depression may be determined by measuring the vertical distance between the patient's trace and the isoelectric line at a location 2-3 millimeters from the QRS complex. An exercise stress test requires an ST depression of at least 2 mm to significantly indicate reversible ischaemia.",
+			"@source": "https://en.wikipedia.org/wiki/ST_depression"
+		},
+		"my:isEquivalent": [
+			"my:stsegment_depression",
+			"my:stsegment_elevation",
+			"my:st_depression"
+		],
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "ST depression after exercise stress (mm)",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:stenosis",
+		"my:isEquivalent": [
+			"my:narrowed_blood_vessel"
+		]
+	},
+	{
+		"@id": "my:num_affected_major_vessels",
+		"dbo:abstract": {
+			"@value": "The number of major heart vessels with greater than 50% diameter narrowing. A stenosis is an abnormal narrowing in a blood vessel or other tubular organ or structure such as foramina and canals. It is also sometimes called a stricture. The term coarctation is another synonym, but is commonly used only in the context of aortic coarctation.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"my:isEquivalent": [
+			"my:stenosis",
+			"my:narrowed_blood_vessel"
+		],
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Number of major vessels affected by stenosis",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:sex",
+		"my:isEquivalent": [
+			"my:gender",
+			"my:male",
+			"my:female"
+		],
+		"dbo:abstract": {
+			"@value": "You can use gender to refer to one of a range of identities that includes female, male, a combination of both, and neither. ",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Gender",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:chest_pain",
+		"my:isEquivalent": [
+			"my:chestpain"
+		],
+		"dbo:abstract": {
+			"@value": "The type of chest-pain experienced by the individual. It can be: typical angina, atypical angina, non—anginal pain.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Chest-pain type",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:high_fasting_blood_sugar",
+		"dbo:abstract": {
+			"@value": "Fasting blood sugar levels give vital clues about how a person’s body is managing blood sugar. Blood sugar tends to peak about an hour after eating and declines after that. Not producing enough of a hormone secreted by your pancreas (insulin) or not responding to insulin properly causes your body’s blood sugar levels to rise, increasing your risk of a heart attack.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"rdfs:seeAlso": [
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Fasting blood sugar greater than 120mg/dl",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:ecg",
+		"my:isEquivalent": [
+			"my:electrocardiogram_ecg",
+			"my:electrocardiogram"
+		]
+	},
+	{
+		"@id": "my:resting_ecg",
+		"my:isEquivalent": [
+			"my:rest_ecg"
+		],
+		"dbo:abstract": {
+			"@value": "The electrocardiogram (ECG or EKG) is a test that measures the heart’s electrical activity, and a resting ECG is administered when the patient is at rest. It involves noninvasive recording with adhesive skin electrodes placed on specially prepared spots on the skin, and it plots out the heart's activity on a graph. It is used to determine the health of the heart and circulatory system and to help diagnose issues with associated body systems.",
+			"@source": "https://www.infobloom.com/what-is-a-resting-ecg.htm"
+		},
+		"rdfs:seeAlso": [
+			"my:ecg",
+			"my:exercise_ecg",
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Rest Electrocardiographic (ECG) results",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:exercise_induced_angina",
+		"dbo:abstract": {
+			"@value": "Exercise induced angina is chest discomfort coming with physical activity. The pain or discomfort associated with angina usually feels tight, gripping or squeezing, and can vary from mild to severe. Angina is usually felt in the center of your chest but may spread to either or both of your shoulders, or your back, neck, jaw or arm. It can even be felt in your hands. Types of Angina: a. Stable Angina / Angina Pectoris; b. Unstable Angina; c. Variant (Prinzmetal) Angina; d. Microvascular Angina.",
+			"@source": "https://rehabilitateyourheart.wordpress.com/2013/01/16/exercise-induced-angina/"
+		},
+		"rdfs:seeAlso": [
+			"my:angina",
+			"my:exercise_stress_test",
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:peak_exercise_ST_segment_slope",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "Exercise induced angina",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:peak_exercise_ST_segment_slope",
+		"dbo:abstract": {
+			"@value": "Silent electrocardiographic (ST) change predicts future coronary events in patients with coronary heart disease. In general, the occurrence of horizontal or down-sloping ST-segment depression at a lower workload or heart rate indicates a worse prognosis and higher likelihood of multi-vessel disease. Exercise-induced downsloping ST-segment depression is a common manifestation of severe myocardial ischemia. While a slow upsloping ST-segment can be a significant marker of ischemia.",
+			"@source": "https://towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=950fc8b3f721"
+		},
+		"my:isEquivalent": [
+			"my:st_segment_t_wave",
+			"my:peak_exercise_st_segment_slope"
+		],
+		"rdfs:seeAlso": [
+			"my:st_segment",
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:thallium_stress_test_bf"
+		],
+		"rdfs:label": "ST-segment slope after exercise stress",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	},
+	{
+		"@id": "my:thallium_stress_test_bf",
+		"my:isEquivalent": [
+			"my:thallium_stress_test"
+		],
+		"dbo:abstract": {
+			"@value": "A thallium stress test is a nuclear imaging test that shows how well blood flows into your heart while you’re exercising or at rest. This test is also called a cardiac or nuclear stress test. During the procedure, a liquid with a small amount of radioactivity called a radioisotope is administered into one of your veins. The radioisotope will flow through your bloodstream and end up in your heart. Once the radiation is in your heart, a special camera called a gamma camera can detect the radiation and reveal any issues your heart muscle is having. The thallium stress test can show: the size of your heart chambers, how effectively your heart pumps —that is, its ventricular function, how well your coronary arteries supply your heart with blood (known as myocardial perfusion), if your heart muscle is damaged or scarred from previous heart attacks. Results can be: fixed defect (no blood flow in some part of the heart), normal blood flow, reversible defect (a blood flow is observed but it is not normal).",
+			"@source": "https://www.healthline.com/health/thallium-stress-test"
+		},
+		"rdf:type": "my:stress_test",
+		"rdfs:seeAlso": [
+			"my:thallium",
+			"my:age",
+			"my:resting_bp",
+			"my:serum_cholesterol",
+			"my:maximum_hr",
+			"my:ST_depression_exercise_vs_rest",
+			"my:num_affected_major_vessels",
+			"my:sex",
+			"my:chest_pain",
+			"my:high_fasting_blood_sugar",
+			"my:resting_ecg",
+			"my:exercise_induced_angina",
+			"my:peak_exercise_ST_segment_slope"
+		],
+		"rdfs:label": "Thallium Stress Test results",
+		"rdf:type": "my:biological_parameter",
+		"my:field_of": {
+			"@value": "my:uci_heart_disease_data",
+			"@source": "https://www.kaggle.com/redwankarimsony/heart-disease-data"
+		}
+	}
+]

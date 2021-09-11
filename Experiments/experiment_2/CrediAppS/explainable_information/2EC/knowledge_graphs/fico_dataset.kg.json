@@ -1,0 +1,1204 @@
+[
+	{
+		"@id": "my:fico_heloc_dataset",
+		"dbo:abstract": {
+			"@value": "The FICO HELOC dataset contains anonymized information about home equity line of credit (HELOC) applications made by real homeowners.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": ["my:home_equity_line_of_credit"],
+		"rdfs:label": "FICO HELOC Dataset",
+		"rdf:type": "my:dataset",
+		"my:fields": [
+			{
+				"@value": "my:ExternalRiskEstimate",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceOldestTradeOpen", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceMostRecentTradeOpen", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:AverageMInFile", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumSatisfactoryTrades", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumTrades60Ever2DerogPubRec", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumTrades90Ever2DerogPubRec", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:PercentTradesNeverDelq", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceMostRecentDelq", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MaxDelq2PublicRecLast12M", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MaxDelqEver", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumTotalTrades", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumTradesOpeninLast12M", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:PercentInstallTrades", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceMostRecentInqexcl7days", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumInqLast6M", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumInqLast6Mexcl7days", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NetFractionRevolvingBurden", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NetFractionInstallBurden", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumRevolvingTradesWBalance", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumInstallTradesWBalance", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumBank2NatlTradesWHighUtilization", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:PercentTradesWBalance", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:RiskPerformance", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			}
+		]
+	},
+	{
+		"@id": "my:ExternalRiskEstimate",
+		"dbo:abstract": {
+			"@value": "The «Consolidated risk markers» are an external estimate of the risk that you might not pay back the loan. To every customer (included you) has been associated a value for the external risk estimate, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:label": "Consolidated risk markers",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		]
+	},
+	{
+		"@id": "my:MSinceOldestTradeOpen",
+		"dbo:abstract": {
+			"@value": "The «Age of oldest account in months» is the number of months that passed since your oldest trade was opened. To every customer (included you) has been associated a value indicating the age of oldest account in months, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Age of oldest account in months",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:MSinceMostRecentTradeOpen",
+		"dbo:abstract": {
+			"@value": "The «Age of most recent account in months» is the number of months passed since your most recent trade was opened. To every customer (included you) has been associated a value indicating the age of most recent account in months, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Age of most recent account in months",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:AverageMInFile",
+		"dbo:abstract": {
+			"@value": "The «Average age of accounts in months» is the average age of your credit accounts, in months. The older are your credit accounts, the greater is the «Average age of accounts in months». To every customer (included you) has been associated a value indicating the average age of accounts in months, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:label": "Average age of accounts in months",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		]
+	},
+	{
+		"@id": "my:NumSatisfactoryTrades",
+		"dbo:abstract": {
+			"@value": "The «Number of satisfactory accounts» is the number of credit accounts having trades that were paid in full and closed with no negative information. To every customer (included you) has been associated a value indicating the number of satisfactory accounts, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of satisfactory accounts",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NumTrades60Ever2DerogPubRec",
+		"dbo:abstract": {
+			"@value": "The «Number of accounts ever delinquent by 60 days or more» is the number of your credit accounts having trades that were more than 60 days late, and that were ever recorded in the derogatory public record. To every customer (included you) has been associated a value indicating the number of accounts ever delinquent by 60 days or more, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:derogatory_public_record",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of accounts ever delinquent by 60 days or more",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NumTrades90Ever2DerogPubRec",
+		"dbo:abstract": {
+			"@value": "The «Number of accounts ever delinquent by 90 days or more» is the number of your credit accounts having trades that were more than 90 days late, and that were ever recorded in the derogatory public record. To every customer (included you) has been associated a value indicating the number of accounts ever delinquent by 90 days or more, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:derogatory_public_record",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of accounts ever delinquent by 90 days or more",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:PercentTradesNeverDelq",
+		"dbo:abstract": {
+			"@value": "The «Percentage of accounts that were never delinquent» is the percentage of your credit accounts having trades that were never paid late. To every customer (included you) has been associated a value indicating the percentage of accounts that were never delinquent, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Percentage of accounts that were never delinquent",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:MSinceMostRecentDelq",
+		"dbo:abstract": {
+			"@value": "The «Months since most recent delinquency» is the number of months that passed since your most recent deliquency (unpaid bill, etc..). To every customer (included you) has been associated a value indicating the months since most recent delinquency, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:deliquency",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Months since most recent delinquency",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:MaxDelq2PublicRecLast12M",
+		"dbo:abstract": {
+			"@value": "The «Worst delinquency score from last 12 months of public record» is the longest number of months (recorded in the public records during the last 12 months) that passed without you paying a bill, etc.. To every customer (included you) has been associated a value indicating the worst delinquency score from last 12 months of public record, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:deliquency",
+			"my:derogatory_public_record",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Worst delinquency score from last 12 months of public record",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:MaxDelqEver",
+		"dbo:abstract": {
+			"@value": "The «Worst delinquency score ever» is the longest number of months that passed without you paying a bill, etc.. To every customer (included you) has been associated a value indicating the worst delinquency score ever, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:deliquency",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Worst delinquency score ever",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NumTotalTrades",
+		"dbo:abstract": {
+			"@value": "The «Total number of accounts» is the number of credit accounts you have. To every customer (included you) has been associated a value indicating the total number of accounts, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Total number of accounts",
+		"rdf:type": "my:feature",
+		"my:field_of": "my:fico_heloc_dataset"
+	},
+	{
+		"@id": "my:NumTradesOpeninLast12M",
+		"dbo:abstract": {
+			"@value": "The «Number of accounts opened in last 12 months» is the number of credit accounts you have opened in the last 12 months. To every customer (included you) has been associated a value indicating the number of accounts opened in last 12 months, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of accounts opened in last 12 months",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:PercentInstallTrades",
+		"dbo:abstract": {
+			"@value": "To every customer (included you) has been associated a value indicating the percentage of accounts that are installment debt, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:installment_trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Percentage of accounts that are installment debt",
+		"rdf:type": "my:feature",
+		"my:field_of": "my:fico_heloc_dataset"
+	},
+	{
+		"@id": "my:MSinceMostRecentInqexcl7days",
+		"dbo:abstract": {
+			"@value": "The «Months since most recent credit inquiry not within the last 7 days» is the number of months passed since your most recent inquiry (excluded the inquiries performed in the last 7 days). Excluding the last 7 days removes inquiries that are likely due to price comparision shopping. To every customer (included you) has been associated a value indicating the months since most recent credit inquiry not within the last 7 days, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:inquiry",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Months since most recent credit inquiry not within the last 7 days",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NumInqLast6M",
+		"dbo:abstract": {
+			"@value": "The «Number of credit inquiries in last 6 months» is the number of inquiries you performed in the last 6 months. To every customer (included you) has been associated a value indicating the number of credit inquiries in last 6 months, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:inquiry",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of credit inquiries in last 6 months",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NumInqLast6Mexcl7days",
+		"dbo:abstract": {
+			"@value": "The «Number of credit inquiries in last 6 months excluding the last 7 days» is the number of inquiries you performed in the last 6 months (excluded those in the last 7 days). Excluding the last 7 days removes inquiries that are likely due to price comparision shopping. To every customer (included you) has been associated a value indicating the number of credit inquiries in last 6 months excluding the last 7 days, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:inquiry",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of credit inquiries in last 6 months excluding the last 7 days",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NetFractionRevolvingBurden",
+		"dbo:abstract": {
+			"@value": "The «Revolving debt (e.g. credit card) balance as a percentage of credit limit» is the net fraction of revolving burden. This is revolving balance (balance from revolving trades) divided by credit limit. To every customer (included you) has been associated a value indicating the revolving debt (e.g. credit card) balance as a percentage of credit limit, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:revolving_trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Revolving debt (e.g. credit card) balance as a percentage of credit limit",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NetFractionInstallBurden",
+		"dbo:abstract": {
+			"@value": "The «Installment debt (e.g. car loan) balance as a percentage of original loan amount» is the net fraction of installment burden. This is the installment balance (balance from installment trades) divided by the original loan amount. To every customer (included you) has been associated a value indicating the installment debt (e.g. car loan) balance as a percentage of original loan amount, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:installment_trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Installment debt (e.g. car loan) balance as a percentage of original loan amount",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:NumRevolvingTradesWBalance",
+		"dbo:abstract": {
+			"@value": "To every customer (included you) has been associated a value indicating the number of revolving debt accounts with a balance, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:revolving_trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of revolving debt accounts with a balance",
+		"rdf:type": "my:feature",
+		"my:field_of": "my:fico_heloc_dataset"
+	},
+	{
+		"@id": "my:NumInstallTradesWBalance",
+		"dbo:abstract": {
+			"@value": "To every customer (included you) has been associated a value indicating the number of installment debt accounts with a balance, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:installment_trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of installment debt accounts with a balance",
+		"rdf:type": "my:feature",
+		"my:field_of": "my:fico_heloc_dataset"
+	},
+	{
+		"@id": "my:NumBank2NatlTradesWHighUtilization",
+		"dbo:abstract": {
+			"@value": "The «Number of accounts with high utilization» is the number of bank/national trades with high utilization ratio. To every customer (included you) has been associated a value indicating the number of accounts with high utilization, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:PercentTradesWBalance",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Number of accounts with high utilization",
+		"rdf:type": "my:feature",
+		"my:field_of": {
+			"@value": "my:fico_heloc_dataset",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"my:monotonicity_constraint": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:PercentTradesWBalance",
+		"dbo:abstract": {
+			"@value": "To every customer (included you) has been associated a value indicating the percentage of accounts with a balance, and this value is used to compute the FICO Score and to decide whether to assign the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": [
+			"my:trade",
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:RiskPerformance"
+		],
+		"rdfs:label": "Percentage of accounts with a balance",
+		"rdf:type": "my:feature",
+		"my:field_of": "my:fico_heloc_dataset"
+	},
+	{
+		"@id": "my:RiskPerformance",
+		"dbo:abstract": {
+			"@value": "The «Risk Performance» is the likelihood that you will pay back your loan, as agreed. For every individual that requires a loan, the Risk Performance is predicted by using relevant features that identify the individual, such as: the consolidated risk markers, the number of satisfactory trades, etc..",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:label": "Risk Performance",
+		"rdf:type": "my:feature",
+		"my:field_of": "my:fico_heloc_dataset",
+		"rdfs:seeAlso": [
+			"my:ExternalRiskEstimate",
+			"my:MSinceOldestTradeOpen",
+			"my:MSinceMostRecentTradeOpen",
+			"my:AverageMInFile",
+			"my:NumSatisfactoryTrades",
+			"my:NumTrades60Ever2DerogPubRec",
+			"my:NumTrades90Ever2DerogPubRec",
+			"my:PercentTradesNeverDelq",
+			"my:MSinceMostRecentDelq",
+			"my:MaxDelq2PublicRecLast12M",
+			"my:MaxDelqEver",
+			"my:NumTotalTrades",
+			"my:NumTradesOpeninLast12M",
+			"my:PercentInstallTrades",
+			"my:MSinceMostRecentInqexcl7days",
+			"my:NumInqLast6M",
+			"my:NumInqLast6Mexcl7days",
+			"my:NetFractionRevolvingBurden",
+			"my:NetFractionInstallBurden",
+			"my:NumRevolvingTradesWBalance",
+			"my:NumInstallTradesWBalance",
+			"my:NumBank2NatlTradesWHighUtilization",
+			"my:PercentTradesWBalance"
+		]
+	},
+	{
+		"@id": "my:monotonically_decreasing",
+		"dbo:abstract": {
+			"@value": "Higher values of monotonically decreasing features imply a lower probability of receiving the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": ["my:feature"],
+		"rdfs:label": "Monotonically Decreasing",
+		"rdf:type": "my:function",
+		"my:fields": [
+			{
+				"@value": "my:ExternalRiskEstimate",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceOldestTradeOpen",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceMostRecentTradeOpen",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:AverageMInFile",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumSatisfactoryTrades",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumTrades60Ever2DerogPubRec",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumTrades90Ever2DerogPubRec",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:PercentTradesNeverDelq",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceMostRecentDelq",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MaxDelq2PublicRecLast12M",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MaxDelqEver",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:MSinceMostRecentInqexcl7days",
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			}
+		],
+		"my:opposite": {
+			"@value": "my:monotonically_increasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	},
+	{
+		"@id": "my:monotonically_increasing",
+		"dbo:abstract": {
+			"@value": "Higher values of monotonically increasing features imply a greater probability of receiving the loan.",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		},
+		"rdfs:seeAlso": ["my:feature"],
+		"rdfs:label": "Monotonically Increasing",
+		"rdf:type": "my:function",
+		"my:fields": [
+			{
+				"@value": "my:NumTradesOpeninLast12M", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumInqLast6M", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumInqLast6Mexcl7days", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NetFractionRevolvingBurden", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NetFractionInstallBurden", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			},
+			{
+				"@value": "my:NumBank2NatlTradesWHighUtilization", 
+				"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+			}
+		],
+		"my:opposite": {
+			"@value": "my:monotonically_decreasing",
+			"@source": "https://nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb"
+		}
+	}
+]

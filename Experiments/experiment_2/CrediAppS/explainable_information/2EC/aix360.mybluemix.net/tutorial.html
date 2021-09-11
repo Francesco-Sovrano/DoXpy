@@ -1,0 +1,59 @@
+<html>
+	<p>
+		The AI Explainability 360 Toolkit can be used to provide different kinds of explanations suited to different users in the context of a credit approval process enabled by machine learning. 
+	</p>
+	<p>
+		For the bank customer, we consider the Contrastive Explanations Method (CEM, class CEMExplainer) for explaining the predictions of black box models to end users. CEM builds upon the popular approach of highlighting features present in the input instance that are responsible for the model's classification. In addition to these, CEM also identifies features that are (minimally) absent in the input instance, but whose presence would have altered the classification.
+	</p>
+	<p>
+		The FICO HELOC dataset contains anonymized information about home equity line of credit (HELOC) applications made by real homeowners. A HELOC is a line of credit typically offered by a US bank as a percentage of home equity (the difference between the current market value of a home and the outstanding balance of all liens, e.g. mortgages). The customers in this dataset have requested a credit line in the range of USD 5,000 - 150,000. The machine learning task we are considering is to use the information about the applicant in their credit report to predict whether they will make timely payments over a two year period. The machine learning prediction can then be used to decide whether the homeowner qualifies for a line of credit and, if so, how much credit should be extended.
+	</p>
+	<p>
+		The "Number of Satisfactory Accounts" is a predictor variable that counts the number of past credit agreements with the applicant, which resulted in on-time payments. The target variable to predict is a binary variable called "Risk Performance". The value “Bad” indicates that an applicant was 90 days past due or worse at least once over a period of 24 months from when the credit account was opened. The value “Good” indicates that they have made their payments without ever being more than 90 days overdue. If a predictor variable is monotonically decreasing with respect to probability of "Bad" equal to 1, it means that as the value of the variable increases, the probability of the loan application being "Bad" decreases, i.e. it becomes more "Good". For example, the "Consolidated risk markers" and "Number of Satisfactory Accounts" are shown as monotonically decreasing. Monotonically increasing has the opposite meaning.	
+	</p>
+
+<h1>Customer: Contrastive explanations for HELOC Use Case</h1>
+	<p>
+		We now demonstrate how to compute contrastive explanations using AIX360 and how such explanations can help home owners understand the decisions made by AI models that approve or reject their HELOC applications.
+	</p>
+	<p>
+		Typically, home owners would like to understand why they do not qualify for a line of credit and if so what changes in their application would qualify them. On the other hand, if they qualified, they might want to know what factors led to the approval of their application.
+	</p>
+	<p>
+		In this context, contrastive explanations provide information to applicants about what minimal changes to their profile would have changed the decision of the AI model from reject to accept or vice-versa (pertinent negatives). For example, increasing the number of satisfactory trades to a certain value may have led to the acceptance of the application everything else being the same.
+	</p>
+	<p>
+		The method presented here also highlights a minimal set of features and their values that would still maintain the original decision (pertinent positives). For example, for an applicant whose HELOC application was approved, the explanation may say that even if the number of satisfactory trades was reduced to a lower number, the loan would have still gotten through.
+	</p>
+	<p>
+		Additionally, organizations (Banks, financial institutions, etc.) would like to understand trends in the behavior of their AI models in approving loan applications, which could be done by studying contrastive explanations for individuals whose loans were either accepted or rejected. Looking at the aggregate statistics of pertinent positives for approved applicants the organization can get insight into what minimal set of features and their values play an important role in acceptances. While studying the aggregate statistics of pertinent negatives the organization can get insight into features that could change the status of rejected applicants and potentially uncover ways that an applicant may game the system by changing potentially non-important features that could alter the models outcome.
+	</p>
+	<p>
+		The contrastive explanations in AIX360 are implemented using the algorithm developed in the following work: "Explanations based on the Missing: Towards Contrastive Explanations with Pertinent Negatives".
+	</p>
+	<p>
+		We now provide a brief overview of the method. As mentioned above the algorithm outputs a contrastive explanation which consists of two parts: a) pertinent negatives (PNs) and b) pertinent positives (PPs). PNs identify a minimal set of features which if altered would change the classification of the original input. For example, in the loan case if a person's credit score is increased their loan application status may change from reject to accept. The manner in which the method accomplishes this is by optimizing a change in the prediction probability loss while enforcing an elastic norm constraint that results in minimal change of features and their values. Optionally, an auto-encoder may also be used to force these minimal changes to produce realistic PNs. PPs on the other hand identify a minimal set of features and their values that are sufficient to yield the original input's classification. For example, an individual's loan may still be accepted if the salary was 50K as opposed to 100K. Here again we have an elastic norm term so that the amount of information needed is minimal, however, the first loss term in this case tries to make the original input's class to be the winning class. 
+	</p>
+	<p>
+		The three main steps to obtain a contrastive explanation are shown below. The first two steps are more about processing the data and building an AI model while the third step computes the actual explanation.
+	</p>
+	<p>
+		We will first process the HELOC dataset before using it to train a Neural Network that can predict the target variable "Risk Performance". The HELOC dataset is a tabular dataset with numerical values. However, some of the values are negative and need to be filtered. The dataset is normalized for training.
+	</p>
+	<p>
+		We use the HELOCDataset class in AIX360 to load the FICO HELOC data as a DataFrame. The data is then split into training and test sets using a fixed random seed.
+	</p>
+	<p>
+		Given the trained Neural Network to decide on loan approvals, let us first examine an applicant whose application was denied and what (minimal) changes to his/her application would lead to approval (i.e. finding pertinent negatives). We will then look at another applicant whose loan was approved and ascertain features that would minimally suffice in him/her still getting a positive outcome (i.e. finding pertinent positives).
+	</p>
+	<p>
+		In order to compute pertinent negatives, the CEM explainer computes a user profile that is close to the original applicant but for whom the decision of HELOC application is different. The explainer alters a minimal set of features by a minimal (positive) amount. This will help the user whose loan application was initially rejected say, to ascertain how to get it accepted.
+	</p>
+	<p>
+		Let us start by examining one particular loan application that was denied for applicant 1272. We showcase below how the decision could have been different through minimal changes to the profile conveyed by the pertinent negative. We also indicate the importance of different features to produce the change in the application status. A human friendly explanation is then provided based on the consequent feature deviations following the feature importance plot.
+	</p>
+	<p>
+		We observe that the applicant 1272's loan application would have been accepted if the consolidated risk marker score (i.e. "Consolidated risk markers") increased from 65 to 76, the loan application was on file (i.e. "Average age of accounts in months") for about 65 months and if the number of satisfactory trades (i.e. "Number of satisfactory accounts") increased to little over 20.
+		The above changes to the three suggested factors are also intuitively consistent in improving the chances of acceptance of an application, since all three are monotonic with probability of acceptance. However, one must realize that the above explanation is for the particular applicant based on what the model would do and does not necessarily have to agree with their intuitive meaning. In fact, if the explanation is deemed unacceptable then its an indication that perhaps the model should be debugged/updated.
+	</p>
+</html>

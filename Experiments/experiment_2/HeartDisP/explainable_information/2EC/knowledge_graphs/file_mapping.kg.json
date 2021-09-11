@@ -1,0 +1,579 @@
+[
+	{
+		"@id": "myfile:en.wikipedia.org:wiki:ST_depression",
+		"my:url": "//en.wikipedia.org/wiki/ST_depression",
+		"rdfs:label": "ST depression"
+	},
+	{
+		"@id": "myfile:en.wikipedia.org:wiki:ST_depression",
+		"my:url": "//en.wikipedia.org/wiki/ST_depression",
+		"rdfs:label": "ST depression"
+	},
+	{
+		"@id": "myfile:github.com:Marcelpv96:Heart-Disease-UCI:blob:master:Report",
+		"my:url": "//github.com/Marcelpv96/Heart-Disease-UCI/blob/master/Report.pdf",
+		"rdfs:label": "Report: Multivariate Analysis Final Project Heart Disease Data Set"
+	},
+
+
+	{
+		"@id": "myfile:github.com:Marcelpv96:Heart-Disease-UCI:blob:master:Report",
+		"my:url": "//github.com/Marcelpv96/Heart-Disease-UCI/blob/master/Report.pdf",
+		"rdfs:label": "Report: Multivariate Analysis Final Project Heart Disease Data Set"
+	},
+	{
+		"@id": "myfile:github.com:stat432:heart-analysis",
+		"my:url": "//github.com/stat432/heart-analysis",
+		"rdfs:label": "UCI Heart Disease Analysis"
+	},
+	{
+		"@id": "myfile:medlineplus.gov:ency:article:000899",
+		"my:url": "//medlineplus.gov/ency/article/000899.htm",
+		"rdfs:label": "Eclampsia"
+	},
+	{
+		"@id": "myfile:medlineplus.gov:potassium",
+		"my:url": "//medlineplus.gov/potassium.html",
+		"rdfs:label": "Potassium"
+	},
+	{
+		"@id": "myfile:medlineplus.gov:ency:article:000468",
+		"my:url": "//medlineplus.gov/ency/article/000468.htm",
+		"rdfs:label": "High blood pressure - adults"
+	},
+	{
+		"@id": "myfile:medlineplus.gov:ency:article:000898",
+		"my:url": "//medlineplus.gov/ency/article/000898.htm",
+		"rdfs:label": "Preeclampsia"
+	},
+	{
+		"@id": "myfile:sciencedaily.com:releases:2018:01:180108090132",
+		"my:url": "//sciencedaily.com/releases/2018/01/180108090132.htm",
+		"rdfs:label": "Proper exercise can reverse damage from heart aging"
+	},
+	{
+		"@id": "myfile:nhlbi.nih.gov:health-topics:dash-eating-plan",
+		"my:url": "//www.nhlbi.nih.gov/health-topics/dash-eating-plan",
+		"rdfs:label": "DASH Eating Plan"
+	},
+	{
+		"@id": "myfile:medium.com:analytics-vidhya:the-lifecycle-to-build-a-web-app-for-prediction-from-scratch-bec1632b5f27",
+		"my:url": "//medium.com/analytics-vidhya/the-lifecycle-to-build-a-web-app-for-prediction-from-scratch-bec1632b5f27",
+		"rdfs:label": "The Lifecycle to Build a Web App for Prediction from Scratch"
+	},
+	{
+		"@id": "myfile:medicalnewstoday.com:articles:315900",
+		"my:url": "//medicalnewstoday.com/articles/315900",
+		"rdfs:label": "What should my cholesterol level be at my age?"
+	},
+	{
+		"@id": "myfile:singlecare.com:blog:news:heart-disease-statistics",
+		"my:url": "//www.singlecare.com/blog/news/heart-disease-statistics/",
+		"rdfs:label": "Heart disease statistics 2021"
+	},
+	{
+		"@id": "myfile:towardsdatascience.com:heart-disease-prediction-73468d630cfc?gi=5dc1f0f9a737",
+		"my:url": "//towardsdatascience.com/heart-disease-prediction-73468d630cfc?gi=5dc1f0f9a737",
+		"rdfs:label": "Heart Disease Prediction"
+	},
+	{
+		"@id": "myfile:towardsdatascience.com:heart-disease-classification-8359c26c7d83",
+		"my:url": "//towardsdatascience.com/heart-disease-classification-8359c26c7d83",
+		"rdfs:label": "Heart Disease Classification"
+	},
+	{
+		"@id": "myfile:heart.org:en:health-topics:consumer-healthcare:what-is-cardiovascular-disease",
+		"my:url": "//heart.org/en/health-topics/consumer-healthcare/what-is-cardiovascular-disease",
+		"rdfs:label": "What is Cardiovascular Disease?"
+	},
+	{
+		"@id": "myfile:heart.org:en:healthy-living:fitness:fitness-basics:target-heart-rates",
+		"my:url": "//heart.org/en/healthy-living/fitness/fitness-basics/target-heart-rates",
+		"rdfs:label": "Target Heart Rates Chart"
+	},
+	{
+		"@id": "myfile:heart.org:en:health-topics:heart-attack:understand-your-risks-to-prevent-a-heart-attack",
+		"my:url": "//heart.org/en/health-topics/heart-attack/understand-your-risks-to-prevent-a-heart-attack",
+		"rdfs:label": "Understand Your Risks to Prevent a Heart Attack"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:statistics_maps",
+		"my:url": "//cdc.gov/heartdisease/statistics_maps.htm",
+		"rdfs:label": "Heart Disease Statistics and Maps"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:facts",
+		"my:url": "//cdc.gov/heartdisease/facts.htm",
+		"rdfs:label": "Heart Disease Facts"
+	},
+	{
+		"@id": "myfile:cdc.gov:tobacco:data_statistics:fact_sheets:index",
+		"my:url": "//cdc.gov/tobacco/data_statistics/fact_sheets/index.htm",
+		"rdfs:label": "Smoking & Tobacco Use: Fast Facts and Fact Sheets"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:medicines",
+		"my:url": "//cdc.gov/bloodpressure/medicines.htm",
+		"rdfs:label": "Blood Pressure Medicines"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:cardiomyopathy",
+		"my:url": "//cdc.gov/heartdisease/cardiomyopathy.htm",
+		"rdfs:label": "Cardiomyopathy"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:pulmonary_hypertension",
+		"my:url": "//cdc.gov/heartdisease/pulmonary_hypertension.htm",
+		"rdfs:label": "Pulmonary Hypertension"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:about",
+		"my:url": "//cdc.gov/heartdisease/about.htm",
+		"rdfs:label": "About Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:groupastrep:diseases-public:rheumatic-fever",
+		"my:url": "//cdc.gov/groupastrep/diseases-public/rheumatic-fever.html",
+		"rdfs:label": "Rheumatic Fever: All You Need to Know"
+	},
+	{
+		"@id": "myfile:cdc.gov:healthyweight:assessing:bmi",
+		"my:url": "//cdc.gov/healthyweight/assessing/bmi",
+		"rdfs:label": "Body Mass Index (BMI)"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:risk_factors",
+		"my:url": "//cdc.gov/heartdisease/risk_factors.htm",
+		"rdfs:label": "Know Your Risk for Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:facts",
+		"my:url": "//cdc.gov/stroke/facts.htm",
+		"rdfs:label": "Stroke Facts"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:statistical_reports",
+		"my:url": "//cdc.gov/heartdisease/statistical_reports.htm",
+		"rdfs:label": "Heart Disease Statistical Reports for Health Professionals"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:about",
+		"my:url": "//cdc.gov/stroke/about.htm",
+		"rdfs:label": "About Stroke"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:preview:mmwrhtml:mm6235a4",
+		"my:url": "//cdc.gov/mmwr/preview/mmwrhtml/mm6235a4.htm",
+		"rdfs:label": "Vital Signs: Avoidable Deaths from Heart Disease, Stroke, and Hypertensive Disease — United States, 2001–2010"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:about",
+		"my:url": "//cdc.gov/bloodpressure/about.htm",
+		"rdfs:label": "High Blood Pressure Symptoms and Causes"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:preview:mmwrhtml:mm6427a1",
+		"my:url": "//cdc.gov/mmwr/preview/mmwrhtml/mm6427a1.htm",
+		"rdfs:label": "Use of Aspirin for Prevention of Recurrent Atherosclerotic Cardiovascular Disease Among Adults — 20 States and the District of Columbia, 2013"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:heart_attack",
+		"my:url": "//cdc.gov/heartdisease/heart_attack.htm",
+		"rdfs:label": "Heart Attack Symptoms, Risk, and Recovery"
+	},
+	{
+		"@id": "myfile:cdc.gov:alcohol:fact-sheets:alcohol-use",
+		"my:url": "//cdc.gov/alcohol/fact-sheets/alcohol-use.htm",
+		"rdfs:label": "Alcohol Use and Your Health"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:women",
+		"my:url": "//cdc.gov/heartdisease/women.htm",
+		"rdfs:label": "Women and Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:dhdsp:programs:ems",
+		"my:url": "//cdc.gov/dhdsp/programs/ems.htm",
+		"rdfs:label": "Emergency Medical Services: The First Step to Stroke Recovery"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:index",
+		"my:url": "//cdc.gov/stroke/index.htm",
+		"rdfs:label": "Stroke"
+	},
+	{
+		"@id": "myfile:cdc.gov:salt:index",
+		"my:url": "//cdc.gov/salt/index.htm",
+		"rdfs:label": "Most People Consume Too Much Salt"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:healthy_living",
+		"my:url": "//cdc.gov/stroke/healthy_living.htm",
+		"rdfs:label": "Preventing Stroke: Healthy Living"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure",
+		"my:url": "//cdc.gov/bloodpressure",
+		"rdfs:label": "High Blood Pressure"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:measure",
+		"my:url": "//cdc.gov/bloodpressure/measure.htm",
+		"rdfs:label": "Measure Your Blood Pressure"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:prevention",
+		"my:url": "//cdc.gov/stroke/prevention.htm",
+		"rdfs:label": "Preventing Stroke: What You Can Do"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol",
+		"my:url": "//cdc.gov/cholesterol",
+		"rdfs:label": "Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:volumes:68:wr:mm6805a2",
+		"my:url": "//cdc.gov/mmwr/volumes/68/wr/mm6805a2.htm",
+		"rdfs:label": "Awareness of Heart Attack Symptoms and Response Among Adults — United States, 2008, 2014, and 2017"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:marfan_syndrome",
+		"my:url": "//cdc.gov/heartdisease/marfan_syndrome.htm",
+		"rdfs:label": "Marfan Syndrome"
+	},
+	{
+		"@id": "myfile:cdc.gov:diabetes:basics:index",
+		"my:url": "//cdc.gov/diabetes/basics/index.html",
+		"rdfs:label": "Diabetes Basics"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:risk_factors",
+		"my:url": "//cdc.gov/cholesterol/risk_factors.htm",
+		"rdfs:label": "Knowing Your Risk for High Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:healthyweight:assessing:bmi:childrens_bmi:about_childrens_bmi",
+		"my:url": "//cdc.gov/healthyweight/assessing/bmi/childrens_bmi/about_childrens_bmi.html",
+		"rdfs:label": "About Child & Teen BMI"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:facts",
+		"my:url": "//cdc.gov/bloodpressure/facts.htm",
+		"rdfs:label": "Facts About Hypertension"
+	},
+	{
+		"@id": "myfile:cdc.gov:diabetes:managing:managing-blood-sugar:bloodglucosemonitoring",
+		"my:url": "//cdc.gov/diabetes/managing/managing-blood-sugar/bloodglucosemonitoring.html",
+		"rdfs:label": "Monitoring Your Blood Sugar"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:prevention-management",
+		"my:url": "//cdc.gov/cholesterol/prevention-management.htm",
+		"rdfs:label": "Preventing and Managing High Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:diabetes:basics:diabetes",
+		"my:url": "//cdc.gov/diabetes/basics/diabetes.html",
+		"rdfs:label": "What is Diabetes?"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:pregnancy",
+		"my:url": "//cdc.gov/bloodpressure/pregnancy.htm",
+		"rdfs:label": "High Blood Pressure During Pregnancy"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:about",
+		"my:url": "//cdc.gov/cholesterol/about.htm",
+		"rdfs:label": "About Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:volumes:66:wr:mm6633a1",
+		"my:url": "//cdc.gov/mmwr/volumes/66/wr/mm6633a1.htm",
+		"rdfs:label": "Use of Outpatient Cardiac Rehabilitation Among Heart Attack Survivors — 20 States and the District of Columbia, 2013 and Four States, 2015"
+	},
+	{
+		"@id": "myfile:cdc.gov:diabetes:basics:quick-facts",
+		"my:url": "//cdc.gov/diabetes/basics/quick-facts.html",
+		"rdfs:label": "Diabetes Fast Facts"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:coronary_ad",
+		"my:url": "//cdc.gov/heartdisease/coronary_ad.htm",
+		"rdfs:label": "Coronary Artery Disease (CAD)"
+	},
+	{
+		"@id": "myfile:cdc.gov:healthyweight:assessing:bmi:adult_bmi:index",
+		"my:url": "//cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html",
+		"rdfs:label": "About Adult BMI"
+	},
+	{
+		"@id": "myfile:cdc.gov:diabetes:basics:risk-factors",
+		"my:url": "//cdc.gov/diabetes/basics/risk-factors.html",
+		"rdfs:label": "Diabetes Risk Factors"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:recovery",
+		"my:url": "//cdc.gov/stroke/recovery.htm",
+		"rdfs:label": "Recovering From Stroke"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:treatments",
+		"my:url": "//cdc.gov/stroke/treatments.htm",
+		"rdfs:label": "Stroke Treatment"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:index",
+		"my:url": "//cdc.gov/bloodpressure/index.htm",
+		"rdfs:label": "High Blood Pressure"
+	},
+	{
+		"@id": "myfile:cdc.gov:vitalsigns:stroke",
+		"my:url": "//cdc.gov/vitalsigns/stroke",
+		"rdfs:label": "Preventing Stroke Deaths"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:volumes:67:wr:mm6735a3",
+		"my:url": "//cdc.gov/mmwr/volumes/67/wr/mm6735a3.htm",
+		"rdfs:label": "Vital Signs: State-Level Variation in Nonfatal and Fatal Cardiovascular Events Targeted for Prevention by Million Hearts 2022"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:men",
+		"my:url": "//cdc.gov/heartdisease/men.htm",
+		"rdfs:label": "Men and Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:managing-cholesterol",
+		"my:url": "//cdc.gov/cholesterol/managing-cholesterol.htm",
+		"rdfs:label": "Managing High Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:sleep",
+		"my:url": "//cdc.gov/bloodpressure/sleep.htm",
+		"rdfs:label": "How Does Sleep Affect Your Heart Health?"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:types_of_stroke",
+		"my:url": "//cdc.gov/stroke/types_of_stroke.htm",
+		"rdfs:label": "Types of Stroke"
+	},
+	{
+		"@id": "myfile:cdc.gov:dhdsp:vital_signs",
+		"my:url": "//cdc.gov/dhdsp/vital_signs.htm",
+		"rdfs:label": "Vital Signs: Preventable Deaths from Heart Disease & Stroke"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:docs:ConsumerEd_HeartDisease",
+		"my:url": "//cdc.gov/heartdisease/docs/ConsumerEd_HeartDisease.pdf",
+		"rdfs:label": "KNOW THE FACTS ABOUT Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:preview:mmwrhtml:mm6330a1",
+		"my:url": "//cdc.gov/mmwr/preview/mmwrhtml/mm6330a1.htm",
+		"rdfs:label": "Prevalence of Coronary Heart Disease or Stroke Among Workers Aged <55 Years — United States, 2008–2012"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:pad",
+		"my:url": "//cdc.gov/heartdisease/pad.htm",
+		"rdfs:label": "Peripheral Arterial Disease (PAD)"
+	},
+	{
+		"@id": "myfile:cdc.gov:healthyweight:assessing:index",
+		"my:url": "//cdc.gov/healthyweight/assessing/index.html",
+		"rdfs:label": "Assessing Your Weight"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:signs_symptoms",
+		"my:url": "//cdc.gov/stroke/signs_symptoms.htm",
+		"rdfs:label": "Stroke Signs and Symptoms"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:medical_conditions",
+		"my:url": "//cdc.gov/stroke/medical_conditions.htm",
+		"rdfs:label": "Preventing Stroke: Control Medical Conditions"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:volumes:67:ss:ss6705a1",
+		"my:url": "//cdc.gov/mmwr/volumes/67/ss/ss6705a1.htm",
+		"rdfs:label": "Heart Disease Death Rates Among Blacks and Whites Aged ≥35 Years — United States, 1968–2015"
+	},
+	{
+		"@id": "myfile:cdc.gov:mmwr:preview:mmwrhtml:mm6434a6",
+		"my:url": "//cdc.gov/mmwr/preview/mmwrhtml/mm6434a6.htm",
+		"rdfs:label": "Vital Signs: Predicted Heart Age and Racial Disparities in Heart Age Among U.S. Adults at the State Level"
+	},
+	{
+		"@id": "myfile:cdc.gov:reproductivehealth:maternalinfanthealth:pretermbirth",
+		"my:url": "//cdc.gov/reproductivehealth/maternalinfanthealth/pretermbirth.htm",
+		"rdfs:label": "Preterm Birth"
+	},
+	{
+		"@id": "myfile:cdc.gov:obesity:data:adult",
+		"my:url": "//cdc.gov/obesity/data/adult.html",
+		"rdfs:label": "Adult Obesity Facts"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:manage",
+		"my:url": "//cdc.gov/bloodpressure/manage.htm",
+		"rdfs:label": "Manage High Blood Pressure"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:prevention",
+		"my:url": "//cdc.gov/cholesterol/prevention.htm",
+		"rdfs:label": "Preventing High Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:ldl_hdl",
+		"my:url": "//cdc.gov/cholesterol/ldl_hdl.htm",
+		"rdfs:label": "LDL and HDL Cholesterol: 'Bad' and 'Good' Cholesterol"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:aortic_aneurysm",
+		"my:url": "//cdc.gov/heartdisease/aortic_aneurysm.htm",
+		"rdfs:label": "Aortic Aneurysm"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:prevention",
+		"my:url": "//cdc.gov/heartdisease/prevention.htm",
+		"rdfs:label": "Prevent Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:lupus:basics:index",
+		"my:url": "//cdc.gov/lupus/basics/index.html",
+		"rdfs:label": "Lupus Basics"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:cholesterol_screening",
+		"my:url": "//cdc.gov/cholesterol/cholesterol_screening.htm",
+		"rdfs:label": "Getting Your Cholesterol Checked"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:heart_failure",
+		"my:url": "//cdc.gov/heartdisease/heart_failure.htm",
+		"rdfs:label": "Heart Failure"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:mmwrs",
+		"my:url": "//cdc.gov/heartdisease/mmwrs.htm",
+		"rdfs:label": "Heart Disease Morbidity and Mortality Weekly Reports (MMWRs) About Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:nccdphp:dnpao:division-information:aboutus:index",
+		"my:url": "//cdc.gov/nccdphp/dnpao/division-information/aboutus/index.htm",
+		"rdfs:label": "Division of Nutrition, Physical Activity, and Obesity"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:atrial_fibrillation",
+		"my:url": "//cdc.gov/heartdisease/atrial_fibrillation.htm",
+		"rdfs:label": "Atrial Fibrillation"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:mentalhealth",
+		"my:url": "//cdc.gov/heartdisease/mentalhealth.htm",
+		"rdfs:label": "Heart Disease and Mental Health Disorders"
+	},
+	{
+		"@id": "myfile:cdc.gov:cholesterol:treating_cholesterol",
+		"my:url": "//cdc.gov/cholesterol/treating_cholesterol.htm",
+		"rdfs:label": "Cholesterol-lowering Medicine"
+	},
+	{
+		"@id": "myfile:cdc.gov:healthyweight:healthy_eating:index",
+		"my:url": "//cdc.gov/healthyweight/healthy_eating/index.html",
+		"rdfs:label": "Healthy Eating for a Healthy Weight"
+	},
+	{
+		"@id": "myfile:cdc.gov:nchs:data:databriefs:db103",
+		"my:url": "//cdc.gov/nchs/data/databriefs/db103.pdf",
+		"rdfs:label": "Prevalence of Uncontrolled Risk Factors for  Cardiovascular Disease: United States, 1999–2010"
+	},
+	{
+		"@id": "myfile:cdc.gov:stroke:risk_factors",
+		"my:url": "//cdc.gov/stroke/risk_factors.htm",
+		"rdfs:label": "Stroke Risk"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:valvular_disease",
+		"my:url": "//cdc.gov/heartdisease/valvular_disease.htm",
+		"rdfs:label": "Valvular Heart Disease"
+	},
+	{
+		"@id": "myfile:cdc.gov:kidneydisease:basics",
+		"my:url": "//cdc.gov/kidneydisease/basics.html",
+		"rdfs:label": "Chronic Kidney Disease Basics"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:risk_factors",
+		"my:url": "//cdc.gov/bloodpressure/risk_factors.htm",
+		"rdfs:label": "Know Your Risk for High Blood Pressure"
+	},
+	{
+		"@id": "myfile:cdc.gov:heartdisease:cardiac_rehabilitation",
+		"my:url": "//cdc.gov/heartdisease/cardiac_rehabilitation.htm",
+		"rdfs:label": "How Cardiac Rehabilitation Can Help Heal Your Heart"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:prevent_manage",
+		"my:url": "//cdc.gov/bloodpressure/prevent_manage.htm",
+		"rdfs:label": "Prevent and Manage High Blood Pressure"
+	},
+	{
+		"@id": "myfile:cdc.gov:bloodpressure:prevent",
+		"my:url": "//cdc.gov/bloodpressure/prevent.htm",
+		"rdfs:label": "Prevent High Blood Pressure"
+	},
+	{
+		"@id": "myfile:healthline.com:health:thallium-stress-test",
+		"my:url": "//www.healthline.com/health/thallium-stress-test",
+		"rdfs:label": "Thallium Stress Test"
+	},
+	{
+		"@id": "myfile:infobloom.com:what-is-a-resting-ecg",
+		"my:url": "//www.infobloom.com/what-is-a-resting-ecg.htm",
+		"rdfs:label": "What is a Resting ECG?"
+	},
+	{
+		"@id": "myfile:medicalnewstoday.com:articles:317466",
+		"my:url": "//www.medicalnewstoday.com/articles/317466",
+		"rdfs:label": "What to know about fasting blood sugar?"
+	},
+	{
+		"@id": "myfile:tandurust.com:heart-health:atypical-angina-symptoms-treatment",
+		"my:url": "//www.tandurust.com/heart-health/atypical-angina-symptoms-treatment.html",
+		"rdfs:label": "What Is Atypical Angina: Symptoms And Treatment For Atypical Angina"
+	},
+	{
+		"@id": "myfile:my.clevelandclinic.org:health:diseases:15851-gerd-non-cardiac-chest-pain",
+		"my:url": "//my.clevelandclinic.org/health/diseases/15851-gerd-non-cardiac-chest-pain",
+		"rdfs:label": "Non-Cardiac Chest Pain"
+	},
+	{
+		"@id": "myfile:heart.org:en:health-topics:heart-attack:angina-chest-pain",
+		"my:url": "https://www.heart.org/en/health-topics/heart-attack/angina-chest-pain",
+		"rdfs:label": "Angina (Chest Pain)"
+	},
+	{
+		"@id": "myfile:en.wikipedia.org:wiki:Stenosis",
+		"my:url": "//en.wikipedia.org/wiki/Stenosis",
+		"rdfs:label": "Stenosis"
+	},
+	{
+		"@id": "myfile:en.wikipedia.org:wiki:ST_segment",
+		"my:url": "//en.wikipedia.org/wiki/ST_segment",
+		"rdfs:label": "ST segment"
+	},
+	{
+		"@id": "myfile:medicalnewstoday.com:articles:235710",
+		"my:url": "//www.medicalnewstoday.com/articles/235710",
+		"rdfs:label": "What should my heart rate be?"
+	},
+	{
+		"@id": "myfile:medicalnewstoday.com:articles:321519",
+		"my:url": "//www.medicalnewstoday.com/articles/321519",
+		"rdfs:label": "What is serum cholesterol?"
+	},
+	{
+		"@id": "myfile:heart.org:en:health-topics:high-blood-pressure:understanding-blood-pressure-readings",
+		"my:url": "//www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings",
+		"rdfs:label": "Understanding Blood Pressure Readings"
+	}
+]

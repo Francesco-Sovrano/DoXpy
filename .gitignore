@@ -1,0 +1,31 @@
+*.zip
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+*.log
+# Non-anonymised data
+original/
+# Licensed data
+heloc*
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# MAC-only files
+.DS_Store
+
+# pickle files
+*.pkl
+# graphml files
+*.graphml
+*.txt

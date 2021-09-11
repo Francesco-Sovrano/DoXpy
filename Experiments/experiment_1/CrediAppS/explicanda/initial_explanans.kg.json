@@ -1,0 +1,27 @@
+[
+    {
+        "@id": "my:credit_approval_system",
+        "my:explanatory_targets": [
+            {
+                "my:question_template": "What is the decision on the loan request of applicant X?",
+                "my:answer_template": "The predicted risk performance is R, so the result of the application is A.",
+                "my:explanatory_template": "Applicant X has been predicted to have a risk performance that is R, so the result of the application is A."
+            },
+            {
+                "my:question_template": "What are the easiest factors to consider in order to change the result of applicant X's application?",
+                "my:answer_template": "The easiest factors are F.",
+                "my:explanatory_template": "The easiest factors to consider, in order to change the result of applicant X's application, are F."
+            },
+            {
+                "my:question_template": "How factor F should be modified in order to change the result of applicant X's application?",
+                "my:answer_template": "Factor F should be equal to Y.",
+                "my:explanatory_template": "In order to change the result of applicant X's application, factor F should be equal to Y."
+            },
+            {
+                "my:question_template": "What is the relative importance of factor F in changing the result of applicant X's application?",
+                "my:answer_template": "The relative importance of factor F is I.",
+                "my:explanatory_template": "The relative importance of factor F, in changing the result of applicant X's application, is I."
+            }
+        ]
+    }
+]

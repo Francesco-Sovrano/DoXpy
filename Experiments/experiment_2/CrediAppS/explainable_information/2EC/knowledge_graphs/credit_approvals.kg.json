@@ -1,0 +1,135 @@
+[
+	{
+		"@id": "my:consumer",
+		"dbo:abstract": {
+			"@value": "A consumer is a human receiving an explanation.",
+			"@source": "http://aix360.mybluemix.net/resources#glossary"
+		},
+		"rdfs:seeAlso": ["my:explanation"],
+		"rdfs:label": "Consumer",
+		"owl:sameAs": "https://en.wikipedia.org/wiki/Consumer",
+		"rdf:type": "my:person"
+	},
+	{
+		"@id": "my:person",
+		"rdf:type": "owl:Class",
+		"owl:sameAs": "https://en.wikipedia.org/wiki/Person",
+		"rdfs:label": "Person"
+	},
+	{
+		"@id": "my:loan",
+		"dbo:abstract": {
+			"@value": "A loan takes place when a lender, like a traditional bank or online lender, extends a set amount of cash to a borrower. In exchange, the borrower agrees to repay the loan at a specified interest rate over the course of a set loan term.",
+			"@source": "https://www.forbes.com/advisor/loans/what-is-a-loan/"
+		},
+		"rdfs:label": "Loan",
+		"owl:sameAs": "https://en.wikipedia.org/wiki/Loan"
+	},
+	{
+		"@id": "my:loan_application",
+		"rdfs:label": "Loan Application",
+		"dbo:abstract": {
+			"@value": "A loan application is used by borrowers to apply for a loan. Through the loan application, borrowers reveal key details about their finances to the lender. The loan application is crucial to determining whether the lender will grant the request for funds or credit.",
+			"@source": "https://www.bankrate.com/glossary/l/loan-application/"
+		}
+	},
+	{
+		"@id": "my:home_equity_line_of_credit",
+		"dbo:abstract": {
+			"@value": "Home equity line of credit is a loan in which the lender agrees to lend a maximum amount within an agreed period, where the collateral is the borrower's equity in his/her house. HELOC funds can be borrowed during the 'draw period' (typically 5 to 25 years). Repayment is of the amount drawn amount plus interest. A HELOC may have a minimum monthly payment requirement (often 'interest only').",
+			"@source": "https://en.wikipedia.org/wiki/Home_equity_line_of_credit"
+		},
+		"rdfs:seeAlso": ["my:fico_heloc_dataset"],
+		"rdfs:label": "Home Equity Line of Credit"
+	},
+	{
+		"@id": "my:delinquency",
+		"dbo:abstract": {
+			"@value": "A delinquency is a failure to deliver even the minimum payment on a loan or debt payment on or before the time agreed.",
+			"@source": "https://www.myfico.com/credit-education/glossary"
+		},
+		"rdfs:label": "Delinquency"
+	},
+	{
+		"@id": "my:inquiry",
+		"dbo:abstract": {
+			"@value": "An inquiry is an item on a consumer's credit report that shows that someone with a permissible purpose has previously requested a copy of the consumer's report.",
+			"@source": "https://www.myfico.com/credit-education/glossary"
+		},
+		"rdfs:label": "Inquiry"
+	},
+	{
+        "@id": "my:risk",
+        "dbo:abstract": {
+            "@value": "Risk is the likelihood that an individual will pay his or her credit obligations as agreed.",
+            "@source": "https://www.investopedia.com/terms/c/creditrisk.asp"
+        },
+        "rdfs:label": "Risk"
+    },
+    {
+        "@id": "my:installment_trade",
+        "dbo:abstract": {
+            "@value": "Installment trades are trades where borrowers repay the loan with scheduled, periodic payments. This type of credit involves the gradual reduction of principal and eventual full repayment, ending the credit cycle.",
+            "@source": "https://www.investopedia.com/ask/answers/110614/what-are-differences-between-revolving-credit-and-installment-credit.asp"
+        },
+        "rdfs:label": "Installment Trade",
+        "rdf:type": "my:trade"
+    },
+    {
+        "@id": "my:trade",
+        "dbo:abstract": {
+            "@value": "Trade, or commerce, involves the transfer of the ownership of goods or services, from one person or entity to another, in exchange for money, goods or services. A network that allows trade is called a market.",
+            "@source": "http://dbpedia.org/page/Trade"
+        },
+        "owl:sameAs": "http://dbpedia.org/page/Trade",
+        "rdf:type": "owl:Class",
+        "rdfs:label": "Trade"
+    },
+    {
+        "@id": "my:revolving_trade",
+        "dbo:abstract": {
+            "@value": "Revolving trade are trade that allow borrowers to use a line of credit according to the terms of the contract, which do not have fixed payments.",
+            "@source": "https://www.investopedia.com/ask/answers/110614/what-are-differences-between-revolving-credit-and-installment-credit.asp"
+        },
+        "rdfs:seeAlso": ["my:line_of_credit"],
+        "rdfs:label": "Revolving Trade",
+        "rdf:type": "my:trade"
+    },
+    {
+        "@id": "my:derogatory_public_record",
+        "dbo:abstract": {
+            "@value": "Derogatory public record is a negative information on your credit report that is of a more serious nature and has become a matter of public record.",
+            "@source": "https://budgeting.thenest.com/derogatory-public-record-mean-25266.html"
+        },
+        "rdfs:label": "Derogatory Public Record",
+        "my:kind_of": {
+            "@value": "my:derogatory_record",
+            "@source": "https://budgeting.thenest.com/derogatory-public-record-mean-25266.html"
+        }
+    },
+    {
+        "@id": "my:derogatory_record",
+        "dbo:abstract": {
+            "@value": "Derogatory records are any negative information on you credit report that lowers your credit scoring. The record can be a minor issue or a more serious concern.",
+            "@source": "https://budgeting.thenest.com/derogatory-public-record-mean-25266.html"
+        },
+        "rdfs:label": "Derogatory Record"
+    },
+    {
+        "@id": "my:Process",
+        "dbo:abstract": {
+            "@value": "Business process automation (BPA), also known as business automation or digital transformation, is the technology-enabled automation of complex business processes. It can streamline a business for simplicity, achieve digital transformation, increase service quality, improve service delivery or contain costs. It consists of integrating applications, restructuring labor resources and using software applications throughout the organization.",
+            "@source": "https://en.wikipedia.org/wiki/Business_process_automation"
+        },
+        "owl:sameAs": "https://en.wikipedia.org/wiki/Business_process_automation",
+        "rdfs:label": "Business Process Automation"
+    },
+    {
+        "@id": "my:line_of_credit",
+        "dbo:abstract": {
+            "@value": "A line of credit is a preset borrowing limit that can be used at any time. The borrower can take money out as needed until the limit is reached, and as money is repaid, it can be borrowed again in the case of an open line of credit.",
+            "@source": "https://www.investopedia.com/terms/l/lineofcredit.asp"
+        },
+        "rdfs:label": "Line of Credit"
+    }
+]

@@ -1,0 +1,134 @@
+[
+    {
+        "@id": "my:credit_approval_system",
+        "my:input_list": [
+            {
+                "@id": "ExternalRiskEstimate",
+                "my:description": "One parameter of the credit approval system is Consolidated risk markers",
+                "rdfs:label": "Consolidated risk markers"
+            }, 
+            {
+                "@id": "MSinceOldestTradeOpen",
+                "my:description": "One parameter of the credit approval system is Age of oldest account in months",
+                "rdfs:label": "Age of oldest account in months"
+            }, 
+            {
+                "@id": "MSinceMostRecentTradeOpen",
+                "my:description": "One parameter of the credit approval system is Age of most recent account in months",
+                "rdfs:label": "Age of most recent account in months"
+            }, 
+            {
+                "@id": "AverageMInFile",
+                "my:description": "One parameter of the credit approval system is Average age of accounts in months",
+                "rdfs:label": "Average age of accounts in months"
+            }, 
+            {
+                "@id": "NumSatisfactoryTrades",
+                "my:description": "One parameter of the credit approval system is Number of satisfactory accounts",
+                "rdfs:label": "Number of satisfactory accounts"
+            }, 
+            {
+                "@id": "NumTrades60Ever2DerogPubRec",
+                "my:description": "One parameter of the credit approval system is Number of accounts ever delinquent by 60 days or more",
+                "rdfs:label": "Number of accounts ever delinquent by 60 days or more"
+            }, 
+            {
+                "@id": "NumTrades90Ever2DerogPubRec",
+                "my:description": "One parameter of the credit approval system is Number of accounts ever delinquent by 90 days or more",
+                "rdfs:label": "Number of accounts ever delinquent by 90 days or more"
+            }, 
+            {
+                "@id": "PercentTradesNeverDelq",
+                "my:description": "One parameter of the credit approval system is Percentage of accounts that were never delinquent",
+                "rdfs:label": "Percentage of accounts that were never delinquent"
+            }, 
+            {
+                "@id": "MSinceMostRecentDelq",
+                "my:description": "One parameter of the credit approval system is Months since most recent delinquency",
+                "rdfs:label": "Months since most recent delinquency"
+            }, 
+            {
+                "@id": "MaxDelq2PublicRecLast12M",
+                "my:description": "One parameter of the credit approval system is Worst delinquency score from last 12 months of public record",
+                "rdfs:label": "Worst delinquency score from last 12 months of public record"
+            }, 
+            {
+                "@id": "MaxDelqEver",
+                "my:description": "One parameter of the credit approval system is Worst delinquency score ever",
+                "rdfs:label": "Worst delinquency score ever"
+            }, 
+            {
+                "@id": "NumTotalTrades",
+                "my:description": "One parameter of the credit approval system is Total number of accounts",
+                "rdfs:label": "Total number of accounts"
+            }, 
+            {
+                "@id": "NumTradesOpeninLast12M",
+                "my:description": "One parameter of the credit approval system is Number of accounts opened in last 12 months",
+                "rdfs:label": "Number of accounts opened in last 12 months"
+            }, 
+            {
+                "@id": "PercentInstallTrades",
+                "my:description": "One parameter of the credit approval system is Percentage of accounts that are installment debt",
+                "rdfs:label": "Percentage of accounts that are installment debt"
+            }, 
+            {
+                "@id": "MSinceMostRecentInqexcl7days",
+                "my:description": "One parameter of the credit approval system is Months since most recent credit inquiry not within the last 7 days",
+                "rdfs:label": "Months since most recent credit inquiry not within the last 7 days"
+            }, 
+            {
+                "@id": "NumInqLast6M",
+                "my:description": "One parameter of the credit approval system is Number of credit inquiries in last 6 months",
+                "rdfs:label": "Number of credit inquiries in last 6 months"
+            }, 
+            {
+                "@id": "NumInqLast6Mexcl7days",
+                "my:description": "One parameter of the credit approval system is Number of credit inquiries in last 6 months excluding the last 7 days",
+                "rdfs:label": "Number of credit inquiries in last 6 months excluding the last 7 days"
+            }, 
+            {
+                "@id": "NetFractionRevolvingBurden",
+                "my:description": "One parameter of the credit approval system is Revolving debt (e.g. credit card) balance as a percentage of credit limit",
+                "rdfs:label": "Revolving debt (e.g. credit card) balance as a percentage of credit limit"
+            }, 
+            {
+                "@id": "NetFractionInstallBurden",
+                "my:description": "One parameter of the credit approval system is Installment debt (e.g. car loan) balance as a percentage of original loan amount",
+                "rdfs:label": "Installment debt (e.g. car loan) balance as a percentage of original loan amount"
+            }, 
+            {
+                "@id": "NumRevolvingTradesWBalance",
+                "my:description": "One parameter of the credit approval system is Number of revolving debt accounts with a balance",
+                "rdfs:label": "Number of revolving debt accounts with a balance"
+            }, 
+            {
+                "@id": "NumInstallTradesWBalance",
+                "my:description": "One parameter of the credit approval system is Number of installment debt accounts with a balance",
+                "rdfs:label": "Number of installment debt accounts with a balance"
+            }, 
+            {
+                "@id": "NumBank2NatlTradesWHighUtilization",
+                "my:description": "One parameter of the credit approval system is Number of accounts with high utilization",
+                "rdfs:label": "Number of accounts with high utilization"
+            }, 
+            {
+                "@id": "PercentTradesWBalance",
+                "my:description": "One parameter of the credit approval system is Percentage of accounts with a balance",
+                "rdfs:label": "Percentage of accounts with a balance"
+            }, 
+            {
+                "@id": "RiskPerformance",
+                "my:description": "One parameter of the credit approval system is Risk Performance",
+                "rdfs:label": "Risk Performance"
+            }
+        ],
+        "my:explanatory_targets": [
+            {
+                "my:question_template": "What is the decision on the loan request of applicant X?",
+                "my:answer_template": "The predicted risk performance is R, so the result of the application is A.",
+                "my:explanatory_template": "Applicant X has been predicted to have a risk performance that is R, so the result of the application is A."
+            }
+        ]
+    }
+]

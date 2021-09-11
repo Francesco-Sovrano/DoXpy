@@ -1,0 +1,302 @@
+[
+	{
+		"@id": "myfile:black_box",
+		"my:url": "//en.wikipedia.org/wiki/Black_box",
+		"rdfs:label": "Wikipedia - Black box"
+	},
+	{
+		"@id": "myfile:artificial_neural_network",
+		"my:url": "//en.wikipedia.org/wiki/Neural_network",
+		"rdfs:label": "Wikipedia - Neural network"
+	},
+	{
+		"@id": "myfile:preparing_for_ai_ethics_and_explainability_in_2020",
+		"my:url": "//www.forbes.com/sites/maribellopez/2020/01/21/preparing-for-ai-ethics-and-explainability-in-2020/",
+		"rdfs:label": "Forbes - Neural network"
+	},
+	{
+		"@id": "myfile:loan_application",
+		"my:url": "//www.bankrate.com/glossary/l/loan-application/", 
+		"rdfs:label": "Bankrate - Loan application"
+	},
+	{
+		"@id": "myfile:guidance",
+		"my:url": "//www.aix360.mybluemix.net/resources#guidance", 
+		"rdfs:label": "AIX360 - Guidance"
+	},
+	{
+		"@id": "myfile:tutorial",
+		"my:url": "//www.nbviewer.jupyter.org/github/IBM/AIX360/blob/master/examples/tutorials/HELOC.ipynb", 
+		"rdfs:label": "AIX360 - HELOC Tutorial"
+	},
+	{
+		"@id": "myfile:overview",
+		"my:url": "//www.aix360.mybluemix.net/resources#overview", 
+		"rdfs:label": "AIX360 - Overview"
+	},
+	{
+		"@id": "myfile:glossary",
+		"my:url": "//www.aix360.mybluemix.net/resources#glossary", 
+		"rdfs:label": "AIX360 - Glossary"
+	},
+	{
+		"@id": "myfile:explainability_n_fairness",
+		"my:url": "//www.aix360.mybluemix.net/resources#aixf", 
+		"rdfs:label": "AIX360 - AI Explainability and Fairness"
+	},
+	{
+		"@id": "myfile:www.myfico.com:Credit-Education:Questions:why-are-my-credit-scores-different-for-3-credit-bureaus",
+		"my:url": "//www.myfico.com/Credit-Education/Questions/why-are-my-credit-scores-different-for-3-credit-bureaus",
+		"rdfs:label": "MyFICO - why are my credit scores different for 3 credit why0"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-reports:credit-bureaus",
+		"my:url": "//www.myfico.com/credit-education/credit-reports/credit-bureaus",
+		"rdfs:label": "MyFICO - credit bureaus"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-reports:credit-checks-and-inquiries",
+		"my:url": "//www.myfico.com/credit-education/credit-reports/credit-checks-and-inquiries",
+		"rdfs:label": "MyFICO - credit checks and inquiries"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-reports:fixing-errors",
+		"my:url": "//www.myfico.com/credit-education/credit-reports/fixing-errors",
+		"rdfs:label": "MyFICO - fixing errors"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-reports:free-credit-reports",
+		"my:url": "//www.myfico.com/credit-education/credit-reports/free-credit-reports",
+		"rdfs:label": "MyFICO - free credit reports"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-scores:credit-mix",
+		"my:url": "//www.myfico.com/credit-education/credit-scores/credit-mix",
+		"rdfs:label": "MyFICO - credit mix"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-scores:fico-score-versions",
+		"my:url": "//www.myfico.com/credit-education/credit-scores/fico-score-versions",
+		"rdfs:label": "MyFICO - fico score versions"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-scores:gardening-your-credit",
+		"my:url": "//www.myfico.com/credit-education/credit-scores/gardening-your-credit",
+		"rdfs:label": "MyFICO - gardening your credit"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-scores:how-lenders-use-credit-scores",
+		"my:url": "//www.myfico.com/credit-education/credit-scores/how-lenders-use-credit-scores",
+		"rdfs:label": "MyFICO - how lenders use credit scores"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-scores:length-of-credit-history",
+		"my:url": "//www.myfico.com/credit-education/credit-scores/length-of-credit-history",
+		"rdfs:label": "MyFICO - length of credit history"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:credit-scores:new-credit",
+		"my:url": "//www.myfico.com/credit-education/credit-scores/new-credit",
+		"rdfs:label": "MyFICO - new credit"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:affects-of-credit-actions",
+		"my:url": "//www.myfico.com/credit-education/faq/affects-of-credit-actions",
+		"rdfs:label": "MyFICO - affects of credit actions"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:charge-vs-credit-card",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/charge-vs-credit-card",
+		"rdfs:label": "MyFICO - charge vs credit card"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:college-and-credit-cards",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/college-and-credit-cards",
+		"rdfs:label": "MyFICO - college and credit cards"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:credit-cards-credit-score",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/credit-cards-credit-score",
+		"rdfs:label": "MyFICO - credit cards credit score"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:holiday-spending",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/holiday-spending",
+		"rdfs:label": "MyFICO - holiday spending"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:impact-of-closing-credit-card-account",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/impact-of-closing-credit-card-account",
+		"rdfs:label": "MyFICO - impact of closing credit card account"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:lowering-credit-card-apr",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/lowering-credit-card-apr",
+		"rdfs:label": "MyFICO - lowering credit card apr"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:managing-growing-credit-card-debt",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/managing-growing-credit-card-debt",
+		"rdfs:label": "MyFICO - managing growing credit card debt"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:cards:non-reported-financial-obligations",
+		"my:url": "//www.myfico.com/credit-education/faq/cards/non-reported-financial-obligations",
+		"rdfs:label": "MyFICO - non reported financial obligations"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit-reports:correcting-credit-report-errors",
+		"my:url": "//www.myfico.com/credit-education/faq/credit-reports/correcting-credit-report-errors",
+		"rdfs:label": "MyFICO - correcting credit report errors"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:adjusting-to-credit-crunch",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/adjusting-to-credit-crunch",
+		"rdfs:label": "MyFICO - adjusting to credit crunch"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:do-i-still-qualify",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/do-i-still-qualify",
+		"rdfs:label": "MyFICO - do i still qualify"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:impact-of-multiple-credit-applications",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/impact-of-multiple-credit-applications",
+		"rdfs:label": "MyFICO - impact of multiple credit applications"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:marriage-and-credit",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/marriage-and-credit",
+		"rdfs:label": "MyFICO - marriage and credit"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:minimizing-the-effects-of-credit-shopping",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/minimizing-the-effects-of-credit-shopping",
+		"rdfs:label": "MyFICO - minimizing the effects of credit shopping"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:student-loan-shopping",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/student-loan-shopping",
+		"rdfs:label": "MyFICO - student loan shopping"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:credit:tighter-lending-practices",
+		"my:url": "//www.myfico.com/credit-education/faq/credit/tighter-lending-practices",
+		"rdfs:label": "MyFICO - tighter lending practices"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:improving-a-score:considering-bankruptcy",
+		"my:url": "//www.myfico.com/credit-education/faq/improving-a-score/considering-bankruptcy",
+		"rdfs:label": "MyFICO - considering bankruptcy"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:improving-a-score:contacting-mortgage-provider",
+		"my:url": "//www.myfico.com/credit-education/faq/improving-a-score/contacting-mortgage-provider",
+		"rdfs:label": "MyFICO - contacting mortgage provider"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:improving-a-score:ending-credit-problems",
+		"my:url": "//www.myfico.com/credit-education/faq/improving-a-score/ending-credit-problems",
+		"rdfs:label": "MyFICO - ending credit problems"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:improving-a-score:getting-better-credit",
+		"my:url": "//www.myfico.com/credit-education/faq/improving-a-score/getting-better-credit",
+		"rdfs:label": "MyFICO - getting better credit"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:improving-a-score:surviving-financial-setbacks",
+		"my:url": "//www.myfico.com/credit-education/faq/improving-a-score/surviving-financial-setbacks",
+		"rdfs:label": "MyFICO - surviving financial setbacks"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:mortgage:impact-of-refinancing-on-credit-scores",
+		"my:url": "//www.myfico.com/credit-education/faq/mortgage/impact-of-refinancing-on-credit-scores",
+		"rdfs:label": "MyFICO - impact of refinancing on credit scores"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:mortgage:loan-modifications-and-credit-scores",
+		"my:url": "//www.myfico.com/credit-education/faq/mortgage/loan-modifications-and-credit-scores",
+		"rdfs:label": "MyFICO - loan modifications and credit scores"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:mortgage:making-home-affordable-program",
+		"my:url": "//www.myfico.com/credit-education/faq/mortgage/making-home-affordable-program",
+		"rdfs:label": "MyFICO - making home affordable program"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:bankruptcy-types",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/bankruptcy-types",
+		"rdfs:label": "MyFICO - bankruptcy types"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:how-long-negative-information-remain-on-credit-report",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/how-long-negative-information-remain-on-credit-report",
+		"rdfs:label": "MyFICO - how long negative information remain on credit report"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:late-payments",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/late-payments",
+		"rdfs:label": "MyFICO - late payments"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:minimizing-bankruptcy-effects",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/minimizing-bankruptcy-effects",
+		"rdfs:label": "MyFICO - minimizing bankruptcy effects"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:reviving-my-credit-after-bankruptcy",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/reviving-my-credit-after-bankruptcy",
+		"rdfs:label": "MyFICO - reviving my credit after bankruptcy"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:should-i-pay-my-collections",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/should-i-pay-my-collections",
+		"rdfs:label": "MyFICO - should i pay my collections"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:negative-reasons:why-is-my-fico-score-dropping",
+		"my:url": "//www.myfico.com/credit-education/faq/negative-reasons/why-is-my-fico-score-dropping",
+		"rdfs:label": "MyFICO - why is my fico score dropping"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:faq:scores:marriage-and-scores",
+		"my:url": "//www.myfico.com/credit-education/faq/scores/marriage-and-scores",
+		"rdfs:label": "MyFICO - marriage and scores"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:fico-scores-vs-credit-scores",
+		"my:url": "//www.myfico.com/credit-education/fico-scores-vs-credit-scores",
+		"rdfs:label": "MyFICO - fico scores vs credit scores"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:glossary",
+		"my:url": "//www.myfico.com/credit-education/glossary",
+		"rdfs:label": "MyFICO - glossary"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:improve-your-credit-score",
+		"my:url": "//www.myfico.com/credit-education/improve-your-credit-score",
+		"rdfs:label": "MyFICO - improve your credit score"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:what-is-a-fico-score",
+		"my:url": "//www.myfico.com/credit-education/what-is-a-fico-score",
+		"rdfs:label": "MyFICO - what is a fico score"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:whats-in-my-credit-report",
+		"my:url": "//www.myfico.com/credit-education/whats-in-my-credit-report",
+		"rdfs:label": "MyFICO - whats in my credit report"
+	},
+	{
+		"@id": "myfile:www.myfico.com:credit-education:whats-in-your-credit-score",
+		"my:url": "//www.myfico.com/credit-education/whats-in-your-credit-score",
+		"rdfs:label": "MyFICO - whats in your credit score"
+	},
+	{
+		"@id": "myfile:forbes.com:advisor:loans:what-is-a-loan",
+		"my:url": "//www.forbes.com/advisor/loans/what-is-a-loan/",
+		"rdfs:label": "What Is A Loan?"
+	}
+]

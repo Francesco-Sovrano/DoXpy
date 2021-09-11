@@ -1,0 +1,37 @@
+[
+    {
+        "@id": "my:heart_disease_predictor",
+        "my:explanatory_targets": [
+            {
+                "my:question_template": "How is likely that patient X has a heart disease?",
+                "my:answer_template": "The probability is P.",
+                "my:explanatory_template": "Patient X is likely to have a heart disease with probability P."
+            },
+            {
+                "my:question_template": "What is the risk of heart disease for patient X?",
+                "my:answer_template": "The risk is R.",
+                "my:explanatory_template": "Patient X has risk R of having a heart disease."
+            },
+            {
+                "my:question_template": "What is the recommended action, for patient X to cure or prevent a heart disease?",
+                "my:answer_template": "The recommended action is A, because the risk is R.",
+                "my:explanatory_template": "In order to cure or prevent a heart disease, the recommended action for patient X is A because the risk is R."
+            },
+            {
+                "my:question_template": "What would happen if patient X would have factor Y equal to A instead of B?",
+                "my:answer_template": "The likelihood of heart disease would be L, because of the factors contributing C.",
+                "my:explanatory_template": "If patient X would have factor Y equal to A instead of B, the likelihood of heart disease would be L, because of the factors contributing C."
+            },
+            {
+                "my:question_template": "What are the most important factors contributing to the predicted likelihood of heart disease, for patient X?",
+                "my:answer_template": "The most important factors are F.",
+                "my:explanatory_template": "The most important factors contributing to the predicted likelihood of heart disease, for patient X, are F."
+            },
+            {
+                "my:question_template": "How factor Y contributes to the predicted likelihood of heart disease, for patient X?",
+                "my:answer_template": "The contribution of Y is C.",
+                "my:explanatory_template": "The contribution of Y to the predicted likelihood of heart disease, for patient X, is C."
+            }   
+        ]
+    }
+]
