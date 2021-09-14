@@ -7,12 +7,13 @@ DoXpy is a pip-installable python library, giving you all that is necessary to o
 DoXpy relies on deep language models for
 - Question Answer Retrieval
 - Sentence Embedding
+
 This is why DoXpy supports several state-of-the-art deep learning libraries for NLP, making it easy to change deep language models at wish.
 The supported libraries are:
-- [Spacy](https://arxiv.org/abs/1806.01830)
-- [Huggingface's Transformers](https://arxiv.org/abs/1806.01830)
-- [TensorFlowHub](https://arxiv.org/abs/1806.01830)
-- [Sentence Transformers](https://arxiv.org/abs/1806.01830)
+- [Spacy](https://spacy.io)
+- [Huggingface](https://huggingface.co)
+- [TensorFlow Hub](https://www.tensorflow.org/hub/)
+- [SentenceTransformers](https://www.sbert.net/index.html)
 
 DoXpy is model-agnostic, this means that it can work with the output of any AI, if in English, regardless its inner characteristics.
 To do so, DoXpy exploits a specific theoretical model from Ordinary Language Philosophy called the Achinstein’s Theory of Explanations. 
