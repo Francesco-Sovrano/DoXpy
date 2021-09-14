@@ -1,5 +1,6 @@
 # DoXpy: An Objective Metric for Explainable AI
-==========
+
+**N.B. This documentation will be updated soon**
 
 DoXpy is a pip-installable python library, giving you all that is necessary to objectively estimate the amount of explainability of any English piece of information (i.e. the output of an Explainable AI), scaling pretty well from single paragraphs to whole sets of documents.
 
@@ -20,6 +21,9 @@ You may find a thorough discussion of the underlying theory in this paper [An Ob
 ## Installation
 This project has been tested on Debian 9 and macOS Mojave 10.14 with Python 3.7. 
 The script [setup_virtualenv.sh](setup_virtualenv.sh) can be used to install DoXpy and all its dependencies in a python3.7 virtualenv.
+
+You can also install DoXpy by downloading this repo and running from within it: 
+`pip install  --use-deprecated=legacy-resolver -e doxpy --no-cache-dir`
 
 Before being able to run the [demo/setup_virtualenv.sh](demo/setup_virtualenv.sh) script you have to install: virtualenv, python3-dev, python3-pip and make. 
 
@@ -80,9 +84,11 @@ The archetypes (or archetypal questions) used for the computation of DoX are in 
 For more about why we selected all these archetypes, and many more details, please read [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327). 
 
 ## Usage
-To use DoXpy on your own project you need to install it first and then import it as done by the scripts inside the directory [demo](demo), defining the options of the OntologyBuilder, QuestionAnswerer and ExplainabilityEstimator.
+To use DoXpy on your own project you need to install it first. 
+Then you can import it as done in [demo/assess_degree_of_explainability_TF.py](demo/assess_degree_of_explainability_TF.py) or [demo/assess_degree_of_explainability_FB.py](demo/assess_degree_of_explainability_FB.py).
+You may also need to configure the OntologyBuilder, QuestionAnswerer and ExplainabilityEstimator.
 
-An example of import is the following:
+An example of import extracted from the aforementioned scripts is the following:
 ```
 from doxpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
 from doxpy.models.estimation.explainability_estimator import ExplainabilityEstimator
