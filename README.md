@@ -205,12 +205,12 @@ For each of these systems we have 3 different versions:
 - a 2nd-Level Exhaustive Explanatory Closure (2EC): the output of NXE connected to a 2nd (non-expandable) level of information consisting in an exhaustive and verbose set of autonomous static explanatory resources in the form of web-pages.
 
 The adopted AI are:
-- [XGBoost](https://arxiv.org/abs/1806.01830) for HD
-- a [Neural Network](https://arxiv.org/abs/1806.01830) for CA
+- [XGBoost](https://dl.acm.org/doi/abs/10.1145/2939672.2939785) for HD
+- a Neural Network for CA
 
 The adopted XAI are:
-- [TreeSHAP](https://arxiv.org/abs/1806.01830) for HD
-- [CEM](https://arxiv.org/abs/1806.01830) for CA
+- [TreeSHAP](https://www.nature.com/articles/s42256-019-0138-9) for HD
+- [CEM](https://dl.acm.org/doi/abs/10.5555/3326943.3326998) for CA
 
 The 2 experiments are the following:
 - The 1st one compares the degree of explainability of NAE and NXE, expecting NXE's being the best, because it relied on XAI.
