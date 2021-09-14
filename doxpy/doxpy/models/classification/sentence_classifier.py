@@ -1,8 +1,8 @@
 import os
 import pickle
 import numpy as np # for fast array ops
-import knowpy.misc.tfidf_lib as tfidf_lib
-from knowpy.models.model_manager import ModelManager, cosine_similarity
+import doxpy.misc.tfidf_lib as tfidf_lib
+from doxpy.models.model_manager import ModelManager, cosine_similarity
 from nltk.stem.snowball import SnowballStemmer # <http://www.nltk.org/howto/stem.html>
 import sentence_transformers as st
 from itertools import islice

@@ -2,8 +2,8 @@ import os
 import re
 import json
 import pandas as pd
-from knowpy.misc.jsonld_lib import *
-from knowpy.misc.doc_reader import get_document_list
+from doxpy.misc.jsonld_lib import *
+from doxpy.misc.doc_reader import get_document_list
 
 def get_dataframe_dict(ontology_dir):
 	doc_list = get_document_list(ontology_dir)

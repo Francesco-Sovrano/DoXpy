@@ -1,12 +1,13 @@
-from knowpy.misc.doc_reader import DocParser
-from knowpy.models.model_manager import ModelManager
-from knowpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
-from knowpy.models.classification.concept_classifier import ConceptClassifier
-from knowpy.models.classification.sentence_classifier import SentenceClassifier
-from knowpy.misc.adjacency_matrix import AdjacencyMatrix
-from knowpy.misc.graph_builder import get_root_set, get_concept_set, get_predicate_set, get_object_set, get_connected_graph_list, get_ancestors, filter_graph_by_root_set, tuplefy, get_concept_description_dict, get_betweenness_centrality
-from knowpy.misc.levenshtein_lib import remove_similar_labels, labels_are_similar, labels_are_contained
-from knowpy.misc.jsonld_lib import *
+from doxpy.misc.doc_reader import DocParser
+from doxpy.misc.adjacency_matrix import AdjacencyMatrix
+from doxpy.misc.graph_builder import get_root_set, get_concept_set, get_predicate_set, get_object_set, get_connected_graph_list, get_ancestors, filter_graph_by_root_set, tuplefy, get_concept_description_dict, get_betweenness_centrality
+from doxpy.misc.levenshtein_lib import remove_similar_labels, labels_are_similar, labels_are_contained
+from doxpy.misc.jsonld_lib import *
+
+from doxpy.models.model_manager import ModelManager
+from doxpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
+from doxpy.models.classification.concept_classifier import ConceptClassifier
+from doxpy.models.classification.sentence_classifier import SentenceClassifier
 
 import numpy as np
 from collections import Counter

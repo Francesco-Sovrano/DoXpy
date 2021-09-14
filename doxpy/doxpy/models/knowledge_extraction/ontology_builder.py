@@ -1,8 +1,9 @@
-from knowpy.models.knowledge_extraction.knowledge_graph_builder import KnowledgeGraphBuilder
-from knowpy.models.knowledge_extraction.lattice_builder import ActiveActionTypingLatticeBuilder
-from knowpy.misc.graph_builder import get_root_set, get_concept_set, get_predicate_set, get_object_set, get_connected_graph_list, get_ancestors, filter_graph_by_root_set, tuplefy
-from knowpy.misc.graph_builder import save_graph
-from knowpy.misc.jsonld_lib import *
+from doxpy.misc.graph_builder import get_root_set, get_concept_set, get_predicate_set, get_object_set, get_connected_graph_list, get_ancestors, filter_graph_by_root_set, tuplefy
+from doxpy.misc.graph_builder import save_graph
+from doxpy.misc.jsonld_lib import *
+
+from doxpy.models.knowledge_extraction.knowledge_graph_builder import KnowledgeGraphBuilder
+from doxpy.models.knowledge_extraction.lattice_builder import ActiveActionTypingLatticeBuilder
 
 from more_itertools import unique_everseen
 import re

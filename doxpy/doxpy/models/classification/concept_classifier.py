@@ -1,6 +1,6 @@
-from knowpy.misc.doc_reader import DocParser
-from knowpy.models.classification.sentence_classifier import SentenceClassifier
-from knowpy.models.knowledge_extraction.concept_extractor import ConceptExtractor
+from doxpy.misc.doc_reader import DocParser
+from doxpy.models.classification.sentence_classifier import SentenceClassifier
+from doxpy.models.knowledge_extraction.concept_extractor import ConceptExtractor
 from more_itertools import unique_everseen
 from collections import Counter
 try:

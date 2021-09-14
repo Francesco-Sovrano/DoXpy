@@ -5,13 +5,13 @@ from tqdm import tqdm
 from collections import Counter
 from itertools import islice
 
-from knowpy.misc.cache_lib import load_or_create_cache, create_cache, load_cache
-from knowpy.misc.levenshtein_lib import remove_similar_labels, labels_are_contained
+from doxpy.misc.cache_lib import load_or_create_cache, create_cache, load_cache
+from doxpy.misc.levenshtein_lib import remove_similar_labels, labels_are_contained
 
-from knowpy.misc.doc_reader import DocParser
-from knowpy.models.reasoning.question_answerer import QuestionAnswerer
-from knowpy.misc.jsonld_lib import *
-from knowpy.models.reasoning import is_not_wh_word, singlefy
+from doxpy.misc.doc_reader import DocParser
+from doxpy.misc.jsonld_lib import *
+from doxpy.models.reasoning.question_answerer import QuestionAnswerer
+from doxpy.models.reasoning import is_not_wh_word, singlefy
 
 def get_stats_dict(v):
 	return {

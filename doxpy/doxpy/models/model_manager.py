@@ -24,7 +24,7 @@ import torch
 from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
 
-from knowpy.misc.cache_lib import load_or_create_cache, create_cache, load_cache
+from doxpy.misc.cache_lib import load_or_create_cache, create_cache, load_cache
 
 import warnings
 warnings.filterwarnings('ignore')

@@ -1,6 +1,6 @@
-from knowpy.misc.doc_reader import DocParser, remove_hyphens
-from knowpy.misc.jsonld_lib import add_missing_brackets_to_string
-from knowpy.models.model_manager import ModelManager
+from doxpy.misc.doc_reader import DocParser, remove_hyphens
+from doxpy.misc.jsonld_lib import add_missing_brackets_to_string
+from doxpy.models.model_manager import ModelManager
 from collections import Counter
 import re
 from more_itertools import unique_everseen

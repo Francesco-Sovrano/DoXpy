@@ -1,5 +1,5 @@
-from knowpy.models.knowledge_extraction.couple_extractor import CoupleExtractor
-from knowpy.misc.jsonld_lib import *
+from doxpy.models.knowledge_extraction.couple_extractor import CoupleExtractor
+from doxpy.misc.jsonld_lib import *
 try:
 	from nltk.corpus import framenet as fn
 except OSError:

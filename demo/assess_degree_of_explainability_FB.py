@@ -7,12 +7,12 @@ explainable_information_path = sys.argv[2]
 cache_path = sys.argv[3]
 if not os.path.exists(cache_path): os.mkdir(cache_path)
 
-from knowpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
-from knowpy.models.estimation.explainability_estimator import ExplainabilityEstimator
-from knowpy.models.reasoning.question_answerer import QuestionAnswerer
-from knowpy.misc.doc_reader import load_or_create_cache
-from knowpy.misc.graph_builder import get_betweenness_centrality, save_graphml, get_concept_set, get_concept_description_dict
-from knowpy.misc.jsonld_lib import *
+from doxpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
+from doxpy.models.estimation.explainability_estimator import ExplainabilityEstimator
+from doxpy.models.reasoning.question_answerer import QuestionAnswerer
+from doxpy.misc.doc_reader import load_or_create_cache
+from doxpy.misc.graph_builder import get_betweenness_centrality, save_graphml, get_concept_set, get_concept_description_dict
+from doxpy.misc.jsonld_lib import *
 
 archetype_weight_dict = {
 	'why': 1,

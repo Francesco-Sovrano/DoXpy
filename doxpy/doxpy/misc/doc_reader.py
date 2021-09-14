@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 from tika import parser
 import unicodedata
 from more_itertools import unique_everseen
-from knowpy.misc.jsonld_lib import *
-from knowpy.misc.cache_lib import *
+from doxpy.misc.jsonld_lib import *
+from doxpy.misc.cache_lib import *
 import html
 
 def get_document_list(directory):

@@ -1,5 +1,5 @@
-from knowpy.misc.doc_reader import DocParser
-from knowpy.models.knowledge_extraction.concept_extractor import ConceptExtractor as CE
+from doxpy.misc.doc_reader import DocParser
+from doxpy.models.knowledge_extraction.concept_extractor import ConceptExtractor as CE
 import re
 from tqdm import tqdm
 # import json

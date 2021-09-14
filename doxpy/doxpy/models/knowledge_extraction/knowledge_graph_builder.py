@@ -1,9 +1,9 @@
-from knowpy.misc.doc_reader import DocParser
-from knowpy.models.knowledge_extraction.couple_extractor import CoupleExtractor
-from knowpy.models.knowledge_extraction.couple_abstractor import WordnetAbstractor, FramenetAbstractor
-from knowpy.models.classification.concept_classifier import ConceptClassifier
-from knowpy.misc.graph_builder import build_edge_dict, get_biggest_connected_graph, get_subject_set, get_concept_description_dict
-from knowpy.misc.jsonld_lib import *
+from doxpy.misc.doc_reader import DocParser
+from doxpy.models.knowledge_extraction.couple_extractor import CoupleExtractor
+from doxpy.models.knowledge_extraction.couple_abstractor import WordnetAbstractor, FramenetAbstractor
+from doxpy.models.classification.concept_classifier import ConceptClassifier
+from doxpy.misc.graph_builder import build_edge_dict, get_biggest_connected_graph, get_subject_set, get_concept_description_dict
+from doxpy.misc.jsonld_lib import *
 
 import re
 from more_itertools import unique_everseen
