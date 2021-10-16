@@ -21,7 +21,7 @@ You may find a thorough discussion of the underlying theory in this paper [An Ob
   
 ## Installation
 This project has been tested on Debian 9 and macOS Mojave 10.14 with Python 3.7. 
-The script [setup_virtualenv.sh](setup_virtualenv.sh) can be used to install DoXpy and all its dependencies in a python3.7 virtualenv.
+The script [demo/setup_virtualenv.sh](demo/setup_virtualenv.sh) can be used to install DoXpy and all its dependencies in a python3.7 virtualenv.
 
 You can also install DoXpy by downloading this repo and running from within it: 
 `pip install  --use-deprecated=legacy-resolver -e doxpy --no-cache-dir`
