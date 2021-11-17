@@ -282,8 +282,11 @@ class ExplainabilityEstimator:
 		return dict(dox_archetype_iter)
 
 	@staticmethod
-	def get_weighted_degree_of_explainability(dox, archetype_weight_dict):
+	def get_weighted_degree_of_explainability(dox, archetype_weight_dict=None):
+		if not archetype_weight_dict:
+			return np.mean(dox.values())
 		weighted_degree_of_explainability = 0
 		for archetype, weight in archetype_weight_dict.items():
-			weighted_degree_of_explainability += dox[archetype]*weight
+			if archetype in dox:
+				weighted_degree_of_explainability += dox[archetype]*weight
 		return weighted_degree_of_explainability

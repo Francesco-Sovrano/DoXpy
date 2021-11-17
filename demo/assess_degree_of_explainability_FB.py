@@ -14,14 +14,14 @@ from doxpy.misc.doc_reader import load_or_create_cache
 from doxpy.misc.graph_builder import get_betweenness_centrality, save_graphml, get_concept_set, get_concept_description_dict
 from doxpy.misc.jsonld_lib import *
 
-archetype_weight_dict = {
-	'why': 1,
-	'how': 0.9,
-	'what-for': 0.75,
-	'what': 0.75,
-	'what-if': 0.6,
-	'when': 0.5,
-}
+# archetype_weight_dict = {
+# 	'why': 1,
+# 	'how': 0.9,
+# 	'what-for': 0.75,
+# 	'what': 0.75,
+# 	'what-if': 0.6,
+# 	'when': 0.5,
+# }
 
 ################ Configuration ################
 ARCHETYPE_FITNESS_OPTIONS = {
@@ -55,7 +55,7 @@ QA_EXTRACTOR_OPTIONS = {
 
 	'sbert_model': {
 		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
+		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
 		'use_cuda': True,
 	},
 }
@@ -72,7 +72,7 @@ ONTOLOGY_BUILDER_DEFAULT_OPTIONS = {
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
 		# 'url': 'https://tfhub.dev/google/universal-sentence-encoder/4', # DAN
-		'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
+		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
 		'use_cuda': False,
 	},
 	'with_centered_similarity': True,
@@ -86,7 +86,7 @@ CONCEPT_CLASSIFIER_DEFAULT_OPTIONS = {
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
 		# 'url': 'https://tfhub.dev/google/universal-sentence-encoder/4', # DAN
-		'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
+		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
 		'use_cuda': False,
 	},
 	'with_centered_similarity': True,
@@ -108,7 +108,7 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 	# }, 
 	'sbert_model': {
 		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
+		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
 		'use_cuda': True,
 	},
 	'with_centered_similarity': False,
@@ -176,7 +176,7 @@ archetype_fitness_dict = explainability_estimator.get_archetype_fitness_dict(
 print('Archetype Fitness:', json.dumps(archetype_fitness_dict, indent=4))
 dox = explainability_estimator.get_degree_of_explainability_from_archetype_fitness(archetype_fitness_dict)
 print(f'DoX:', json.dumps(dox, indent=4))
-weighted_degree_of_explainability = explainability_estimator.get_weighted_degree_of_explainability(dox, archetype_weight_dict)
+weighted_degree_of_explainability = explainability_estimator.get_weighted_degree_of_explainability(dox, archetype_weight_dict=None)
 print('Weighted DoX:', weighted_degree_of_explainability)
 #############
 explainability_estimator.store_cache(qa_cache)
