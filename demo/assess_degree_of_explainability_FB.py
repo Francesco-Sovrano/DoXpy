@@ -188,6 +188,5 @@ print(f'DoX:', json.dumps(dox, indent=4))
 weighted_degree_of_explainability = explainability_estimator.get_weighted_degree_of_explainability(dox, archetype_weight_dict=None)
 print('Average DoX:', weighted_degree_of_explainability)
 #############
-explainability_estimator.store_cache(qa_cache)
 # qa.store_cache(qa_cache)
 
