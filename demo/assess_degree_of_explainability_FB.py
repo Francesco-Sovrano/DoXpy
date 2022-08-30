@@ -173,7 +173,6 @@ important_aspects = set(important_aspects) #qa.relevant_aspect_set
 print('Important explicandum aspects:', len(important_aspects))
 print(json.dumps(list(important_aspects), indent=4))
 explainability_estimator = ExplainabilityEstimator(qa)
-explainability_estimator.load_cache(qa_cache)
 #############
 # if explainability_estimator.aspect_archetype_answers_dict is None:
 # 	explainability_estimator.extract_archetypal_answers_per_aspect(**dict(OVERVIEW_OPTIONS))
