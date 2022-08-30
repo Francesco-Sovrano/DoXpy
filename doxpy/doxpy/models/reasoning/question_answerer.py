@@ -70,12 +70,14 @@ class QuestionAnswerer(QuestionAnswererBase):
 				question_answer_dict[question] = []
 		# Format Answers
 		for i,(question, answer_iter) in enumerate(zip(query_list, classification_dict_gen)):
+			answer_iter = filter(lambda x: x['doc'], answer_iter)
 			answer_list = sorted(answer_iter, key=lambda x: x['similarity'], reverse=True)
 			answer_list = tuple(unique_everseen(answer_list, key=lambda x: (x['doc'],x['id'][1])))
 			if len(answer_list) == 0:
 				continue
 			# answers contained in the question are not valid
 			if answer_to_question_max_similarity_threshold:
+				# print(list(map(lambda a: a['doc'], answer_list)))
 				answer_list = self.sentence_classifier.filter_by_similarity_to_target(
 					answer_list, 
 					[question], 
