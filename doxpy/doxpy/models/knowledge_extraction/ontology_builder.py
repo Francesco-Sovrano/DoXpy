@@ -1,12 +1,12 @@
-from doxpy.misc.graph_builder import get_root_set, get_concept_set, get_predicate_set, get_object_set, get_connected_graph_list, get_ancestors, filter_graph_by_root_set, tuplefy
+from doxpy.models.knowledge_extraction.knowledge_graph_builder import KnowledgeGraphBuilder
+from doxpy.models.knowledge_extraction.lattice_builder import ActiveActionTypingLatticeBuilder
+from doxpy.misc.graph_builder import get_root_set, get_concept_set, get_predicate_set, get_object_set, get_ancestors, filter_graph_by_root_set, tuplefy
 from doxpy.misc.graph_builder import save_graph
 from doxpy.misc.jsonld_lib import *
 
-from doxpy.models.knowledge_extraction.knowledge_graph_builder import KnowledgeGraphBuilder
-from doxpy.models.knowledge_extraction.lattice_builder import ActiveActionTypingLatticeBuilder
-
 from more_itertools import unique_everseen
 import re
+import logging
 
 try:
 	from nltk.corpus import wordnet as wn
@@ -112,12 +112,11 @@ class OntologyBuilder(KnowledgeGraphBuilder):
 	def print_graph(edge_iter, file_name):
 		edge_iter = filter(lambda x: '{obj}' not in x[1], edge_iter)
 		edge_list = list(edge_iter)
-		print(f'Printing {file_name} with {len(edge_list)} triples')
+		KnowledgeGraphBuilder.logger.info(f'Printing {file_name} with {len(edge_list)} triples')
 		save_graph(edge_list, file_name, max(min(256,len(edge_list)/2),32))
 
-	def build_edge_list(self, couple_list=None):
+	def build_edge_list(self):
 		edge_list = super().build(
-			couple_list=couple_list,
 			max_syntagma_length=self.max_syntagma_length, 
 			add_subclasses=True, 
 			use_wordnet=True,
@@ -201,18 +200,18 @@ class OntologyBuilder(KnowledgeGraphBuilder):
 		return unique_everseen(pattern_edge_list)
 
 	def build(self):
-		print('Building knowledge graph..')
+		self.logger.info('Building knowledge graph..')
 		edge_list = self.build_edge_list()
 
-		print('Extracting minimal taxonomy via FCA..')
+		self.logger.info('Extracting minimal taxonomy via FCA..')
 		hypernym_edge_list = self.extract_minimal_taxonomy(edge_list)
 		hypernym_concept_set = get_concept_set(hypernym_edge_list)
 
-		print('Connecting known ontology patterns to concept taxonomy..')
+		self.logger.info('Connecting known ontology patterns to concept taxonomy..')
 		pattern_hinge_graph = self.connect_taxonomy_to_patterns(hypernym_edge_list)
 		# self.print_graph(pattern_hinge_graph, 'kg_hinge')
 
-		print('Creating taxonomy graph..')
+		self.logger.info('Creating taxonomy graph..')
 		taxonomy_graph = self.format_taxonomy(hypernym_edge_list)
 		# self.print_graph(taxonomy_graph, 'kg_taxonomy')
 		taxonomy_graph += pattern_hinge_graph

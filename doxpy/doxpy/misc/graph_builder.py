@@ -1,7 +1,6 @@
 from more_itertools import unique_everseen
 from matplotlib import pyplot as plt
 import re
-import networkx as nx
 try:
 	import pygraphviz
 	from networkx.drawing.nx_agraph import graphviz_layout
@@ -11,15 +10,45 @@ except ImportError:
 		from networkx.drawing.nx_pydot import graphviz_layout
 	except ImportError:
 		raise ImportError("This example needs Graphviz and either PyGraphviz or PyDotPlus")
-
 import networkx as nx
+from multiprocessing import Pool
+from tqdm import tqdm
+from doxpy.misc.utils import *
+from multiprocessing import cpu_count
 
+def betweenness_centrality_parallel(G, processes=None):
+	"""Parallel betweenness centrality  function"""
+	p = Pool(processes)
+	node_divisor = cpu_count() #* 2
+	node_chunks = tuple(get_chunks(G.nodes(), elements_per_chunk=int(G.order() / node_divisor)))
+	num_chunks = len(node_chunks)
+	bt_sc = p.starmap(
+		nx.betweenness_centrality_subset,
+		tqdm(zip(
+			[G] * num_chunks,
+			node_chunks,
+			[list(G)] * num_chunks,
+			[True] * num_chunks,
+			[None] * num_chunks,
+		), total=num_chunks),
+	)
+	p.close()
+	p.join() 
+	# p.clear()
+
+	# Reduce the partial solutions
+	bt_c = bt_sc[0]
+	for bt in bt_sc[1:]:
+		for n in bt:
+			bt_c[n] += bt[n]
+	return bt_c
 
 def get_betweenness_centrality(edge_list):
 	# Betweenness centrality quantifies the number of times a node acts as a bridge along the shortest path between two other nodes.
 	di_graph = nx.DiGraph()
 	di_graph.add_edges_from(map(lambda x: (x[0],x[-1]), edge_list))
-	return nx.betweenness_centrality(di_graph)
+	# return nx.betweenness_centrality(di_graph)
+	return betweenness_centrality_parallel(di_graph)
 
 def get_concept_description_dict(graph, label_predicate, valid_concept_filter_fn=None):
 	if valid_concept_filter_fn:
@@ -112,7 +141,7 @@ def extract_rooted_edge_list(root, edge_dict):
 def filter_graph_by_root_set(edge_list, root_set):
 	edge_dict = build_edge_dict(edge_list)
 	rooted_edge_list_iter = (extract_rooted_edge_list(root, edge_dict) for root in root_set)
-	rooted_edge_list = sum(rooted_edge_list_iter, [])
+	rooted_edge_list = flatten(rooted_edge_list_iter, as_list=True)
 	return rooted_edge_list
 
 def remove_leaves(edge_list, edge_to_remove_fn=lambda x:x):
@@ -157,7 +186,7 @@ def save_graphml(edge_list, file_name, yEd_format=False):
 	edge_list = list(edge_list)
 
 	# Build graph
-	graph=nx.DiGraph() # directed graph
+	graph=nx.MultiDiGraph() # directed graph
 	for subject, predicate, object in edge_list:
 		graph.add_edge(subject, object, r=predicate)
 	
@@ -221,36 +250,17 @@ def save_graphml(edge_list, file_name, yEd_format=False):
 		with open(path, 'w') as content_file:
 			content_file.write(graphml)
 
-MAX_LABEL_LENGTH = 128
-def save_graph(edge_list, file_name, size=None):
-	def stringify(x): 
-		if isinstance(x, (list,tuple)):
-			if len(x)==0:
-				return ''
-			if len(x)==1:
-				x = x[0]
-		return str(x)
-	edge_list = [tuple(map(stringify,edge)) for edge in edge_list]
-	# Build graph
-	save_graphml(edge_list, file_name)
-
-	if size is None:
-		return
-	graph=nx.DiGraph() # directed graph
-	format_str = lambda x: x[:MAX_LABEL_LENGTH].replace(':','.')#.replace('.',' ')
-	for subject, predicate, object in map(lambda x: map(format_str,x),edge_list):
-		graph.add_edge(subject, object, r=predicate)
-
+def draw_graph(graph, file_name, size=None):
 	#initialze Figure
 	plt.figure(num=None, figsize=(size, size))
 	plt.axis('off')
 	fig = plt.figure(1)
 
-	pos=graphviz_layout(graph,prog='twopi')
+	pos=graphviz_layout(graph, prog='twopi')
 	nx.draw(
 		graph, 
 		pos, 
-		font_size=16, 
+		font_size=22, 
 		with_labels=False,
 		arrowstyle='wedge',
 	)
@@ -263,10 +273,34 @@ def save_graph(edge_list, file_name, size=None):
 	nx.draw_networkx_edge_labels(
 		graph,
 		pos,
-		edge_labels=nx.get_edge_attributes(graph,'r'),
+		edge_labels=nx.get_edge_attributes(nx.Graph(graph),'r'),
 		font_color='red'
 	)
 
 	plt.savefig(file_name+'.png', bbox_inches="tight")
 	plt.clf()
 	del fig
+
+def save_graph(edge_list, file_name, size=None, max_label_length=128):
+	def stringify(x): 
+		if isinstance(x, (list,tuple)):
+			if len(x)==0:
+				return ''
+			if len(x)==1:
+				x = x[0]
+		if x == '%':
+			x = '\\%'
+		return str(x)
+	edge_list = [tuple(map(stringify,edge)) for edge in edge_list]
+	# Build graph
+	save_graphml(edge_list, file_name)
+
+	if size is None:
+		return
+	graph=nx.DiGraph() # directed graph
+	format_str = lambda x: x[:max_label_length].replace(':',' ').replace('_','.')
+	for subject, predicate, object in map(lambda x: map(format_str,x),edge_list):
+		if subject and object and predicate:
+			graph.add_edge(subject, object, r=predicate)
+
+	draw_graph(graph, file_name, size)

@@ -7,7 +7,12 @@ import unicodedata
 from more_itertools import unique_everseen
 from doxpy.misc.jsonld_lib import *
 from doxpy.misc.cache_lib import *
+from doxpy.misc.utils import *
 import html
+import chardet
+from tqdm import tqdm
+from pathos.multiprocessing import ProcessingPool as Pool
+from multiprocessing import cpu_count
 
 def get_document_list(directory):
 	doc_list = []
@@ -34,6 +39,7 @@ def normalize_string(content, no_hyphens=False):
 	content = re.sub(r'[\x2010\x2011\x2027\x2043]\n+', ' ', content, flags=re.UNICODE) # remove line-breaks (hyphens)
 	content = re.sub(r'([^\n.])\n+([^\n])', r'\1 \2', content, flags=re.UNICODE) # remove line-breaks
 	content = re.sub(r'[ \t]+', ' ', content, flags=re.UNICODE) # normalize whitespaces
+	content = content.replace(u'\xa0', ' ') # normalize whitespaces
 	if no_hyphens:
 		content = remove_hyphens(content)
 	return content.strip()
@@ -74,7 +80,7 @@ def get_next_siblings(e, name_set):
 	return next_siblings
 
 def read_jsonld_file(filename):
-	file_id = os.path.basename(filename).replace(' ','_')
+	file_id = os.path.basename(filename).replace(' ','_')+'.json'
 	# read file
 	with open(f'{filename}.json', 'r') as f:
 		data=f.read()
@@ -95,9 +101,17 @@ def read_jsonld_file(filename):
 	}]
 	return annotated_text_list
 
-def read_html_file(filename, short_extension=False, article_class="ti-art", chapter_class=None, section_class=None):
-	file_id = os.path.basename(filename).replace(' ','_')
-	with open(filename+('.htm' if short_extension else '.html'), 'r', encoding='utf8', errors='ignore') as file:
+def read_html_file(filename, short_extension=False, article_class_set=None, section_class_set=None, chapter_class_set=None):
+	if article_class_set is None:
+		article_class_set = set(["ti-art","title-article-norm"])
+	if section_class_set is None:
+		section_class_set = set(["ti-section-1"])
+	if chapter_class_set is None:
+		chapter_class_set = set(["title-division-1"])
+		
+	extenstion = ('.htm' if short_extension else '.html')
+	file_id = os.path.basename(filename).replace(' ','_')+extenstion
+	with open(filename+extenstion, 'r', encoding='utf8', errors='ignore') as file:
 		file_content = file.read()
 	doc = BeautifulSoup(file_content, features="lxml")
 	for script in doc(["script", "style"]): # remove all javascript and stylesheet code
@@ -106,26 +120,36 @@ def read_html_file(filename, short_extension=False, article_class="ti-art", chap
 	p_to_ignore = set()
 	elements_to_merge = set(['table','ul','ol'])
 	last_article = None
+	last_recital = None
 	last_chapter = None
 	last_section = None
 	for i,p in enumerate(doc.findAll("p")):
 		p_text = get_bs_text(p)
 		if 'class' in p.attrs:
-			if article_class in p.attrs['class']:
-				last_article = p_text
-			if chapter_class in p.attrs['class']:
+			if chapter_class_set.intersection(p.attrs['class']):
 				last_chapter = p_text
-			if section_class in p.attrs['class']:
+				last_section = None
+				last_article = None
+				last_recital = None
+			if section_class_set.intersection(p.attrs['class']):
 				last_section = p_text
+				last_article = None
+				last_recital = None
+			if article_class_set.intersection(p.attrs['class']):
+				last_article = p_text
+				last_recital = None
+			if not last_article:
+				if re.match(r'\((\d+)\)', p_text):
+					last_recital = f'Recital {p_text.strip()[1:-1]}'
 			if p_text in p_to_ignore:
 				continue
 		p_to_ignore.add(p_text)
 		# p_set = [p] + get_next_siblings(p,['p'])
 		# p_to_ignore |= set(p_set)
 		# p = p_set[-1]
-		siblings_to_merge = get_next_siblings(p,elements_to_merge)
+		siblings_to_merge = get_next_siblings(p,elements_to_merge) if last_article else [] # merge only articles
 		
-		if last_article or last_chapter or last_section:
+		if last_article or last_chapter or last_section or last_recital:
 			base_id = f'{file_id}_{i}'
 			content_dict = {}
 			if last_chapter:
@@ -134,6 +158,8 @@ def read_html_file(filename, short_extension=False, article_class="ti-art", chap
 				content_dict['my:section_id'] = last_section
 			if last_article:
 				content_dict['my:article_id'] = last_article
+			if last_recital:
+				content_dict['my:recital_id'] = last_recital
 			annotation = {
 				'root': f'{ANONYMOUS_PREFIX}{base_id}_0',
 				'content': jsonld_to_triples(content_dict, base_id),
@@ -162,25 +188,53 @@ def read_html_file(filename, short_extension=False, article_class="ti-art", chap
 					}
 					for path in path_list
 				]
-				p_to_ignore |= set(map(get_bs_text, sum(path_list,[])))
+				p_to_ignore |= set(map(get_bs_text, flatten(path_list)))
 	# print(json.dumps(annotated_text_list, indent=4))
 	return list(unique_everseen(annotated_text_list, key=lambda x: x['text']))
 
 def read_pdf_file(filename): # https://unicodelookup.com
-	file_id = os.path.basename(filename).replace(' ','_')
+	file_id = os.path.basename(filename).replace(' ','_')+'.pdf'
 	raw = parser.from_file(filename+'.pdf')
+	content = raw['content']
+	content = re.sub(r'\r?\n([^a-z]+)\r?\n\r?\n', r'\n##\1##\n\n', content) # identify titles
+	content = re.sub(r'\r?\n', ' ', content) # remove new lines
+	content = re.sub(r'- +', '', content) # remove hyphens
+	content = re.sub(r'([.!?])  +', r'\1\n\n', content) # separate paragraphs
+	content = re.sub(r'##([^a-z]+)##', r'\n\n\1\n\n', content) # separate titles
+	content = re.sub(r' +', ' ', content) # remove double whitespaces
 	return [
 		{
 			'text': paragraph.strip(),
 			'id': file_id
 		}
-		for paragraph in raw['content'].split('\n\n')
+		for paragraph in content.split('\n\n')
 		if paragraph
 	]
 
+def read_txt_file(filename):
+	file_id = os.path.basename(filename).replace(' ','_')+'.txt'
+	with open(filename+'.txt', 'rb') as f:
+		content = f.read()
+	content = content.decode(chardet.detect(content)['encoding'])
+	# print(content)
+	content = re.sub(r'\r?\n([^a-z]+)\r?\n\r?\n', r'\n##\1##\n\n', content) # identify titles
+	content = re.sub(r'\r?\n', ' ', content) # remove new lines
+	content = re.sub(r'- +', '', content) # remove hyphens
+	content = re.sub(r'([.!?])  +', r'\1\n\n', content) # separate paragraphs
+	content = re.sub(r'##([^a-z]+)##', r'\n\n\1\n\n', content) # separate titles
+	content = re.sub(r' +', ' ', content) # remove double whitespaces
+	return [
+		{
+			'text': paragraph.strip(),
+			'id': file_id
+		}
+		for paragraph in content.split('\n\n')
+		if paragraph.strip()
+	]
+
 def read_akn_file(filename):
-	file_id = os.path.basename(filename).replace(' ','_')
-	doc_id = urify(os.path.basename(filename))
+	file_id = os.path.basename(filename).replace(' ','_')+'.akn'
+	doc_id = get_uri_from_txt(os.path.basename(filename))
 	def get_num_jsonld(e):
 		num = get_bs_text(e.num)
 		if not num:
@@ -285,66 +339,88 @@ def read_akn_file(filename):
 		})
 	return annotated_text_list
 
-def get_content_list(doc_list):
+def get_content_list(doc_list, with_tqdm=False):
 	file_name = lambda x: os.path.splitext(x)[0]
 	doc_set = set(doc_list)
+	# print(99, len(doc_set))
 	name_iter = unique_everseen(map(file_name, doc_list))
-	content_list = []
-	for obj_name in name_iter:
-		if obj_name+'.akn' in doc_set:
-			print('Parsing AKN:', obj_name)
-			content_list += read_akn_file(obj_name)
-		elif obj_name+'.html' in doc_set:
-			print('Parsing HTML:', obj_name)
-			content_list += read_html_file(obj_name)
-		elif obj_name+'.htm' in doc_set:
-			print('Parsing HTM:', obj_name)
-			content_list += read_html_file(obj_name, True)
-		elif obj_name+'.pdf' in doc_set:
-			print('Parsing PDF:', obj_name)
-			content_list += read_pdf_file(obj_name)
-		elif obj_name+'.json' in doc_set:
-			print('Parsing JSON-LD:', obj_name)
-			content_list += read_jsonld_file(obj_name)
-	return content_list
+	
+	def get_content_fn(obj_name_list):
+		content_list = []
+		for obj_name in obj_name_list:
+			if obj_name+'.akn' in doc_set:
+				# print('Parsing AKN:', obj_name)
+				content_list += read_akn_file(obj_name)
+			elif obj_name+'.html' in doc_set:
+				# print('Parsing HTML:', obj_name)
+				content_list += read_html_file(obj_name)
+			elif obj_name+'.htm' in doc_set:
+				# print('Parsing HTM:', obj_name)
+				content_list += read_html_file(obj_name, True)
+			elif obj_name+'.pdf' in doc_set:
+				# print('Parsing PDF:', obj_name)
+				content_list += read_pdf_file(obj_name)
+			elif obj_name+'.json' in doc_set:
+				# print('Parsing JSON-LD:', obj_name)
+				content_list += read_jsonld_file(obj_name)
+			elif obj_name+'.txt' in doc_set:
+				# print('Parsing TXT:', obj_name)
+				content_list += read_txt_file(obj_name)
+		return content_list
+
+	name_list = list(name_iter)
+	pool = Pool()
+	chunks = tuple(get_chunks(name_list, number_of_chunks=cpu_count()))
+	assert len(name_list) == sum(map(len, chunks)), f"{len(name_list)} == {sum(map(len, chunks))}"
+	del name_list
+	
+	pool_iter = pool.imap(get_content_fn, chunks)
+	partial_solutions = tqdm(pool_iter, total=len(chunks)) if with_tqdm else pool_iter
+	pool.close()
+	pool.join() 
+	pool.clear()
+
+	return flatten(partial_solutions, as_list=True)
 
 class DocParser():
 
 	# def __init__(self, model_options):
 	# 	super().__init__(model_options)
 
-	def set_documents_path(self, doc_path):
-		self.content_list = get_content_list(get_document_list(doc_path))
+	def set_documents_path(self, doc_path, with_tqdm=False):
+		self.content_tuple = get_content_list(get_document_list(doc_path), with_tqdm=with_tqdm)
 		self.process_content_list()
 		return self
 
-	def set_document_list(self, doc_list):
-		self.content_list = get_content_list(doc_list)
+	def set_document_list(self, doc_list, with_tqdm=False):
+		self.content_tuple = get_content_list(doc_list, with_tqdm=with_tqdm)
 		self.process_content_list()
 		return self
 
 	def set_content_list(self, content_list):
-		self.content_list = tuple(map(lambda x: x if isinstance(x,dict) else {'text':x,'id':x}, content_list))
+		self.content_tuple = tuple(map(lambda x: x if isinstance(x,dict) else {'text':x,'id':x}, content_list))
 		self.process_content_list()
 		return self
 
 	def process_content_list(self):
-		self.graph_list = tuple(filter(lambda x: x, map(lambda x: x.get('graph', None), self.content_list)))
-		self.content_list = tuple(filter(lambda x: 'text' in x, self.content_list))
-		for doc_dict in self.content_list:
+		self.graph_tuple = tuple(filter(lambda x: x, map(lambda x: x.get('graph', None), self.content_tuple)))
+		self.content_tuple = tuple(filter(lambda x: 'text' in x, self.content_tuple))
+		for doc_dict in self.content_tuple:
 			doc_dict['normalised_text'] = normalize_string(doc_dict['text'])
 
 	def get_doc_iter(self):
-		for doc_dict in self.content_list:
+		for doc_dict in self.content_tuple:
 			yield doc_dict['id']
 
 	def get_annotation_iter(self):
-		for doc_dict in self.content_list:
+		for doc_dict in self.content_tuple:
 			yield doc_dict.get('annotation',None)
 
 	def get_graph_iter(self):
-		return self.graph_list
+		return self.graph_tuple
 
 	def get_content_iter(self, normalised=True):
-		for doc_dict in self.content_list:
+		for doc_dict in self.content_tuple:
 			yield doc_dict['normalised_text' if normalised else 'text']
+
+# print(json.dumps(read_pdf_file('[2018]LAW 101 FUNDAMENTALS OF THE LAW - NEW YORK LAW AND FEDERAL LAW'), indent=4))

@@ -1,3 +1,10 @@
+import re
+wh_elements = ['why','how','what','where','when','who','which','whose','whom']
+wh_elements_regexp = re.compile('('+'|'.join(map(re.escape, wh_elements))+')', re.IGNORECASE)
+is_not_wh_word = lambda x: re.match(wh_elements_regexp, x) is None # use match instead of search
+
+#############
+
 __all__ = []
 
 import pkgutil

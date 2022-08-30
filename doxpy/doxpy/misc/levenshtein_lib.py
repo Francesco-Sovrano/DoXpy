@@ -1,5 +1,4 @@
 import Levenshtein
-# from tqdm import tqdm
 
 def get_normalized_sintactic_distance(a,b):
 	return Levenshtein.distance(a,b)/max(len(a),len(b))
@@ -28,7 +27,7 @@ def labels_are_contained(a,b, threshold=0.3, ordered=False):
 			return False
 		min_e, max_e = a,b
 	else:
-		min_e, max_e = sorted([a,b], key=len)
+		min_e, max_e = sorted((a,b), key=len)
 	return 1 + (Levenshtein.distance(min_e,max_e)-len(max_e))/len(min_e) < threshold
 
 def get_most_similar_label(label,other_label_list):

@@ -1,59 +1,106 @@
 import json
+from more_itertools import unique_everseen
+from doxpy.misc.utils import flatten
 
-class AdjacencyMatrix():
+class AdjacencyRow:
+	get_in_tuple = lambda x: (x[1],x[0])
+	get_out_tuple = lambda x: (x[1],x[2])
+
+	def __init__(self, in_=None, out_=None):
+		self._in_ = []
+		self._out_ = []
+
+	@property
+	def in_generator(self):
+		return map(AdjacencyRow.get_in_tuple, self._in_)
 	
-	def __init__(self, graph, equivalence_relation_set, is_sorted=False): # Build the adjacency matrix, for both incoming and outcoming edges
+	@property
+	def out_generator(self):
+		return map(AdjacencyRow.get_out_tuple, self._out_)
+
+	def get_generator(self, direction):
+		return self.in_generator if direction == 'in' else self.out_generator
+
+	def add_triplet(self, direction, triplet):
+		assert direction in ('in','out')
+		if direction == 'in':
+			self._in_.append(triplet)
+		else:
+			self._out_.append(triplet)
+
+	def remove_duplicates(self):
+		self._in_ = list(unique_everseen(self._in_))
+		self._out_ = list(unique_everseen(self._out_))
+
+	def sort(self):
+		self._in_ = sorted(self._in_,key=str)
+		self._out_ = sorted(self._out_,key=str)
+
+class AdjacencyList:
+	
+	def __init__(self, graph, equivalence_relation_set=None, is_sorted=False): # Build the adjacency matrix, for both incoming and outcoming edges
 		# self.graph = graph
 		self.equivalence_matrix = {}
-		self.adjacency_matrix = {}
-		for s,p,o in graph:
-			if o not in self.adjacency_matrix:
-				self.adjacency_matrix[o] = {'in': [], 'out': []}
-			if s not in self.adjacency_matrix:
-				self.adjacency_matrix[s] = {'in': [], 'out': []}
-			if p not in equivalence_relation_set:
-				continue
-			if s not in self.equivalence_matrix:
-				self.equivalence_matrix[s] = set()
-			if o not in self.equivalence_matrix:
-				self.equivalence_matrix[o] = set()
-			self.equivalence_matrix[s].add(o)
-			for e in self.equivalence_matrix[s]:
-				if e == o:
-					continue
-				self.equivalence_matrix[e].add(o)
-			self.equivalence_matrix[o].add(s)
-			for e in self.equivalence_matrix[o]:
-				if e == s:
-					continue
-				self.equivalence_matrix[e].add(s)
-		# print(json.dumps(dict(map(lambda x:(x[0],list(x[1])), self.equivalence_matrix.items())), indent=4))
-		for s,p,o in graph:
-			self.adjacency_matrix[s]['out'].append((p,o))
-			for e in self.equivalence_matrix.get(s,[]):
-				self.adjacency_matrix[e]['out'].append((p,o))
-			self.adjacency_matrix[o]['in'].append((p,s))
-			for e in self.equivalence_matrix.get(o,[]):
-				self.adjacency_matrix[e]['in'].append((p,s))
-		# print(json.dumps(self.adjacency_matrix['my:cem'], indent=4))
+		self.adjacency_list = {}
+		for c in unique_everseen(flatten(map(lambda x: (x[0],x[-1]), graph))): # for every subject and object in the graph
+			self.adjacency_list[c] = AdjacencyRow()
+		for triplet in graph:
+			s,_,o = triplet
+			self.adjacency_list[s].add_triplet('out',triplet)
+			self.adjacency_list[o].add_triplet('in',triplet)
+		if equivalence_relation_set:
+			for s,p,o in filter(lambda x: x[1] in equivalence_relation_set, graph):
+				if s not in self.equivalence_matrix:
+					self.equivalence_matrix[s] = set()
+				if o not in self.equivalence_matrix:
+					self.equivalence_matrix[o] = set()
+				self.equivalence_matrix[s].add(o)
+				for e in self.equivalence_matrix[s]:
+					if e == o:
+						continue
+					self.equivalence_matrix[e].add(o)
+				self.equivalence_matrix[o].add(s)
+				for e in self.equivalence_matrix[o]:
+					if e == s:
+						continue
+					self.equivalence_matrix[e].add(s)
+			# print(json.dumps(dict(map(lambda x:(x[0],list(x[1])), self.equivalence_matrix.items())), indent=4))
+			for triplet in graph:
+				s,_,o = triplet
+				for e in self.equivalence_matrix.get(s,[]):
+					self.adjacency_list[e].add_triplet('out',triplet)
+				for e in self.equivalence_matrix.get(o,[]):
+					self.adjacency_list[e].add_triplet('in',triplet)
+		# tuplify and remove duplicates
+		for arow in self.adjacency_list.values():
+			arow.remove_duplicates()
+		# print(json.dumps(self.adjacency_list['my:cem'], indent=4))
 		if is_sorted:
-			for concept in self.adjacency_matrix.values():
-				concept['in'].sort()
-				concept['out'].sort()
+			for arow in self.adjacency_list.values():
+				arow.sort()
 
 	def get_incoming_edges_matrix(self, concept):
-		adjacency_list = self.adjacency_matrix.get(concept,None)
-		return list(adjacency_list['in']) if adjacency_list else []
+		adjacency_list = self.adjacency_list.get(concept,None)
+		return tuple(adjacency_list.in_generator) if adjacency_list else []
 
 	def get_outcoming_edges_matrix(self, concept):
-		adjacency_list = self.adjacency_matrix.get(concept,None)
-		return list(adjacency_list['out']) if adjacency_list else []
+		adjacency_list = self.adjacency_list.get(concept,None)
+		return tuple(adjacency_list.out_generator) if adjacency_list else []
+
+	def get_edges_between_nodes(self, a, b):
+		in_edge_iter = self.get_incoming_edges_matrix(a)
+		in_edge_iter = filter(lambda x: x[-1]==b, in_edge_iter)
+		edges_between_nodes = set(map(lambda x: (b,x[0],a), in_edge_iter))
+		out_edge_iter = self.get_outcoming_edges_matrix(a)
+		out_edge_iter = filter(lambda x: x[-1]==b, out_edge_iter)
+		edges_between_nodes.update(map(lambda x: (a,x[0],b), out_edge_iter))
+		return edges_between_nodes
 
 	def get_equivalent_concepts(self, concept):
 		return set(self.equivalence_matrix.get(concept,[]))
 
 	def get_nodes(self):
-		return self.adjacency_matrix.keys()
+		return self.adjacency_list.keys()
 
 	def get_predicate_chain(self, concept_set, direction_set, predicate_filter_fn=None, depth=None, already_explored_concepts_set=None): 
 		# This function returns the related concepts of a given concept set for a given type of relations (e.g. if the relation is rdfs:subclassof, then it returns the super- and/or sub-classes), exploting an adjacency matrix
@@ -65,9 +112,9 @@ class AdjacencyMatrix():
 		already_explored_concepts_set |= concept_set
 		for c in concept_set:
 			for direction in direction_set:
-				adjacency_list = self.adjacency_matrix.get(c,None)
+				adjacency_list = self.adjacency_list.get(c,None)
 				if adjacency_list:
-					adjacency_iter = filter(lambda x: x[-1] not in already_explored_concepts_set, adjacency_list[direction])
+					adjacency_iter = filter(lambda x: x[-1] not in already_explored_concepts_set, adjacency_list.get_generator(direction))
 					if predicate_filter_fn:
 						adjacency_iter = filter(lambda x: predicate_filter_fn(x[0]), adjacency_iter)
 					joint_set |= set(map(lambda y: y[-1], adjacency_iter))
@@ -85,19 +132,20 @@ class AdjacencyMatrix():
 
 	def get_paths_to_target(self, source, target_set, direction_set, predicate_filter_fn=None, already_explored_concepts_set=None, path_set=None): 
 		path = []
-		adjacency_list = self.adjacency_matrix.get(source,None)
+		adjacency_list = self.adjacency_list.get(source,None)
 		if not adjacency_list:
 			return path
 
 		if not already_explored_concepts_set:
 			already_explored_concepts_set = set()
 		already_explored_concepts_set.add(source)
+		target_set.discard(source)
 
-		adjacency_iter = (adjacency for direction in direction_set for adjacency in adjacency_list[direction])
+		adjacency_iter = (adjacency for direction in direction_set for adjacency in adjacency_list.get_generator(direction))
 		adjacency_iter = filter(lambda x: x[-1] not in already_explored_concepts_set, adjacency_iter)
 		if predicate_filter_fn:
 			adjacency_iter = filter(lambda x: predicate_filter_fn(x[0]), adjacency_iter)
-		adjacency_list = list(adjacency_iter)
+		adjacency_list = tuple(adjacency_iter)
 		if path_set is None:
 			path_set = set()
 		already_explored_concepts_set |= set(map(lambda x:x[-1], adjacency_list)) - target_set - path_set
@@ -127,7 +175,7 @@ class AdjacencyMatrix():
 					plist = predicate_dict[s] = []
 				plist.append(manipulation_fn(o))
 		for k,v in predicate_dict.items():
-			v.sort()
+			predicate_dict[k] = tuple(sorted(v))
 		return predicate_dict
 
 	# Tarjan's algorithm (single DFS) for finding strongly connected components in a given directed graph
@@ -153,7 +201,7 @@ class AdjacencyMatrix():
 			st.append(u) 
 
 			# Go through all vertices adjacent to this 
-			for _,v in self.adjacency_matrix[u]['in']: 
+			for _,v in self.adjacency_list[u].in_generator: 
 				  
 				# If v is not visited yet, then recur for it 
 				if disc[v] == -1: 
@@ -184,9 +232,9 @@ class AdjacencyMatrix():
 		# Mark all the vertices as not visited  
 		# and Initialize parent and visited,  
 		# and ap(articulation point) arrays 
-		disc = {k:-1 for k in self.adjacency_matrix.keys()}
-		low = {k:-1 for k in self.adjacency_matrix.keys()}
-		stackMember = {k:False for k in self.adjacency_matrix.keys()}
+		disc = {k:-1 for k in self.adjacency_list.keys()}
+		low = {k:-1 for k in self.adjacency_list.keys()}
+		stackMember = {k:False for k in self.adjacency_list.keys()}
 		st =[] 
 		  
 
@@ -195,7 +243,7 @@ class AdjacencyMatrix():
 		# in DFS tree rooted with vertex 'i' 
 		clique_list = []
 		Time = 0
-		for i in self.adjacency_matrix.keys(): 
+		for i in self.adjacency_list.keys(): 
 			if disc[i] == -1: 
 				Time = helper(clique_list, i, low, disc, stackMember, st, Time)
 		return clique_list

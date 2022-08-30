@@ -28,6 +28,8 @@ You can also install DoXpy by downloading this repo and running from within it:
 
 Before being able to run the [demo/setup_virtualenv.sh](demo/setup_virtualenv.sh) script you have to install: virtualenv, python3-dev, python3-pip and make. 
 
+For a simple example of how to use DoXpy, please consider the script [simple_example.py](simple_example.py).
+
 ## What to know
 DoXpy is a python library allowing you to measure different aspects of explainability as fruitfulness, exactness and similarity to the explanandum.
 

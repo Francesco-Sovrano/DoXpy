@@ -9,6 +9,7 @@ if not os.path.exists(cache_path): os.mkdir(cache_path)
 
 from doxpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
 from doxpy.models.estimation.explainability_estimator import ExplainabilityEstimator
+from doxpy.models.knowledge_extraction.knowledge_graph_manager import KnowledgeGraphManager
 from doxpy.models.reasoning.question_answerer import QuestionAnswerer
 from doxpy.misc.doc_reader import load_or_create_cache
 from doxpy.misc.graph_builder import get_betweenness_centrality, save_graphml, get_concept_set, get_concept_description_dict
@@ -58,6 +59,14 @@ QA_EXTRACTOR_OPTIONS = {
 		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
 		'use_cuda': True,
 	},
+}
+
+KG_MANAGER_OPTIONS = {
+	# 'spacy_model': 'en_core_web_trf',
+	# 'n_threads': 1,
+	# 'use_cuda': True,
+	'with_cache': False,
+	'with_tqdm': False,
 }
 
 ONTOLOGY_BUILDER_DEFAULT_OPTIONS = {
@@ -147,8 +156,9 @@ betweenness_centrality = load_or_create_cache(
 )
 
 ###### QuestionAnswererEDUClause########################
+kg_manager = KnowledgeGraphManager(KG_MANAGER_OPTIONS, explainable_information_graph)
 qa = QuestionAnswerer( # Using qa_dict_list also for getting the archetype_fitness_dict might over-estimate the median pertinence of some archetypes (and in a different way for each), because the QA Extractor is set to prefer a higher recall to a higher precision.
-	graph= explainable_information_graph, 
+	kg_manager= kg_manager, 
 	concept_classifier_options= CONCEPT_CLASSIFIER_DEFAULT_OPTIONS, 
 	sentence_classifier_options= SENTENCE_CLASSIFIER_DEFAULT_OPTIONS, 
 	# answer_summariser_options= SUMMARISER_DEFAULT_OPTIONS,
@@ -177,7 +187,7 @@ print('Archetype Fitness:', json.dumps(archetype_fitness_dict, indent=4))
 dox = explainability_estimator.get_degree_of_explainability_from_archetype_fitness(archetype_fitness_dict)
 print(f'DoX:', json.dumps(dox, indent=4))
 weighted_degree_of_explainability = explainability_estimator.get_weighted_degree_of_explainability(dox, archetype_weight_dict=None)
-print('Weighted DoX:', weighted_degree_of_explainability)
+print('Average DoX:', weighted_degree_of_explainability)
 #############
 explainability_estimator.store_cache(qa_cache)
 # qa.store_cache(qa_cache)

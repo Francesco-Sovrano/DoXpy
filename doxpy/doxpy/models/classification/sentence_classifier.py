@@ -6,15 +6,15 @@ from doxpy.models.model_manager import ModelManager, cosine_similarity
 from nltk.stem.snowball import SnowballStemmer # <http://www.nltk.org/howto/stem.html>
 import sentence_transformers as st
 from itertools import islice
+import logging
+import json
 
 class SentenceClassifier(ModelManager):
 	stemmer = SnowballStemmer("english")
 
 	def __init__(self, model_options):
 		super().__init__(model_options)
-		self.disable_spacy_component = ["tagger", "ner", "textcat", "neuralcoref"]
-		# Read options from input
-		self.log = model_options.get('log', False)
+		self.disable_spacy_component = ["ner", "textcat"]
 		
 		self.sentence_embedding_fn = self.get_default_embedder()
 		self.similarity_fn = self.get_default_similarity_fn()
@@ -28,17 +28,14 @@ class SentenceClassifier(ModelManager):
 		self.default_tfidf_importance = np.clip(self.default_tfidf_importance, 0,1)
 		self.with_stemmed_tfidf = model_options.get('with_stemmed_tfidf', False)
 		self.very_big_corpus = model_options.get('very_big_corpus', False)
-		self.query_cache = {}
 		self.default_similarity_threshold = self.model_options.get('default_similarity_threshold', 0)
 		
-		
-		if self.log:
-			print('Initialising SentenceClassifier:')
-			print('  with_stemmed_tfidf',self.with_stemmed_tfidf)
-			print('  with_topic_scaling',self.with_topic_scaling)
-			print('  with_document_log_length_scaling',self.with_document_log_length_scaling)
-			print('  default_tfidf_importance',self.default_tfidf_importance)
-			print('  use_combined_wordvec',self.use_combined_wordvec)
+		ModelManager.logger.info('Initialising SentenceClassifier:')
+		ModelManager.logger.info(f'  with_stemmed_tfidf: {self.with_stemmed_tfidf}')
+		ModelManager.logger.info(f'  with_topic_scaling: {self.with_topic_scaling}')
+		ModelManager.logger.info(f'  with_document_log_length_scaling: {self.with_document_log_length_scaling}')
+		ModelManager.logger.info(f'  default_tfidf_importance: {self.default_tfidf_importance}')
+		ModelManager.logger.info(f'  use_combined_wordvec: {self.use_combined_wordvec}')
 
 	def set_documents(self, id_doc_list, context_list=None):
 		self.ids, self.documents = zip(*id_doc_list)
@@ -47,52 +44,58 @@ class SentenceClassifier(ModelManager):
 		if self.sentence_embedding_fn is not None:
 			self.contextualised_documents_embeddings = self.sentence_embedding_fn(self.contextualised_documents, without_context=False)
 		self.target_size = len(id_doc_list)
-		# TF-IDF
-		self.tfidf_prepared = False
-		self.spacy_prepared = False
+
+		self._spacy_documents = None
+		self._tfidf_model = None
 		return self
 
 	def get_stemmed_token_list(self, token_list):
 		return list(map(self.stemmer.stem, token_list))
 
-	def prepare_tfidf(self):
-		# Get lemmatized documents
-		lemmatized_document_iter = map(self.lemmatize_spacy_document, self.spacy_documents)
-		if self.with_stemmed_tfidf:
-			stemmed_documents = [
-				self.get_stemmed_token_list(token_list)
-				for token_list in lemmatized_document_iter
-			]
-			if self.log:
-				print('stemmed_documents', stemmed_documents)
-			words_vector = stemmed_documents 
-		else:
-			words_vector = list(lemmatized_document_iter)
-		# Build tf-idf model and similarities
-		dictionary, tfidf_model, tfidf_corpus_similarities = tfidf_lib.build_tfidf(words_vector=words_vector, very_big_corpus=self.very_big_corpus)
-		if self.log:
-			print("Number of words in dictionary:",len(dictionary))
-		self.dictionary, self.tfidf_model, self.tfidf_corpus_similarities = dictionary, tfidf_model, tfidf_corpus_similarities
-		self.tfidf_prepared = True
+	@property
+	def tfidf_model(self):
+		if self._tfidf_model is None:
+			# Get lemmatized documents
+			self.logger.info(f'TFIDF: Processing {len(self.spacy_documents)} spacy_documents')
+			lemmatized_document_iter = list(map(self.lemmatize_spacy_document, self.spacy_documents))
+			if self.with_stemmed_tfidf:
+				stemmed_documents = [
+					self.get_stemmed_token_list(token_list)
+					for token_list in lemmatized_document_iter
+				]
+				ModelManager.logger.debug('stemmed_documents:')
+				ModelManager.logger.debug(stemmed_documents)
+				words_vector = stemmed_documents 
+			else:
+				words_vector = list(lemmatized_document_iter)
+			# Build tf-idf model and similarities
+			dictionary, tfidf_model, tfidf_corpus_similarities = tfidf_lib.build_tfidf(words_vector=words_vector, very_big_corpus=self.very_big_corpus)
+			ModelManager.logger.info(f"Number of words in dictionary: {len(dictionary)}")
+			self._tfidf_model = {
+				'dictionary': dictionary, 
+				'model': tfidf_model,
+				'corpus_similarities': tfidf_corpus_similarities,
+			}
+		return self._tfidf_model
 
-	def prepare_spacy(self):
-		if not self.spacy_prepared:
-			self.spacy_documents = self.nlp(self.contexts)
-			self.spacy_prepared = True
+	@property
+	def spacy_documents(self):
+		if not self._spacy_documents:
+			self._spacy_documents = self.nlp(self.contexts)
+		return self._spacy_documents
 	
 	def lemmatize_spacy_document(self, doc):
 		return [
 			token.lemma_.casefold().strip()
 			for token in doc
-			if not (token.is_stop or token.is_punct) and token.lemma_.lower() != '-pron-'
+			if not (token.is_stop or token.is_punct) #and token.lemma_.lower() != '-pron-'
 		]
 
 	def get_weighted_similarity(self, similarity_dict, tfidf_importance):
 		semantic_similarity = similarity_dict.get('docvec' if self.sentence_embedding_fn else 'combined_wordvec', 0)
 		syntactic_similarity = similarity_dict.get('tfidf', 0)
 		# Build combined similarity
-		if self.log:
-			print('tfidf_importance', tfidf_importance)
+		ModelManager.logger.info(f'tfidf_importance {tfidf_importance}')
 		weighted_similarity = tfidf_importance*syntactic_similarity+(1-tfidf_importance)*semantic_similarity
 				
 		if self.with_topic_scaling:
@@ -138,41 +141,22 @@ class SentenceClassifier(ModelManager):
 		if self.use_combined_wordvec or with_syntactic_similarity:
 			if formatted_query_list is None:
 				formatted_query_list = self.nlp(text_list) # Get the filtered query (Document object built using lemmas)
-			self.prepare_spacy()
-		if with_syntactic_similarity:
-			self.prepare_tfidf()
+		# if with_syntactic_similarity:
+		# 	self.prepare_tfidf()
 		#################################################################################
 		# Build similarity dict
 		similarity_dict = {}
-		if with_syntactic_similarity:
-			# Get the lemmatized query
-			formatted_query_list = tuple(map(self.lemmatize_spacy_document, formatted_query_list))
-			if self.log:
-				print('lemmatized_query', formatted_query_list)
-			# Get the stemmed query for tf-idf
-			if self.with_stemmed_tfidf:
-				formatted_query_list = tuple(map(self.get_stemmed_token_list, formatted_query_list))
-				if self.log:
-					print('stemmed_query', formatted_query_list)
-			# Get tf-idf and docvec similarities
-			similarity_dict['tfidf'] = np.array([
-				tfidf_lib.get_query_tfidf_similarity(
-					formatted_query, 
-					self.dictionary, 
-					self.tfidf_model, 
-					self.tfidf_corpus_similarities
-				)
-				for formatted_query in formatted_query_list
-			])
+		if not text_list:
+			return similarity_dict
 		if with_semantic_similarity:
 			if self.sentence_embedding_fn is not None:
 				# Get docvec similarity
 				similarity_dict['docvec'] = self.similarity_fn(
-					self.sentence_embedding_fn(text_list, without_context=without_context),
+					self.sentence_embedding_fn(text_list, without_context=without_context, with_cache=False),
 					self.contextualised_documents_embeddings
 				)
 			if self.use_combined_wordvec:
-				get_avg_wordvec_similarity = lambda x: np.mean([q.vector for q in x])
+				get_avg_wordvec_similarity = lambda x: np.mean([q.vector for q in x], axis=0)
 				# Get averaged wordvec similarity
 				similarity_dict['combined_wordvec'] = cosine_similarity(
 					list(map(get_avg_wordvec_similarity, formatted_query_list)),
@@ -182,6 +166,26 @@ class SentenceClassifier(ModelManager):
 				# Get the corpus similarity for every sub-corpus, by averaging the docvec similarities of every sub-corpus
 				similarity_dict['corpus'] = np.mean(similarity_dict['combined_wordvec'],-1)
 				similarity_dict['corpus'] = np.expand_dims(similarity_dict['corpus'], -1) # expand_dims because we have sub-corpus
+		if with_syntactic_similarity:
+			# Get the lemmatized query
+			lemmatized_query_list = tuple(map(self.lemmatize_spacy_document, formatted_query_list))
+			ModelManager.logger.debug('lemmatized_query:')
+			ModelManager.logger.debug(lemmatized_query_list)
+			# Get the stemmed query for tf-idf
+			if self.with_stemmed_tfidf:
+				lemmatized_query_list = tuple(map(self.get_stemmed_token_list, lemmatized_query_list))
+				ModelManager.logger.debug('stemmed_query:')
+				ModelManager.logger.debug(lemmatized_query_list)
+			# Get tf-idf and docvec similarities
+			similarity_dict['tfidf'] = np.array([
+				tfidf_lib.get_query_tfidf_similarity(
+					lemmatized_query, 
+					self.tfidf_model['dictionary'], 
+					self.tfidf_model['model'], 
+					self.tfidf_model['corpus_similarities'],
+				)
+				for lemmatized_query in lemmatized_query_list
+			])
 		# Get the weighted similarity
 		similarity_dict['weighted'] = self.get_weighted_similarity(similarity_dict=similarity_dict, tfidf_importance=tfidf_importance)
 		# Sum the weighted similarity across sub-corpus

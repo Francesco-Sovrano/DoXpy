@@ -1,3 +1,4 @@
+from doxpy.misc.utils import *
 from more_itertools import unique_everseen
 import json
 import re
@@ -7,7 +8,7 @@ class hashabledict(dict):
         return hash(tuple(sorted(self.items())))
 
 CONCEPT_PREFIX = 'my:'
-DOC_PREFIX = 'myfile:'
+DOC_PREFIX = 'myf:'
 ANONYMOUS_PREFIX = '_:'
 WORDNET_PREFIX = 'wn:'
 
@@ -17,34 +18,36 @@ EXPLANATORY_TEMPLATE_PREDICATE = "my:explanatory_template"
 KNOWN_QA_PREDICATES = set([QUESTION_TEMPLATE_PREDICATE,ANSWER_TEMPLATE_PREDICATE,EXPLANATORY_TEMPLATE_PREDICATE])
 
 DOC_ID_PREDICATE = 'my:docID'
-HAS_IDX_PREDICATE = 'my:hasIDX'
-HAS_SOURCE_PREDICATE = 'my:hasSource'
-HAS_SOURCE_SPAN_PREDICATE = 'my:hasSourceSpan'
-HAS_SOURCE_SENTENCE_PREDICATE = 'my:hasSourceSentence'
-HAS_SOURCE_LABEL_PREDICATE = 'my:hasSourceLabel'
+# HAS_IDX_PREDICATE = 'my:hasIDX'
+HAS_PARAGRAPH_ID_PREDICATE = 'my:paraID'
+HAS_SPAN_ID_PREDICATE = 'my:spanID'
+HAS_SOURCE_ID_PREDICATE = 'my:sentID'
+HAS_SOURCE_LABEL_PREDICATE = 'my:sentLabel'
 HAS_LABEL_PREDICATE = 'rdfs:label'
 SUBCLASSOF_PREDICATE = 'rdfs:subClassOf'
 HAS_TYPE_PREDICATE = 'rdf:type'
+HAS_VERB_PREDICATE = 'my:verb'
 CAN_BE_PREDICATE = 'my:canBe'
 IN_SYNSET_PREDICATE = 'my:inSynset'
 HAS_DEFINITION_PREDICATE = 'dbo:abstract'
-IS_EQUIVALENT = 'my:isEquivalent'
-CONTENT_PREDICATE = 'my:content'
+IS_EQUIVALENT_PREDICATE = 'my:same'
+HAS_CONTENT_PREDICATE = 'my:content'
 SPECIAL_PREDICATE_LIST = [
 	DOC_ID_PREDICATE,
-	HAS_IDX_PREDICATE,
-	HAS_SOURCE_PREDICATE,
-	HAS_SOURCE_SPAN_PREDICATE,
-	HAS_SOURCE_SENTENCE_PREDICATE,
+	# HAS_IDX_PREDICATE,
+	HAS_PARAGRAPH_ID_PREDICATE,
+	HAS_SPAN_ID_PREDICATE,
+	HAS_SOURCE_ID_PREDICATE,
 	HAS_SOURCE_LABEL_PREDICATE,
 	HAS_LABEL_PREDICATE,
 	SUBCLASSOF_PREDICATE,
 	HAS_TYPE_PREDICATE,
+	HAS_VERB_PREDICATE,
 	CAN_BE_PREDICATE,
 	IN_SYNSET_PREDICATE,
 	HAS_DEFINITION_PREDICATE,
-	IS_EQUIVALENT,
-	CONTENT_PREDICATE
+	IS_EQUIVALENT_PREDICATE,
+	HAS_CONTENT_PREDICATE,
 ]	
 
 def explode_concept_key(key):
@@ -74,7 +77,13 @@ def explode_concept_key(key):
 	return exploded_key
 
 def urify(str):
-	return str.casefold().strip().replace(' ','_')
+	uri = str.casefold().strip().replace(' ','_')
+	return re.sub(r'\s', '', uri, flags=re.UNICODE)
+
+def get_uri_from_txt(txt):
+	if len(txt) < 25:
+		return urify(txt)
+	return get_str_uid(txt)
 
 def is_html(str):
 	html_pattern = r"<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>"
@@ -106,7 +115,7 @@ def get_jsonld_id(jsonld, default=None):
 	if is_dict(jsonld):
 		return [jsonld.get('@id',default)]
 	if is_array(jsonld):
-		return sum(map(lambda x: get_jsonld_id(x,default),jsonld),[])
+		return flatten(map(lambda x: get_jsonld_id(x,default),jsonld), as_list=True)
 	if is_rdf_item(jsonld):
 		return [jsonld['@value']]
 	return [jsonld]
@@ -131,13 +140,13 @@ def get_string_from_triple(triple):
 		element = filter(lambda x: not isinstance(x, str) or not x.startswith(CONCEPT_PREFIX), element)
 		element = map(lambda x: explode_concept_key(' '.join(x[3:].split('.')[:-2]) if x.startswith(WORDNET_PREFIX) else x) if isinstance(x, str) else x, element)
 		element = filter(lambda x: x, unique_everseen(element))
-		element = list(element)
+		element = tuple(element)
 		filtered_element = (
 			a.strip('.')
 			for a in element	
 			if next(filter(lambda x: a in x and a != x, element), None) is None
 		)
-		if predicate in [DOC_ID_PREDICATE,HAS_IDX_PREDICATE,HAS_SOURCE_PREDICATE,HAS_LABEL_PREDICATE,HAS_SOURCE_LABEL_PREDICATE,CONTENT_PREDICATE]:
+		if predicate in [DOC_ID_PREDICATE,HAS_PARAGRAPH_ID_PREDICATE,HAS_LABEL_PREDICATE,HAS_SOURCE_LABEL_PREDICATE,HAS_CONTENT_PREDICATE]:
 			filtered_element = map(lambda x: f'«{x}»', filtered_element)
 		filtered_element = sorted(filtered_element, key=lambda x:len(x))
 		if len(filtered_element) == 0:
@@ -154,9 +163,9 @@ def get_string_from_triple(triple):
 	# Get special predicates templates
 	if pred == DOC_ID_PREDICATE:
 		pred = '{subj} has been found in document {obj}'
-	elif pred == HAS_IDX_PREDICATE:
-		pred = '{subj} starts at offset {obj} of its document'
-	elif pred == HAS_SOURCE_PREDICATE:
+	# elif pred == HAS_IDX_PREDICATE:
+	# 	pred = '{subj} starts at offset {obj} of its document'
+	elif pred == HAS_PARAGRAPH_ID_PREDICATE:
 		pred = '{subj} is in the sentence {obj}'
 	elif pred == HAS_LABEL_PREDICATE:
 		pred = '{subj} is called {obj}'

@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: doxpy
+Version: 1.0
+Summary: A package for estimating the degree of explainability of information.
+Home-page: https://www.unibo.it/sitoweb/francesco.sovrano2/en
+Author: Francesco Sovrano
+Author-email: cesco.sovrano@gmail.com
+License: MIT
+Requires-Python: >=3.6
