@@ -4,13 +4,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*egg-info/
 
 # Logs
+logs/
 *.log
-# Non-anonymised data
-original/
-# Licensed data
-heloc*
 
 # Environments
 .env
@@ -28,4 +26,3 @@ venv.bak/
 *.pkl
 # graphml files
 *.graphml
-*.txt

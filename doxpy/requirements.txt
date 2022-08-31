@@ -1,0 +1,30 @@
+tensorflow==2.5.0 # machine learning
+tensorflow_hub==0.12.0 # pre-trained models
+tensorflow_text==2.5.0 # question answering
+torch==1.9.0 # machine learning
+spacy==3.2.2 # NLP
+gensim==3.8.3 # TFIDF
+pywsd==1.2.4 # word sense disambiguation
+wikipedia==1.4.0 # definition extraction
+transformers==4.8.2 # text summarization and other NLP tasks
+sentence_transformers==2.0.0 # sentence embeddings
+
+pydot==1.4.2 # graphs
+pydotplus==2.0.2 # graphs
+networkx==2.6.2 # graphs
+lxml==4.5.2
+chardet==4.0.0 # Universal encoding detector for Python 2 and 3
+pathos==0.2.8
+
+### with no version specified
+python-Levenshtein # levenshtein string distance
+nltk # stemming, wordnet, etc..
+bs4 # xml to txt
+scikit-learn
+tika # pdf to txt
+matplotlib
+more_itertools
+numpy
+tqdm
+
+protobuf==3.20.1
