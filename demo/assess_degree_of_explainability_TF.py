@@ -7,7 +7,7 @@ explainable_information_path = sys.argv[2]
 cache_path = sys.argv[3]
 if not os.path.exists(cache_path): os.mkdir(cache_path)
 
-from doxpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
+from doxpy.models.knowledge_extraction.knowledge_graph_builder import KnowledgeGraphBuilder
 from doxpy.models.estimation.explainability_estimator import ExplainabilityEstimator
 from doxpy.models.knowledge_extraction.knowledge_graph_manager import KnowledgeGraphManager
 from doxpy.models.reasoning.question_answerer import QuestionAnswerer
@@ -38,7 +38,7 @@ OVERVIEW_OPTIONS = {
 	'minimise': False,
 	'sort_archetypes_by_relevance': False,
 	'set_of_archetypes_to_consider': None, # set(['why','how'])
-	'answer_horizon': 10,
+	'answer_horizon': None,
 	'remove_duplicate_answer_sentences': True,
 
 	'top_k': 100,
@@ -69,7 +69,7 @@ KG_MANAGER_OPTIONS = {
 	'with_tqdm': False,
 }
 
-ONTOLOGY_BUILDER_DEFAULT_OPTIONS = {
+KG_BUILDER_DEFAULT_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
 	'use_cuda': True,
@@ -126,8 +126,8 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 }
 
 ################ Initialise data structures ################
-explicandum_graph_cache = os.path.join(cache_path,f"cache_explicandum_graph_lemma-{ONTOLOGY_BUILDER_DEFAULT_OPTIONS['lemmatize_label']}.pkl")
-explainable_information_graph_cache = os.path.join(cache_path,f"cache_explainable_information_graph_lemma-{ONTOLOGY_BUILDER_DEFAULT_OPTIONS['lemmatize_label']}.pkl")
+explicandum_graph_cache = os.path.join(cache_path,f"cache_explicandum_graph_lemma-{KG_BUILDER_DEFAULT_OPTIONS['lemmatize_label']}.pkl")
+explainable_information_graph_cache = os.path.join(cache_path,f"cache_explainable_information_graph_lemma-{KG_BUILDER_DEFAULT_OPTIONS['lemmatize_label']}.pkl")
 edu_graph_cache = os.path.join(cache_path,f"cache_edu_graph.pkl")
 betweenness_centrality_cache = os.path.join(cache_path,'cache_betweenness_centrality.pkl')
 
@@ -138,30 +138,27 @@ qa_disco_cache = os.path.join(cache_path,'cache_qa_disco_embedder.pkl')
 print('Building Graph..')
 explicandum_graph = load_or_create_cache(
 	explicandum_graph_cache, 
-	lambda: OntologyBuilder(ONTOLOGY_BUILDER_DEFAULT_OPTIONS).set_documents_path(explicandum_path).build()
+	lambda: KnowledgeGraphBuilder(KG_BUILDER_DEFAULT_OPTIONS).set_documents_path(explicandum_path, remove_stopwords=True, remove_numbers=True, avoid_jumps=True).build()
 )
 explainable_information_graph = load_or_create_cache(
 	explainable_information_graph_cache, 
-	lambda: OntologyBuilder(ONTOLOGY_BUILDER_DEFAULT_OPTIONS).set_documents_path(explainable_information_path).build()
+	lambda: KnowledgeGraphBuilder(KG_BUILDER_DEFAULT_OPTIONS).set_documents_path(explainable_information_path, remove_stopwords=False, remove_numbers=False, avoid_jumps=False).build()
 )
 # save_graphml(explainable_information_graph, 'knowledge_graph')
 print('Graph size:', len(explainable_information_graph))
 print("Graph's Clauses:", len(list(filter(lambda x: '{obj}' in x[1], explainable_information_graph))))
 #############
 print('Building Question Answerer..')
-betweenness_centrality = load_or_create_cache(
-	betweenness_centrality_cache, 
-	lambda: get_betweenness_centrality(filter(lambda x: '{obj}' in x[1], explainable_information_graph))
-)
-
-###### QuestionAnswererEDUClause########################
+# betweenness_centrality = load_or_create_cache(
+# 	betweenness_centrality_cache, 
+# 	lambda: get_betweenness_centrality(filter(lambda x: '{obj}' in x[1], explainable_information_graph))
+# )
 kg_manager = KnowledgeGraphManager(KG_MANAGER_OPTIONS, explainable_information_graph)
 qa = QuestionAnswerer( # Using qa_dict_list also for getting the archetype_fitness_dict might over-estimate the median pertinence of some archetypes (and in a different way for each), because the QA Extractor is set to prefer a higher recall to a higher precision.
 	kg_manager= kg_manager, 
 	concept_classifier_options= CONCEPT_CLASSIFIER_DEFAULT_OPTIONS, 
 	sentence_classifier_options= SENTENCE_CLASSIFIER_DEFAULT_OPTIONS, 
-	# answer_summariser_options= SUMMARISER_DEFAULT_OPTIONS,
-	betweenness_centrality= betweenness_centrality,
+	# betweenness_centrality= betweenness_centrality,
 )
 qa.load_cache(qa_cache)
 ########################################################

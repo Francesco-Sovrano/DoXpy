@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-from doxpy.models.knowledge_extraction.ontology_builder import OntologyBuilder
+from doxpy.models.knowledge_extraction.knowledge_graph_builder import KnowledgeGraphBuilder
 from doxpy.models.estimation.explainability_estimator import ExplainabilityEstimator
 from doxpy.models.knowledge_extraction.knowledge_graph_manager import KnowledgeGraphManager
 from doxpy.models.reasoning.question_answerer import QuestionAnswerer
@@ -36,7 +36,7 @@ OVERVIEW_OPTIONS = {
 	'minimise': False,
 	'sort_archetypes_by_relevance': False,
 	'set_of_archetypes_to_consider': None, # set(['why','how'])
-	'answer_horizon': 10,
+	'answer_horizon': None,
 	'remove_duplicate_answer_sentences': True,
 
 	'top_k': 100,
@@ -67,7 +67,7 @@ QA_EXTRACTOR_OPTIONS = {
 	},
 }
 
-ONTOLOGY_BUILDER_DEFAULT_OPTIONS = {
+KG_BUILDER_DEFAULT_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
 	'use_cuda': True,
@@ -129,21 +129,19 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 
 ################ Initialise data structures ################
 print('Building Graph..')
-explainable_information_graph = OntologyBuilder(ONTOLOGY_BUILDER_DEFAULT_OPTIONS).set_content_list(PHI).build()
+explainable_information_graph = KnowledgeGraphBuilder(KG_BUILDER_DEFAULT_OPTIONS).set_content_list(PHI, remove_stopwords=False, remove_numbers=False, avoid_jumps=True).build()
 # save_graphml(explainable_information_graph, 'knowledge_graph')
 print('Graph size:', len(explainable_information_graph))
 print("Graph's Clauses:", len(list(filter(lambda x: '{obj}' in x[1], explainable_information_graph))))
 #############
 print('Building Question Answerer..')
-betweenness_centrality = get_betweenness_centrality(filter(lambda x: '{obj}' in x[1], explainable_information_graph))
-
-###### QuestionAnswererEDUClause########################
+# betweenness_centrality = get_betweenness_centrality(filter(lambda x: '{obj}' in x[1], explainable_information_graph))
 kg_manager = KnowledgeGraphManager(KG_MANAGER_OPTIONS, explainable_information_graph)
 qa = QuestionAnswerer( # Using qa_dict_list also for getting the archetype_fitness_dict might over-estimate the median pertinence of some archetypes (and in a different way for each), because the QA Extractor is set to prefer a higher recall to a higher precision.
 	kg_manager= kg_manager, 
 	concept_classifier_options= CONCEPT_CLASSIFIER_DEFAULT_OPTIONS, 
 	sentence_classifier_options= SENTENCE_CLASSIFIER_DEFAULT_OPTIONS, 
-	betweenness_centrality= betweenness_centrality,
+	# betweenness_centrality= betweenness_centrality,
 )
 ########################################################
 

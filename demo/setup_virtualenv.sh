@@ -11,9 +11,7 @@ echo 'Install DoXpy'
 cd ..
 pip install -e doxpy
 cd demo
-python3 -m spacy download en_core_web_trf
-python3 -m spacy download en_core_web_md
+python -m spacy download en_core_web_trf
+python -m spacy download en_core_web_md
 # python3 -m nltk.downloader -d $MY_DIR/.env/nltk_data stopwords punkt averaged_perceptron_tagger framenet_v17 wordnet brown 
-python3 -m nltk.downloader stopwords punkt averaged_perceptron_tagger framenet_v17 wordnet brown omw-1.4
-
-cd $MY_DIR
+python -m nltk.downloader stopwords punkt averaged_perceptron_tagger framenet_v17 wordnet brown omw-1.4

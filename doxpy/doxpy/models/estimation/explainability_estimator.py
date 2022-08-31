@@ -7,7 +7,6 @@ from itertools import islice
 from doxpy.misc.cache_lib import load_or_create_cache, create_cache, load_cache
 from doxpy.misc.levenshtein_lib import remove_similar_labels, labels_are_contained
 
-from doxpy.misc.doc_reader import DocParser
 # from doxpy.models.reasoning.question_answerer import QuestionAnswerer
 from doxpy.misc.jsonld_lib import *
 from doxpy.models.reasoning import is_not_wh_word
