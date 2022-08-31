@@ -1,5 +1,7 @@
 source .env/bin/activate
 
+cd demo
+
 # NLTK_DATA=$MY_DIR/.env/nltk_data
 mkdir logs
 mkdir cache

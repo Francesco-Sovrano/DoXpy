@@ -21,12 +21,12 @@ You may find a thorough discussion of the underlying theory in this paper [An Ob
   
 ## Installation
 This project has been tested on Debian 9 and macOS Mojave 10.14 with Python 3.7. 
-The script [demo/setup_virtualenv.sh](demo/setup_virtualenv.sh) can be used to install DoXpy and all its dependencies in a python3.7 virtualenv.
+The script [setup_virtualenv.sh](setup_virtualenv.sh) can be used to install DoXpy and all its dependencies in a python3.7 virtualenv.
 
 You can also install DoXpy by downloading this repo and running from within it: 
 `pip install  --use-deprecated=legacy-resolver -e doxpy --no-cache-dir`
 
-Before being able to run the [demo/setup_virtualenv.sh](demo/setup_virtualenv.sh) script you have to install: virtualenv, python3-dev, python3-pip and make. 
+Before being able to run the [setup_virtualenv.sh](setup_virtualenv.sh) script you have to install: virtualenv, python3-dev, python3-pip and make. 
 
 For a simple example of how to use DoXpy, please consider the script [simple_example.py](simple_example.py).
 
@@ -192,8 +192,9 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 ```
 
 ## Experiments
-Part of the experiments discussed in [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327) can be run executing the script [demo/run_dox_assessment.sh](demo/run_dox_assessment.sh).
-This script runs the automatic assessment of the Weighted Degree of Explainability (WeDoX) for both the 2 experiments on all the 3 different versions of the 2 considered AI-based systems.
+Part of the experiments discussed in [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327) can be run executing the script [run_dox_assessment.sh](run_dox_assessment.sh).
+This script runs the automatic assessment of the Weighted Degree of Explainability (WeDoX) for the 2 experiments, on all the different versions of the 2 considered AI-based systems.
+The results of the automatic assessment can be found at [demo/logs](demo/logs).
 
 On the other hand, the code of the applications adopted for the user-study is available at this GitHub repository: [YAI4Hu](https://github.com/Francesco-Sovrano/YAI4Hu).
 

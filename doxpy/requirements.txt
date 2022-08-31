@@ -4,6 +4,7 @@ tensorflow_text==2.5.0 # question answering
 torch==1.9.0 # machine learning
 spacy==3.2.2 # NLP
 gensim==3.8.3 # TFIDF
+wn==0.0.23 # Wordnet
 pywsd==1.2.4 # word sense disambiguation
 wikipedia==1.4.0 # definition extraction
 transformers==4.8.2 # text summarization and other NLP tasks
