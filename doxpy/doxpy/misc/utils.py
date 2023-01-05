@@ -2,6 +2,14 @@ import itertools
 import hashlib
 import numpy as np
 import math
+import unicodedata
+import unidecode
+
+def format_content(content):
+	content = unicodedata.normalize("NFKC", content) # normalize content
+	content = content.encode('utf-8').decode('utf-8', 'ignore').strip()
+	content = unidecode.unidecode(content)
+	return content
 
 def get_str_uid(x):
 	hex_uid = hashlib.md5(x.encode()).hexdigest()

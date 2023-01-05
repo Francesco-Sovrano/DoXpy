@@ -2,6 +2,7 @@ from doxpy.misc.utils import *
 from more_itertools import unique_everseen
 import json
 import re
+import unidecode
 
 class hashabledict(dict):
     def __hash__(self):
@@ -18,6 +19,7 @@ EXPLANATORY_TEMPLATE_PREDICATE = "my:explanatory_template"
 KNOWN_QA_PREDICATES = set([QUESTION_TEMPLATE_PREDICATE,ANSWER_TEMPLATE_PREDICATE,EXPLANATORY_TEMPLATE_PREDICATE])
 
 DOC_ID_PREDICATE = 'my:docID'
+PAGE_ID_PREDICATE = 'my:page_id'
 # HAS_IDX_PREDICATE = 'my:hasIDX'
 HAS_PARAGRAPH_ID_PREDICATE = 'my:paraID'
 HAS_SPAN_ID_PREDICATE = 'my:spanID'
@@ -81,9 +83,9 @@ def urify(str):
 	return re.sub(r'\s', '', uri, flags=re.UNICODE)
 
 def get_uri_from_txt(txt):
-	if len(txt) < 25:
-		return urify(txt)
-	return get_str_uid(txt)
+	txt = unidecode.unidecode(txt)
+	txt = urify(txt)
+	return txt #if len(txt) < 25 else get_str_uid(txt)
 
 def is_html(str):
 	html_pattern = r"<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>"
@@ -200,7 +202,7 @@ def jsonld_to_triples(jsonld, base_id=None):
 				default_subj_id = ANONYMOUS_PREFIX+default_subj_id
 		if is_array(j):
 			for x in j:
-				new_triples, uid = helper(x, default_subj_id, uid)
+				new_triples, uid = helper(x, None, uid+1)
 				triples += new_triples
 		elif is_dict(j):
 			subj_id = get_jsonld_id(j, default_subj_id)[0]

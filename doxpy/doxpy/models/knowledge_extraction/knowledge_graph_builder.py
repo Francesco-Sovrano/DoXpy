@@ -59,8 +59,8 @@ class KnowledgeGraphBuilder(CoupleExtractor):
 			self.logger.info('KnowledgeGraphbuilder::build_triplet_list - Removing stopwords..')
 			triplet_iter = filter(lambda c: c[0]['concept_core'][-1]['lemma'], triplet_iter)
 			triplet_iter = filter(lambda c: c[-1]['concept_core'][-1]['lemma'], triplet_iter)
-			triplet_iter = filter(lambda c: not c[0]['concept_core'][-1]['lemma'] in stopwords_set, triplet_iter)
-			triplet_iter = filter(lambda c: not c[-1]['concept_core'][-1]['lemma'] in stopwords_set, triplet_iter)
+			triplet_iter = filter(lambda c: c[0]['concept_core'][-1]['lemma'] not in stopwords_set, triplet_iter)
+			triplet_iter = filter(lambda c: c[-1]['concept_core'][-1]['lemma'] not in stopwords_set, triplet_iter)
 		if remove_numbers: # Ignore concepts containing digits
 			self.logger.info('KnowledgeGraphbuilder::build_triplet_list - Removing numbers..')
 			triplet_iter = filter(lambda c: re.search(r'\d', c[0]['concept']['text']) is None, triplet_iter)
@@ -130,6 +130,8 @@ class KnowledgeGraphBuilder(CoupleExtractor):
 			info_tuple = (s['concept'], p, o['concept'])
 			s_cp, p_cp, o_cp = info_tuple
 			s_id, p_id, o_id = map(get_concept_id, info_tuple)
+			if '{obj}' not in p_id:
+				p_id += '{obj}'
 			s_lb, p_lb, o_lb = map(get_concept_label, info_tuple)
 			source_sentence_text = p['source']['sentence_text']
 			source_sentence_uri = ANONYMOUS_PREFIX+get_uri_from_txt(source_sentence_text)

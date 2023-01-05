@@ -187,7 +187,8 @@ def save_graphml(edge_list, file_name, yEd_format=False):
 
 	# Build graph
 	graph=nx.MultiDiGraph() # directed graph
-	for subject, predicate, object in edge_list:
+	for triplet in edge_list:
+		subject, predicate, object = map(ascii,map(str,triplet))
 		graph.add_edge(subject, object, r=predicate)
 	
 	nx.write_graphml(graph, file_name+".graphml", prettyprint=True)

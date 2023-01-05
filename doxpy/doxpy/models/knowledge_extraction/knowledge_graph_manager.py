@@ -25,9 +25,12 @@ except OSError:
 	from nltk.corpus import brown
 from nltk import FreqDist
 
+import unidecode
+singlefy = lambda s: unidecode.unidecode(s.strip().replace("\n"," "))#.capitalize()
+# singlefy = lambda s: s.strip().replace("\n"," ")#.capitalize()
+
 word_frequency_distribution = FreqDist(i.lower() for i in brown.words())
 is_common_word = lambda w: word_frequency_distribution.freq(w) >= 1e-4
-singlefy = lambda s: s.strip().replace("\n"," ")#.capitalize()
 
 class KnowledgeGraphManager(ModelManager):
 	def __init__(self, model_options, graph):
@@ -40,6 +43,12 @@ class KnowledgeGraphManager(ModelManager):
 		# 	equivalence_relation_set=set([IN_SYNSET_PREDICATE,IS_EQUIVALENT_PREDICATE]),
 		# 	is_sorted=True,
 		# )
+		self.min_triplet_len = model_options.get('min_triplet_len',0)
+		self.max_triplet_len = model_options.get('max_triplet_len',float('inf'))
+		self.min_sentence_len = model_options.get('min_sentence_len',0)
+		self.max_sentence_len = model_options.get('max_sentence_len',float('inf'))
+		self.min_paragraph_len = model_options.get('min_paragraph_len',0)
+		self.max_paragraph_len = model_options.get('max_paragraph_len',float('inf'))
 		self.adjacency_list = AdjacencyList(
 			graph, 
 			equivalence_relation_set=set([IS_EQUIVALENT_PREDICATE]),
@@ -84,7 +93,7 @@ class KnowledgeGraphManager(ModelManager):
 	def source_span_dict(self):
 		if not self._source_span_dict:
 			self.logger.info("Building source_span_dict..")
-			self._source_span_dict = self.adjacency_list.get_predicate_dict(HAS_SPAN_ID_PREDICATE, singlefy)
+			self._source_span_dict = self.adjacency_list.get_predicate_dict(HAS_SPAN_ID_PREDICATE)
 			self.logger.info("source_span_dict built")
 		return self._source_span_dict
 
@@ -92,7 +101,7 @@ class KnowledgeGraphManager(ModelManager):
 	def source_sentence_dict(self):
 		if not self._source_sentence_dict:
 			self.logger.info("Building source_sentence_dict..")
-			self._source_sentence_dict = self.adjacency_list.get_predicate_dict(HAS_SOURCE_ID_PREDICATE, singlefy)
+			self._source_sentence_dict = self.adjacency_list.get_predicate_dict(HAS_SOURCE_ID_PREDICATE)
 			self.logger.info("source_sentence_dict built")
 		return self._source_sentence_dict
 
@@ -104,20 +113,30 @@ class KnowledgeGraphManager(ModelManager):
 			self.logger.info("source_label_dict built")
 		return self._source_label_dict	
 
-	@staticmethod
-	def build_from_edus_n_clauses(model_options, graph=None, kg_builder_options=None, qa_dict_list=None, qa_extractor_options=None, qa_type_to_use=None, use_only_elementary_discourse_units=False, edu_graph=None):
-		ModelManager.logger.info('build_from_edus_n_clauses')
-		if edu_graph is None:
-			assert qa_extractor_options is not None, 'if no edu_graph is passed, then qa_extractor_options must not be None'
-			assert kg_builder_options is not None, 'if no edu_graph is passed, then kg_builder_options must not be None'
-			assert graph is not None, 'if no edu_graph is passed, then graph must not be None'
-			edu_graph = QuestionAnswerExtractor(qa_extractor_options).extract_aligned_graph_from_qa_dict_list(graph, kg_builder_options, qa_dict_list=qa_dict_list, qa_type_to_use=qa_type_to_use)
-		if not use_only_elementary_discourse_units:
-			assert graph, 'graph is missing'
-			edu_graph = list(filter(lambda x: x[1]!=HAS_LABEL_PREDICATE, edu_graph)) # all labels of EDU-graph are included in the original graph, but those extra ones coming from questions, removing them will prevent considering them as important aspects
-			edu_graph = list(unique_everseen(edu_graph + graph))
-
-		return KnowledgeGraphManager(model_options, edu_graph)
+	# @staticmethod
+	# def build_from_edus_n_clauses(model_options, graph=None, kg_builder_options=None, qa_dict_list=None, qa_extractor_options=None, qa_type_to_use=None, use_only_elementary_discourse_units=False, edu_graph=None):
+	# 	ModelManager.logger.info('build_from_edus_n_clauses')
+	# 	if edu_graph is None:
+	# 		assert qa_extractor_options is not None, 'if no edu_graph is passed, then qa_extractor_options must not be None'
+	# 		assert kg_builder_options is not None, 'if no edu_graph is passed, then kg_builder_options must not be None'
+	# 		assert graph is not None, 'if no edu_graph is passed, then graph must not be None'
+	# 		edu_graph = QuestionAnswerExtractor(qa_extractor_options).extract_aligned_graph_from_qa_dict_list(graph, kg_builder_options, qa_dict_list=qa_dict_list, qa_type_to_use=qa_type_to_use)
+	# 	assert graph, 'graph is missing'
+	# 	# Remove invalid labels: All the valid labels of EDU-graph are included in the original graph, except for the extra ones coming from questions (i.e., templates). Thus, removing all the labels from EDU-graph will prevent to consider invalid labels as important aspects
+	# 	if use_only_elementary_discourse_units:
+	# 		edu_graph_label_set = get_subject_set(filter(lambda x: x[1]==HAS_LABEL_PREDICATE, edu_graph))
+	# 		graph_label_set = get_subject_set(filter(lambda x: x[1]==HAS_LABEL_PREDICATE, graph))
+	# 		valid_label_set = edu_graph_label_set.intersection(graph_label_set)
+	# 		edu_graph = list(filter(lambda x: x[1]!=HAS_LABEL_PREDICATE or x[0] in valid_label_set, edu_graph))
+	# 		# paragraph_id_graph = list(filter(lambda x: x[1]==HAS_PARAGRAPH_ID_PREDICATE, graph))
+	# 		# edu_graph += paragraph_id_graph
+	# 		# source_span_uri_set = get_subject_set(paragraph_id_graph)
+	# 		# edu_graph += list(filter(lambda x: x[1]==HAS_SOURCE_LABEL_PREDICATE and x[0] in source_span_uri_set, graph))
+	# 		# edu_graph += filter(lambda x: x[1]==HAS_CONTENT_PREDICATE, graph)
+	# 	else: # Merge with graph
+	# 		edu_graph = list(filter(lambda x: x[1]!=HAS_LABEL_PREDICATE, edu_graph))
+	# 		edu_graph = list(unique_everseen(edu_graph + graph))
+	# 	return KnowledgeGraphManager(model_options, edu_graph)
 
 	@property
 	def concept_description_dict(self):
@@ -125,12 +144,8 @@ class KnowledgeGraphManager(ModelManager):
 			uri: list(unique_everseen(filter(lambda x: x.strip(), label_list), key=lambda x: x.lower()))
 			for uri, label_list in self.label_dict.items()
 			if '{obj}' not in uri # no predicates
+			and not (uri.startswith(DOC_PREFIX) or uri.startswith(ANONYMOUS_PREFIX)) # no files or anonymous entities
 		}
-		# return get_concept_description_dict(
-		# 	graph= self.graph, 
-		# 	label_predicate= HAS_LABEL_PREDICATE, 
-		# 	valid_concept_filter_fn= lambda x: '{obj}' in x[1]
-		# )
 
 	@property
 	def aspect_uri_list(self):
@@ -170,11 +185,15 @@ class KnowledgeGraphManager(ModelManager):
 		return None
 
 	def get_label_list(self, concept_uri, explode_if_none=True):
-		if concept_uri in self.label_dict:
-			return self.label_dict[concept_uri]
-		if concept_uri.startswith(WORDNET_PREFIX):
-			return list(map(lambda x: explode_concept_key(x.name()), wn.synset(concept_uri[len(WORDNET_PREFIX):]).lemmas()))
-		return [explode_concept_key(concept_uri) if explode_if_none else '']
+		label_list = []
+		for c in self.get_equivalent_concepts(concept_uri):
+			if c in self.label_dict:
+				label_list += self.label_dict[c]
+			elif c.startswith(WORDNET_PREFIX):
+				label_list += list(map(lambda x: explode_concept_key(x.name()), wn.synset(c[len(WORDNET_PREFIX):]).lemmas()))
+			else:
+				label_list.append(explode_concept_key(concept_uri) if explode_if_none else '')
+		return label_list
 
 	def get_label(self, concept_uri, explode_if_none=True):
 		label_list = self.get_label_list(concept_uri, explode_if_none)
@@ -230,6 +249,9 @@ class KnowledgeGraphManager(ModelManager):
 			for p,o in self.adjacency_list.get_outcoming_edges_matrix(s)
 		)))
 
+	def get_equivalent_concepts(self, concept_uri):
+		return list(self.adjacency_list.equivalence_matrix.get(concept_uri,[]))+[concept_uri]
+
 	def get_sub_classes(self, concept_set, depth=None):
 		return self.adjacency_list.get_predicate_chain(
 			concept_set = concept_set, 
@@ -247,7 +269,7 @@ class KnowledgeGraphManager(ModelManager):
 		)
 
 	def get_aspect_graph(self, concept_uri, add_external_definitions=False, include_super_concepts_graph=False, include_sub_concepts_graph=False, consider_incoming_relations=False, depth=None, filter_fn=lambda x: x):
-		concept_set = set([concept_uri])
+		concept_set = set(self.get_equivalent_concepts(concept_uri))
 		expanded_concept_set = set(concept_set)
 		# Get sub-classes
 		if include_sub_concepts_graph:
@@ -292,43 +314,39 @@ class KnowledgeGraphManager(ModelManager):
 			# 	pass
 		return expanded_aspect_graph
 
+	def get_paragraph_text(self, source_id):
+		paragraph_text_list = self.content_dict.get(source_id, None) # check if any paragraph is available
+		return paragraph_text_list[0] if paragraph_text_list else None
+
 	def get_sourced_graph_from_aspect_graph(self, aspect_graph, **args):
 		self.logger.info("Running get_sourced_graph_from_aspect_graph")
 
 		def sourced_graph_with_rdf_triplets_gen(sub_graph):
 			# Add full triplets
 			for original_triplet in self.tqdm(sub_graph):
+				# if not (self.min_triplet_len <= len(self.get_label(original_triplet[1], explode_if_none=False)) <= self.max_triplet_len):
+				# 	continue
 				# s,p,o = original_triplet
-				# # print(original_triplet, len(self.source_span_dict.get(p,[])), len(self.source_span_dict.get(s,[])), len(self.source_span_dict.get(o,[])))
-				# p_source_span_uri_set = set(self.source_span_dict.get(p,[]))
-				# if not p_source_span_uri_set:
-				# 	continue
-				# s_source_span_uri_set = set(self.source_span_dict.get(s,[]))
-				# if not s_source_span_uri_set:
-				# 	continue
-				# o_source_span_uri_set = set(self.source_span_dict.get(o,[]))
-				# if not o_source_span_uri_set:
-				# 	continue
-				# for source_span_uri in p_source_span_uri_set.intersection(s_source_span_uri_set).intersection(o_source_span_uri_set):
 				for source_span_uri in self.source_span_dict.get(original_triplet,[]):
 					triplet_text = self.source_label_dict[source_span_uri][0]
+					if not (self.min_triplet_len <= len(triplet_text) <= self.max_triplet_len):
+						continue
 					for source_sentence_uri in self.source_sentence_dict[source_span_uri]:
 						sentence_text_list = self.source_label_dict.get(source_sentence_uri,None)
 						sentence_text = sentence_text_list[0] if sentence_text_list else None
-						if sentence_text:
+						if sentence_text and self.min_sentence_len <= len(sentence_text) <= self.max_sentence_len:
 							yield (
-								triplet_text, # triplet's text
-								sentence_text, # sentence's text
+								triplet_text, # triplet text
+								sentence_text, # sentence text
 								original_triplet,
 								(source_sentence_uri, self.source_dict[source_sentence_uri][0]),
 							)
 						for source_id in self.source_dict[source_sentence_uri]:
-							paragraph_text_list = self.content_dict.get(source_id, None) # check if any paragraph is available
-							paragraph_text = paragraph_text_list[0] if paragraph_text_list else None
-							if paragraph_text and paragraph_text != sentence_text:
+							paragraph_text = self.get_paragraph_text(source_id)
+							if paragraph_text and paragraph_text != sentence_text and self.min_paragraph_len <= len(paragraph_text) <= self.max_paragraph_len:
 								yield (
-									triplet_text, # triplet's text
-									paragraph_text, # paragraph's text
+									triplet_text, # triplet text
+									paragraph_text, # paragraph text
 									original_triplet,
 									(None, source_id),
 								)
@@ -344,27 +362,29 @@ class KnowledgeGraphManager(ModelManager):
 			))
 			for source_span_uri in source_span_uri_iter:
 				triplet_text = self.source_label_dict[source_span_uri][0]
+				if not (self.min_triplet_len <= len(triplet_text) <= self.max_triplet_len):
+					continue
 				for source_sentence_uri in self.source_sentence_dict[source_span_uri]:
-					sentence_text = self.source_label_dict[source_sentence_uri][0]
+					sentence_text_list = self.source_label_dict.get(source_sentence_uri,None)
+					sentence_text = sentence_text_list[0] if sentence_text_list else None
+					if sentence_text and self.min_sentence_len <= len(sentence_text) <= self.max_sentence_len:
+						yield (
+							triplet_text, # triplet text
+							sentence_text, # sentence text
+							source_span_uri,
+							(source_sentence_uri, self.source_dict[source_sentence_uri][0]),
+						)
 					for source_id in self.source_dict[source_sentence_uri]:
-						paragraph_text_list = self.content_dict.get(source_id, None) # check if any paragraph is available
-						paragraph_text = paragraph_text_list[0] if paragraph_text_list else None
-						if paragraph_text:
+						paragraph_text = self.get_paragraph_text(source_id)
+						if paragraph_text and paragraph_text != sentence_text and self.min_paragraph_len <= len(paragraph_text) <= self.max_paragraph_len:
 							yield (
-								triplet_text, # triplet's text
-								paragraph_text, # paragraph's text
+								triplet_text, # triplet text
+								paragraph_text, # paragraph text
 								source_span_uri,
 								(None, source_id),
 							)
-						if paragraph_text != sentence_text:
-							yield (
-								triplet_text, # triplet's text
-								sentence_text, # sentence's text
-								source_span_uri,
-								(source_sentence_uri, source_id),
-							)
 		# Add source to triples
-		return list(unique_everseen(sourced_graph_gen(), key=lambda x:x[2]))
+		return list(unique_everseen(sourced_graph_gen()))
 
 	def get_taxonomical_view(self, concept_uri, depth=None, with_internal_definitions=True, concept_id_filter=None):
 		if not concept_id_filter:
@@ -470,7 +490,7 @@ class KnowledgeGraphManager(ModelManager):
 				result += (
 					(
 						naturalized_triple, 
-						self.content_dict[source_id][0] if source_id else naturalized_triple, # source_label
+						self.get_paragraph_text(source_id) if source_id else naturalized_triple, # source_label
 						original_triple,
 						(None, source_id if source_id else None), # source_id
 					)

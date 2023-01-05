@@ -364,8 +364,7 @@ class ModelManager():
 		if with_cache is None:
 			with_cache = self.__with_cache
 		def fetch_fn(missing_text):
-			self.logger.info(f"Processing {len(missing_text)} texts with spacy and {'with' if with_cache else 'without'} cache")
-			# print('zz', missing_text)
+			self.logger.debug(f"Processing {len(missing_text)} texts with spacy and {'with' if with_cache else 'without'} cache")
 			nlp = self.get_nlp_model()
 			# if len(missing_text) == 1:
 			# 	return [nlp(missing_text[0])]
@@ -390,7 +389,7 @@ class ModelManager():
 		if with_cache is None:
 			with_cache = self.__tf_model_options.get('with_cache', self.__with_cache)
 		def fetch_fn(missing_queries):
-			self.logger.info(f"Processing {len(missing_queries)} inputs with tf and {'with' if with_cache else 'without'} cache")
+			self.logger.debug(f"Processing {len(missing_queries)} inputs with tf and {'with' if with_cache else 'without'} cache")
 			# print(missing_queries)
 			# Feed missing_queries into current tf graph
 			len_batch_iter = math.ceil(len(missing_queries)/batch_size)
@@ -421,7 +420,7 @@ class ModelManager():
 		if with_cache is None:
 			with_cache = self.__sbert_model_options.get('with_cache', self.__with_cache)
 		def fetch_fn(missing_inputs):
-			self.logger.info(f"Processing {len(missing_inputs)} inputs with sbert and {'with' if with_cache else 'without'} cache")
+			self.logger.debug(f"Processing {len(missing_inputs)} inputs with sbert and {'with' if with_cache else 'without'} cache")
 			len_batch_iter = math.ceil(len(missing_inputs)/batch_size)
 			encoder = sbert_model['question' if without_context else 'answer']
 			if len_batch_iter == 1:
@@ -448,7 +447,7 @@ class ModelManager():
 		if with_cache is None:
 			with_cache = self.__hf_model_options.get('with_cache', self.__with_cache)
 		def fetch_fn(missing_inputs):
-			self.logger.info(f"Processing {len(missing_inputs)} inputs with hf and {'with' if with_cache else 'without'} cache")
+			self.logger.debug(f"Processing {len(missing_inputs)} inputs with hf and {'with' if with_cache else 'without'} cache")
 			templatise_text = (lambda x: hf_model['text_template'].replace('{txt}',x)) if hf_model['text_template'] else (lambda x:x)
 			missing_inputs = tuple(map(templatise_text, missing_inputs))
 			len_batch_iter = math.ceil(len(missing_inputs)/batch_size)
@@ -498,42 +497,42 @@ class ModelManager():
 		assert similarity_fn is not None, 'cannot find a proper similarity_fn'
 		return similarity_fn(a,b)
 
-	def get_element_wise_similarity(self, source_list, target_list, source_without_context=False, target_without_context=False, get_embedding_fn=None, get_similarity_fn=None):
+	def get_element_wise_similarity(self, source_list, target_list, source_without_context=False, target_without_context=False, get_embedding_fn=None, get_similarity_fn=None, with_cache=None):
 		if get_embedding_fn is None:
 			get_embedding_fn = self.get_default_embedding
 		if get_similarity_fn is None:
 			get_similarity_fn = self.get_default_similarity
 		assert len(source_list)==len(target_list), 'len(source_list)!=len(target_list)'
-		source_embeddings = get_embedding_fn(source_list, without_context=source_without_context)
-		target_embeddings = get_embedding_fn(target_list, without_context=target_without_context)
+		source_embeddings = get_embedding_fn(source_list, without_context=source_without_context, with_cache=with_cache)
+		target_embeddings = get_embedding_fn(target_list, without_context=target_without_context, with_cache=with_cache)
 		return [
 			float(get_similarity_fn([a],[b])[0][0]) if a is not None and b is not None else 0
 			for a,b in zip(source_embeddings,target_embeddings)
 		]
 
-	def get_similarity_ranking(self, source_text_list, target_text_list, without_context=False, get_embedding_fn=None, get_similarity_fn=None):
+	def get_similarity_ranking(self, source_text_list, target_text_list, without_context=False, get_embedding_fn=None, get_similarity_fn=None, with_cache=None):
 		if get_embedding_fn is None:
 			get_embedding_fn = self.get_default_embedding
 		if get_similarity_fn is None:
 			get_similarity_fn = self.get_default_similarity
-		source_embeddings = get_embedding_fn(source_text_list, without_context=without_context)
-		target_embeddings = get_embedding_fn(target_text_list, without_context=False)
+		source_embeddings = get_embedding_fn(source_text_list, without_context=without_context, with_cache=with_cache)
+		target_embeddings = get_embedding_fn(target_text_list, without_context=False, with_cache=with_cache)
 		similarity_vec = get_similarity_fn(source_embeddings,target_embeddings)
 		return np.argsort(similarity_vec, kind='stable', axis=-1), similarity_vec
 
-	def get_most_similar_idx_n_label(self, source_text_list, target_text_list, without_context=False, get_embedding_fn=None, get_similarity_fn=None):
+	def get_most_similar_idx_n_label(self, source_text_list, target_text_list, without_context=False, get_embedding_fn=None, get_similarity_fn=None, with_cache=None):
 		if get_embedding_fn is None:
 			get_embedding_fn = self.get_default_embedding
 		if get_similarity_fn is None:
 			get_similarity_fn = self.get_default_similarity
 		similarity_vec = get_similarity_fn(
-			get_embedding_fn(source_text_list, without_context=without_context),
-			get_embedding_fn(target_text_list, without_context=False)
+			get_embedding_fn(source_text_list, without_context=without_context, with_cache=with_cache),
+			get_embedding_fn(target_text_list, without_context=False, with_cache=with_cache)
 		)
 		argmax_list = np.argmax(similarity_vec, axis=-1)
 		return list(zip(argmax_list, np.take(similarity_vec,argmax_list)))
 
-	def remove_similar_labels(self, tuple_list, threshold=0.97, key=None, without_context=False, get_embedding_fn=None, get_similarity_fn=None, sort_by_conformity=False):
+	def remove_similar_labels(self, tuple_list, threshold=0.97, key=None, without_context=False, get_embedding_fn=None, get_similarity_fn=None, sort_by_conformity=False, with_cache=None):
 		if key is None:
 			key = lambda x: x[0] if isinstance(x, (list,tuple)) else x
 		if get_embedding_fn is None:
@@ -542,8 +541,8 @@ class ModelManager():
 			get_similarity_fn = self.get_default_similarity
 		value_list = tuple(map(key,tuple_list))
 		similarity_vec = get_similarity_fn(
-			get_embedding_fn(value_list, without_context=without_context),
-			get_embedding_fn(value_list, without_context=without_context)
+			get_embedding_fn(value_list, without_context=without_context, with_cache=with_cache),
+			get_embedding_fn(value_list, without_context=without_context, with_cache=with_cache)
 		)
 		
 		if sort_by_conformity:
@@ -569,7 +568,7 @@ class ModelManager():
 				similarity_vec[:,i] = 0
 		return result_list
 
-	def sort_labels_by_conformity(self, tuple_list, key=None, without_context=False, get_embedding_fn=None, get_similarity_fn=None, return_conformity=False):
+	def sort_labels_by_conformity(self, tuple_list, key=None, without_context=False, get_embedding_fn=None, get_similarity_fn=None, return_conformity=False, with_cache=None):
 		if key is None:
 			key = lambda x: x[0] if isinstance(x, (list,tuple)) else x
 		if get_embedding_fn is None:
@@ -578,8 +577,8 @@ class ModelManager():
 			get_similarity_fn = self.get_default_similarity
 		value_list = tuple(map(key,tuple_list))
 		similarity_vec = get_similarity_fn(
-			get_embedding_fn(value_list, without_context=without_context),
-			get_embedding_fn(value_list, without_context=without_context)
+			get_embedding_fn(value_list, without_context=without_context, with_cache=with_cache),
+			get_embedding_fn(value_list, without_context=without_context, with_cache=with_cache)
 		)
 		similarity_vec = np.mean(similarity_vec, axis=-1)
 		sorted_idx_vec = np.argsort(similarity_vec, kind='stable', axis=-1)
@@ -590,7 +589,7 @@ class ModelManager():
 		sorted_conformity_iter = map(float, sorted_conformity_list)
 		return list(zip(sorted_label_list, sorted_conformity_iter))
 
-	def filter_by_similarity_to_target(self, source_tuple_list, target_tuple_list, threshold=0.97, source_key=None, target_key=None, source_without_context=False, target_without_context=False, get_embedding_fn=None, get_similarity_fn=None):
+	def filter_by_similarity_to_target(self, source_tuple_list, target_tuple_list, threshold=0.97, source_key=None, target_key=None, source_without_context=False, target_without_context=False, get_embedding_fn=None, get_similarity_fn=None, with_cache=None):
 		if source_key is None:
 			source_key = lambda x: x[0] if isinstance(x, (list,tuple)) else x
 		if target_key is None:
@@ -600,8 +599,8 @@ class ModelManager():
 		if get_similarity_fn is None:
 			get_similarity_fn = self.get_default_similarity
 		similarity_vec = get_similarity_fn(
-			get_embedding_fn(tuple(map(source_key,source_tuple_list)), without_context=source_without_context),
-			get_embedding_fn(tuple(map(target_key,target_tuple_list)), without_context=target_without_context)
+			get_embedding_fn(tuple(map(source_key,source_tuple_list)), without_context=source_without_context, with_cache=with_cache),
+			get_embedding_fn(tuple(map(target_key,target_tuple_list)), without_context=target_without_context, with_cache=with_cache)
 		)
 		# print('filter_by_similarity_to_target')
 		# for i,_ in enumerate(source_tuple_list):

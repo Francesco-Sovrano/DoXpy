@@ -26,13 +26,13 @@ RELEVANT_ASPECTS = [
 ARCHETYPE_FITNESS_OPTIONS = {
 	'only_overview_exploration': False,
 	'answer_pertinence_threshold': 0.55, 
-	'answer_to_question_similarity_threshold': 0.9502, 
-	'answer_to_answer_similarity_threshold': 0.9502, 
+	'answer_to_question_max_similarity_threshold': 0.9502, 
+	'answer_to_answer_max_similarity_threshold': 0.9502, 
 }
 OVERVIEW_OPTIONS = {
 	'answer_pertinence_threshold': None, # default is None
-	'answer_to_question_similarity_threshold': None, # default is 0.9502
-	'answer_to_answer_similarity_threshold': None, # default is 0.9502
+	'answer_to_question_max_similarity_threshold': None, # default is 0.9502
+	'answer_to_answer_max_similarity_threshold': None, # default is 0.9502
 	'minimise': False,
 	'sort_archetypes_by_relevance': False,
 	'set_of_archetypes_to_consider': None, # set(['why','how'])

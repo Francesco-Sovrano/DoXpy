@@ -66,9 +66,10 @@ class CoupleExtractor(CE):
 	@staticmethod
 	def is_coreferencing(span):
 		for token in span:
-			if token.pos_ == 'DET': # if token is a determiner
-			# if re.match(r'PRON|DET', token.pos_): # if token is a pronoun or a determiner
-				if re.search(r'subj|obj', token.dep_): # and if token is a subject or object
+			# if token.pos_ == 'DET': # if token is a determiner
+			if re.match('PRON|DET', token.pos_): # if token is a pronoun or a determiner
+				# if re.search('nsubj', token.dep_): # and if token is a direct subject
+				if re.search('nsubj|dobj', token.dep_): # and if token is a direct subject or object
 					return True
 		return False
 
@@ -153,8 +154,7 @@ class CoupleExtractor(CE):
 			last_v_i = v.i
 		# Enrich predicate set with details, adding hidden related concepts (n-ary relations)
 		predicate_set = CoupleExtractor.expand_predicate_core(predicate_core_set, subj_obj_set=set((subj,obj)))
-		predicate_set = sorted(predicate_set, key=lambda x: x.idx)
-		return predicate_set
+		return sorted(predicate_set, key=lambda x: x.idx)
 
 	@staticmethod
 	def identify_cores_role(core, other_core):
@@ -256,7 +256,7 @@ class CoupleExtractor(CE):
 			right_pdict = get_concept_dict(triple_span[right_pivot+1:])
 			templatized_lemma.append(right_pdict['lemma'])
 			templatized_text.append(right_pdict['text'])
-		return templatized_text, templatized_lemma, triple_span
+		return templatized_text, templatized_lemma
 
 	@staticmethod
 	def get_triplet(core_concept, other_core_concept, core_set, avoid_jumps=False): # can be one per core in core_set
@@ -289,27 +289,16 @@ class CoupleExtractor(CE):
 		# 	or predicate_span[i-1].text not in non_consecutive_puncts
 		# ]
 		
-		subj, obj = CoupleExtractor.identify_cores_role(core, other_core)
-		verb = CoupleExtractor.get_common_verb(subj,obj)
-		# return {
-		# 	'subj': subj,
-		# 	'obj': obj,
-		# 	'predicate_span': predicate_span, # add predicate components
-		# 	# 'predicate_set': set(predicate_span),
-		# 	'predicate_core_span': predicate_core_span,
-		# 	# 'predicate_core_set': set(predicate_core_span),
-		# 	'verb': verb,
-		# 	'is_jumping': is_jumping,
-		# }
+		subj_core, obj_core = CoupleExtractor.identify_cores_role(core, other_core)
+		verb_span = CoupleExtractor.get_common_verb(subj_core, obj_core)
 		
 		get_concept_dict = lambda span: CoupleExtractor.get_concept_dict_from_span(span)#, hidden_dep_list=CoupleExtractor.HIDDEN_PREDICATE_COMPONENT)
 		
 		# get predicate_dict
 		predicate_dict = get_concept_dict(predicate_span)
-		predicate_text, predicate_lemma, so_predicate_span = CoupleExtractor.templatize_predicate_span(predicate_span,subj,obj)
+		predicate_text, predicate_lemma = CoupleExtractor.templatize_predicate_span(predicate_span, subj_core, obj_core)
 		predicate_dict['text'] = ' '.join(predicate_text)
 		predicate_dict['lemma'] = ' '.join(predicate_lemma)
-		predicate_dict['source_text'] = get_concept_dict(so_predicate_span)['text']
 		
 		# print(f'Discarding concept "{concept_dict["concept"]["text"]}", because it intersects its predicate: "{predicate_dict["predicate"]["text"]}".')
 		concept_dict_list = sorted(concept_dict_list, key=lambda x: CE.get_concept_dict_size(x['concept']), reverse=True)
@@ -318,7 +307,7 @@ class CoupleExtractor(CE):
 		concept_dict_iter = filter(lambda x: not predicate_dict_span_set.intersection(x['concept']['span']), concept_dict_list)
 		other_concept_dict_iter = filter(lambda x: not predicate_dict_span_set.intersection(x['concept']['span']), other_concept_dict_list)
 		
-		if subj == core:
+		if subj_core == core:
 			subj_dict = next(concept_dict_iter,None)
 			obj_dict = next(other_concept_dict_iter,None)
 		else:
@@ -328,19 +317,22 @@ class CoupleExtractor(CE):
 		if not subj_dict or not obj_dict:
 			return None
 
+		subj_span, obj_span = list(subj_dict['concept']['span']), list(obj_dict['concept']['span'])
+		# predicate_dict['source_text'] = get_concept_dict(sorted(predicate_span + subj_span + obj_span, key=lambda x: x.idx))['text']
+		predicate_dict['source_text'] = get_concept_dict(sorted(predicate_span + [subj_core, obj_core], key=lambda x: x.idx))['text']
+		predicate_dict['predicate_core'] = get_concept_dict(predicate_core_span) # get predicate_core_dict
+		predicate_dict['source'] = subj_dict['source']
 		# get verb
-		if verb:
-			verb_dict = get_concept_dict(verb)
-			verb_text, verb_lemma, so_verb_span = CoupleExtractor.templatize_predicate_span(verb, subj, obj)
+		if verb_span:
+			verb_dict = get_concept_dict(verb_span)
+			verb_text, verb_lemma = CoupleExtractor.templatize_predicate_span(verb_span, subj_core, obj_core)
 			verb_dict['text'] = ' '.join(verb_text)
 			verb_dict['lemma'] = ' '.join(verb_lemma)
-			verb_dict['source_text'] = get_concept_dict(so_verb_span)['text']
+			# verb_dict['source_text'] = get_concept_dict(sorted(verb_span + subj_span + obj_span, key=lambda x: x.idx))['text']
+			verb_dict['source_text'] = get_concept_dict(sorted(verb_span + [subj_core, obj_core], key=lambda x: x.idx))['text']
 		else:
 			verb_dict = None
-
-		predicate_dict['predicate_core'] = get_concept_dict(predicate_core_span) # get predicate_core_dict
 		predicate_dict['verb'] = verb_dict
-		predicate_dict['source'] = subj_dict['source']
 		
 		# #### free memory
 		# CE.clean_concepts_from_tokens(subj_dict, remove_source=True)
@@ -499,10 +491,10 @@ class CoupleExtractor(CE):
 
 def get_validated_sentence_list(self: ModelManager, sentence_list, avoid_coreferencing=False):
 	validated_sentence_list = []
-	sentence_list = [
-		s if not s.strip('.').endswith(':') else ''
-		for s in sentence_list
-	]
+	# sentence_list = [ # faster here than in the for-loop
+	# 	s if not s.strip('.').endswith(':') else ''
+	# 	for s in sentence_list
+	# ]
 	for sent_span, sent in zip(self.nlp(sentence_list), sentence_list):
 		if not sent:
 			validated_sentence_list.append(None)

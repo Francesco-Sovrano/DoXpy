@@ -3,10 +3,10 @@
 virtualenv .env -p python3.7
 source .env/bin/activate
 
-pip install pip==22.2.2
-pip install -U setuptools wheel twine
+pip --use-deprecated=legacy-resolver install pip==22.2.2
+pip --use-deprecated=legacy-resolver install -U setuptools wheel twine
 echo 'Installing DoXpy'
-pip install -e doxpy
+pip --use-deprecated=legacy-resolver install -e doxpy
 
 python -m spacy download en_core_web_trf
 python -m spacy download en_core_web_md

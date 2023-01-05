@@ -1,4 +1,4 @@
-from doxpy.misc.doc_reader import DocParser, remove_hyphens
+from doxpy.misc.doc_reader import DocParser
 from doxpy.misc.jsonld_lib import *
 from doxpy.models.model_manager import ModelManager
 from doxpy.misc.utils import *
@@ -81,6 +81,7 @@ class ConceptExtractor(ModelManager):
 		# # Verbal objects
 		'acomp',	# adjectival complement
 		'xcomp',	# open clausal complement
+		# 'nounmod', 'nmod',	# modifier of nominal
 	]
 	CONCEPT_IDENTIFIER = SUBJ_IDENTIFIER + OBJ_IDENTIFIER
 	AMOD_IDENTIFIER = [
@@ -98,7 +99,7 @@ class ConceptExtractor(ModelManager):
 		# Normal Modifiers
 		'advmod',	# adverbial modifier
 		'amod',		# adjectival modifier
-		'nounmod',	# modifier of nominal
+		'nounmod', 'nmod',	# modifier of nominal
 		'npmod',	# noun phrase as adverbial modifier
 		'nummod',	# numeric modifier
 		'quantmod',	# modifier of quantifier
@@ -171,7 +172,6 @@ class ConceptExtractor(ModelManager):
 		span_lemma = ' '.join(lemma_iter)#.strip()
 		span_lemma = span_lemma.translate(str.maketrans('', '', string.punctuation)) # enforce no punctuation regardless the errors of the dependency parser
 		span_lemma = span_lemma.strip()
-		# span_lemma = remove_hyphens(span_lemma) # remove hyphens
 		return span_lemma
 
 	@staticmethod
@@ -183,7 +183,6 @@ class ConceptExtractor(ModelManager):
 				# 	for t in ConceptExtractor.get_referenced_span(c)
 				# ).strip() 
 				c.text 
-				# for c in ConceptExtractor.trim_prepositions(concept)
 				for c in concept
 			)#.strip()#.replace(' - ','') # replace subtokens
 		) 

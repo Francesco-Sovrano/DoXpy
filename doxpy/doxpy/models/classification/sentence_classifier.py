@@ -19,8 +19,9 @@ class SentenceClassifier(ModelManager):
 		self.sentence_embedding_fn = self.get_default_embedder()
 		self.similarity_fn = self.get_default_similarity_fn()
 
-		self.with_topic_scaling = model_options.get('with_topic_scaling', False)
-		self.use_combined_wordvec = self.with_topic_scaling or not self.sentence_embedding_fn
+		# self.with_topic_scaling = model_options.get('with_topic_scaling', False)
+		# self.use_combined_wordvec = self.with_topic_scaling or not self.sentence_embedding_fn
+		self.use_combined_wordvec = not self.sentence_embedding_fn
 		self.with_document_log_length_scaling = model_options.get('with_document_log_length_scaling', False)
 		self.with_centered_similarity = model_options.get('with_centered_similarity', False)
 		# TF-IDF
@@ -32,7 +33,7 @@ class SentenceClassifier(ModelManager):
 		
 		ModelManager.logger.info('Initialising SentenceClassifier:')
 		ModelManager.logger.info(f'  with_stemmed_tfidf: {self.with_stemmed_tfidf}')
-		ModelManager.logger.info(f'  with_topic_scaling: {self.with_topic_scaling}')
+		# ModelManager.logger.info(f'  with_topic_scaling: {self.with_topic_scaling}')
 		ModelManager.logger.info(f'  with_document_log_length_scaling: {self.with_document_log_length_scaling}')
 		ModelManager.logger.info(f'  default_tfidf_importance: {self.default_tfidf_importance}')
 		ModelManager.logger.info(f'  use_combined_wordvec: {self.use_combined_wordvec}')
@@ -98,15 +99,15 @@ class SentenceClassifier(ModelManager):
 		ModelManager.logger.info(f'tfidf_importance {tfidf_importance}')
 		weighted_similarity = tfidf_importance*syntactic_similarity+(1-tfidf_importance)*semantic_similarity
 				
-		if self.with_topic_scaling:
-			# Get the topic weight
-			corpus_similarity = similarity_dict['corpus']
-			topic_weight = np.power(corpus_similarity,2)
-			# Compute the weighted similarity for every sub-corpus
-			# syntactic_similarity is high for a document when the query words and the document words are similar, but syntactic_similarity may be lower when we use words in the synsets
-			# in order to address the aforementioned synset-words problem we sum the syntactic_similarity with the corpus_similarity before scaling it by the semantic_weight
-			# we scale by the semantic_weight in order to give significantly more similarity to the documents semantically more closer to the query 
-			weighted_similarity *= topic_weight
+		# if self.with_topic_scaling:
+		# 	# Get the topic weight
+		# 	corpus_similarity = similarity_dict['corpus']
+		# 	topic_weight = np.power(corpus_similarity,2)
+		# 	# Compute the weighted similarity for every sub-corpus
+		# 	# syntactic_similarity is high for a document when the query words and the document words are similar, but syntactic_similarity may be lower when we use words in the synsets
+		# 	# in order to address the aforementioned synset-words problem we sum the syntactic_similarity with the corpus_similarity before scaling it by the semantic_weight
+		# 	# we scale by the semantic_weight in order to give significantly more similarity to the documents semantically more closer to the query 
+		# 	weighted_similarity *= topic_weight
 			
 		# if self.with_document_log_length_scaling:
 		# 	# the bigger the sentence, the (smoothly) lower the weighted_similarity
@@ -162,29 +163,25 @@ class SentenceClassifier(ModelManager):
 					list(map(get_avg_wordvec_similarity, formatted_query_list)),
 					list(map(get_avg_wordvec_similarity, self.spacy_documents))
 				)
-			if self.with_topic_scaling:
-				# Get the corpus similarity for every sub-corpus, by averaging the docvec similarities of every sub-corpus
-				similarity_dict['corpus'] = np.mean(similarity_dict['combined_wordvec'],-1)
-				similarity_dict['corpus'] = np.expand_dims(similarity_dict['corpus'], -1) # expand_dims because we have sub-corpus
+			# if self.with_topic_scaling:
+			# 	# Get the corpus similarity for every sub-corpus, by averaging the docvec similarities of every sub-corpus
+			# 	similarity_dict['corpus'] = np.mean(similarity_dict['combined_wordvec'],-1)
+			# 	similarity_dict['corpus'] = np.expand_dims(similarity_dict['corpus'], -1) # expand_dims because we have sub-corpus
 		if with_syntactic_similarity:
 			# Get the lemmatized query
-			lemmatized_query_list = tuple(map(self.lemmatize_spacy_document, formatted_query_list))
-			ModelManager.logger.debug('lemmatized_query:')
-			ModelManager.logger.debug(lemmatized_query_list)
+			lemmatized_query_iter = map(self.lemmatize_spacy_document, formatted_query_list)
 			# Get the stemmed query for tf-idf
 			if self.with_stemmed_tfidf:
-				lemmatized_query_list = tuple(map(self.get_stemmed_token_list, lemmatized_query_list))
-				ModelManager.logger.debug('stemmed_query:')
-				ModelManager.logger.debug(lemmatized_query_list)
+				lemmatized_query_iter = map(self.get_stemmed_token_list, lemmatized_query_iter)
 			# Get tf-idf and docvec similarities
-			similarity_dict['tfidf'] = np.array([
+			similarity_dict['tfidf'] = np.stack([
 				tfidf_lib.get_query_tfidf_similarity(
 					lemmatized_query, 
 					self.tfidf_model['dictionary'], 
 					self.tfidf_model['model'], 
 					self.tfidf_model['corpus_similarities'],
 				)
-				for lemmatized_query in lemmatized_query_list
+				for lemmatized_query in lemmatized_query_iter
 			])
 		# Get the weighted similarity
 		similarity_dict['weighted'] = self.get_weighted_similarity(similarity_dict=similarity_dict, tfidf_importance=tfidf_importance)

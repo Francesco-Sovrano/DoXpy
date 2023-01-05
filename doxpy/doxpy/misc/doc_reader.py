@@ -2,8 +2,8 @@ import os
 import re
 import json
 from bs4 import BeautifulSoup
-from tika import parser
-import unicodedata
+import io
+
 from more_itertools import unique_everseen
 from doxpy.misc.jsonld_lib import *
 from doxpy.misc.cache_lib import *
@@ -24,25 +24,50 @@ def get_document_list(directory):
 			doc_list.extend(get_document_list(obj_path))
 	return doc_list
 
-get_bs_text = lambda x: re.sub(r'[ \n\t]+',' ',html.unescape(x.text)).strip() if x else None
-
-def remove_hyphens(content):
-	# content = re.sub(r' +- +', ' ', content, flags=re.UNICODE) # remove all hyphens 
-	content = re.sub(r' *- *', ' ', content, flags=re.UNICODE) # remove all hyphens
+def clean_content(content, remove_footnote=False, remove_newlines=False):
+	# content = content.strip()
+	content = format_content(content)
+	#####
+	content = re.sub(r'[\r ]*\n[\r ]*', '\n', content, flags=re.UNICODE) # normalise newlines
+	content = re.sub(r'\t', ' ', content, flags=re.UNICODE) # normalise tabs
+	content = re.sub(r'  +', ' ', content, flags=re.UNICODE) # remove double whitespaces
+	if not remove_newlines:
+		content = re.sub(r'\n\n+', r'\n\n', content, flags=re.UNICODE) # remove triple newlines
+	#####
+	content = re.sub(r'\(cid:173\) *\n+', '', content, flags=re.UNICODE) # remove hyphens
+	content = re.sub(r'- *\n+', '', content, flags=re.UNICODE) # remove word-breaks (hyphens)
+	# content = re.sub(r'[\x2010\x2011\x2027\x2043][ \n]+', ' ', content, flags=re.UNICODE) # remove line-breaks (hyphens)
+	#####
+	if remove_footnote and not content.endswith('.'):
+		content = '\n'.join(content.split('\n')[:-1])
+	if not remove_newlines:
+		content = re.sub(r'([^A-Z\n ])\n\n([^A-Z\n ])', r'\1\n\2', content, flags=re.UNICODE) # remove redundant new lines
+		content = re.sub(r'([^\n])\n([^\n])', r'\1 \2', content, flags=re.UNICODE) # remove new lines
+	else:
+		content = re.sub(r'\n+', ' ', content, flags=re.UNICODE) # remove new lines
+	#####
+	content = re.sub(r' +', ' ', content, flags=re.UNICODE) # remove double whitespaces
 	return content
 
-def normalize_string(content, no_hyphens=False):
-	content = unicodedata.normalize("NFKC", content) # normalize content
-	content = re.sub(r'\r\n', '\n', content, flags=re.UNICODE) # normalize new lines
-	content = re.sub(r'[\r\f\v]', '\n', content, flags=re.UNICODE) # normalize new lines
-	content = re.sub(r'[-\x2D\xAD\x58A\x1806\xFE63\xFF0D\xE002D]\n+', '', content, flags=re.UNICODE) # remove word-breaks (hyphens)
-	content = re.sub(r'[\x2010\x2011\x2027\x2043]\n+', ' ', content, flags=re.UNICODE) # remove line-breaks (hyphens)
-	content = re.sub(r'([^\n.])\n+([^\n])', r'\1 \2', content, flags=re.UNICODE) # remove line-breaks
-	content = re.sub(r'[ \t]+', ' ', content, flags=re.UNICODE) # normalize whitespaces
-	content = content.replace(u'\xa0', ' ') # normalize whitespaces
-	if no_hyphens:
-		content = remove_hyphens(content)
-	return content.strip()
+get_bs_text = lambda x: clean_content(html.unescape(x.text), remove_newlines=True) if x else None
+
+# def remove_hyphens(content):
+# 	# content = re.sub(r' +- +', ' ', content, flags=re.UNICODE) # remove all hyphens 
+# 	content = re.sub(r' *- *', ' ', content, flags=re.UNICODE) # remove all hyphens
+# 	return content
+
+# def normalize_string(content, no_hyphens=False):
+# 	content = unicodedata.normalize("NFKC", content) # normalize content
+# 	content = re.sub(r'\r\n', '\n', content, flags=re.UNICODE) # normalize new lines
+# 	content = re.sub(r'[\r\f\v]', '\n', content, flags=re.UNICODE) # normalize new lines
+# 	content = re.sub(r'[-\x2D\xAD\x58A\x1806\xFE63\xFF0D\xE002D]\n+', '', content, flags=re.UNICODE) # remove word-breaks (hyphens)
+# 	content = re.sub(r'[\x2010\x2011\x2027\x2043]\n+', ' ', content, flags=re.UNICODE) # remove line-breaks (hyphens)
+# 	content = re.sub(r'([^\n.])\n+([^\n])', r'\1 \2', content, flags=re.UNICODE) # remove line-breaks
+# 	content = re.sub(r'[ \t]+', ' ', content, flags=re.UNICODE) # normalize whitespaces
+# 	content = content.replace(u'\xa0', ' ') # normalize whitespaces
+# 	if no_hyphens:
+# 		content = remove_hyphens(content)
+# 	return content.strip()
 
 def get_all_paths_to_leaf(root, element_set):
 	if not root:
@@ -82,17 +107,22 @@ def get_next_siblings(e, name_set):
 def read_jsonld_file(filename):
 	file_id = os.path.basename(filename).replace(' ','_')+'.json'
 	# read file
-	with open(f'{filename}.json', 'r') as f:
+	with open(f'{filename}.json', 'rb') as f:
 		data=f.read()
+	data = data.decode(chardet.detect(data)['encoding'])
 	# parse file
-	obj = json.loads(data)
+	obj = json.loads(data, strict=False)
 	triple_list = jsonld_to_triples(obj, file_id)
 	# print(json.dumps(triple_list, indent=4))
-	special_labels = set([HAS_LABEL_PREDICATE, QUESTION_TEMPLATE_PREDICATE, ANSWER_TEMPLATE_PREDICATE])
+	special_labels = set([HAS_LABEL_PREDICATE, QUESTION_TEMPLATE_PREDICATE, ANSWER_TEMPLATE_PREDICATE, PAGE_ID_PREDICATE])
 	annotated_text_list = [
 		{
 			'text': o if not is_rdf_item(o) else o['@value'],
 			'id': file_id,
+			'annotation': {
+				'root': s,
+				'content': []
+			}
 		}
 		for s,p,o in triple_list
 		if not is_url(o) and p not in special_labels
@@ -111,8 +141,11 @@ def read_html_file(filename, short_extension=False, article_class_set=None, sect
 		
 	extenstion = ('.htm' if short_extension else '.html')
 	file_id = os.path.basename(filename).replace(' ','_')+extenstion
-	with open(filename+extenstion, 'r', encoding='utf8', errors='ignore') as file:
+
+	with open(filename+extenstion, 'rb') as file:
 		file_content = file.read()
+	file_content = file_content.decode(chardet.detect(file_content)['encoding'])
+
 	doc = BeautifulSoup(file_content, features="lxml")
 	for script in doc(["script", "style"]): # remove all javascript and stylesheet code
 		script.extract()
@@ -192,37 +225,81 @@ def read_html_file(filename, short_extension=False, article_class_set=None, sect
 	# print(json.dumps(annotated_text_list, indent=4))
 	return list(unique_everseen(annotated_text_list, key=lambda x: x['text']))
 
+# read_pdf_file('sample')
 def read_pdf_file(filename): # https://unicodelookup.com
+	def pdf_to_text(input_file):
+		#### PDFMINER
+		# from pdfminer.pdfpage import PDFPage
+		# from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+		# from pdfminer.converter import TextConverter
+		# from pdfminer.layout import LAParams
+		# i_f = open(input_file,'rb')
+		# resMgr = PDFResourceManager()
+		# page_content_list = []
+		# for page in PDFPage.get_pages(i_f):
+		# 	retData = io.StringIO()
+		# 	TxtConverter = TextConverter(resMgr,retData, laparams= LAParams())
+		# 	interpreter = PDFPageInterpreter(resMgr,TxtConverter)
+		# 	interpreter.process_page(page)
+		# 	page_content_list.append(retData.getvalue())
+		# return page_content_list
+		##########
+		#### TIKA
+		from tika import parser
+		raw_xml = parser.from_file(input_file, xmlContent=True)
+		body = raw_xml['content'].split('<body>')[1].split('</body>')[0]
+		body_without_tag = body.replace("<p>", "").replace("</p>", "\n\n").replace("<div>", "\n\n").replace("</div>","").replace("<p />","\n\n")
+		body_without_tag = body_without_tag.split("""<div class="annotation">""")[0]
+		text_pages = body_without_tag.split("""<div class="page">""")[1:]
+		return text_pages
+		##########
 	file_id = os.path.basename(filename).replace(' ','_')+'.pdf'
-	raw = parser.from_file(filename+'.pdf')
-	content = raw['content']
-	content = re.sub(r'\r?\n([^a-z]+)\r?\n\r?\n', r'\n##\1##\n\n', content) # identify titles
-	content = re.sub(r'\r?\n', ' ', content) # remove new lines
-	content = re.sub(r'- +', '', content) # remove hyphens
-	content = re.sub(r'([.!?])  +', r'\1\n\n', content) # separate paragraphs
-	content = re.sub(r'##([^a-z]+)##', r'\n\n\1\n\n', content) # separate titles
-	content = re.sub(r' +', ' ', content) # remove double whitespaces
-	return [
-		{
-			'text': paragraph.strip(),
-			'id': file_id
-		}
-		for paragraph in content.split('\n\n')
-		if paragraph
-	]
+	doc_id = get_uri_from_txt(os.path.basename(filename))
+	######
+	page_content_list = pdf_to_text(filename+'.pdf')
+	page_content_list = list(map(lambda x: clean_content(x, remove_footnote=True), page_content_list))
+	######
+	paragraph_dict_list = []
+	last_page_paragraph = None
+	for i,content in enumerate(page_content_list):
+		base_id = f'{doc_id}_{i}'
+		merge_with_last_paragraph = False
+		if last_page_paragraph:
+			last_char = last_page_paragraph[-1]
+			if last_char != '.' or last_char != '=' or last_char != '!':
+				merge_with_last_paragraph = True
+				# print(last_char, last_page_paragraph)
+		for paragraph in content.split('\n\n'):
+			paragraph = paragraph.strip()
+			if not paragraph:
+				continue
+			if merge_with_last_paragraph:
+				merge_with_last_paragraph = False
+				last_paragraph_dict = paragraph_dict_list[-1]
+				last_paragraph_dict['text'] += ' '+paragraph
+				# edit annotation
+				new_base_id = f'{doc_id}_{i-1}_{i}'
+				last_paragraph_annotation = last_paragraph_dict['annotation']
+				last_paragraph_annotation['root'] = f'{ANONYMOUS_PREFIX}{new_base_id}_0'
+				last_paragraph_annotation['content'] = jsonld_to_triples({PAGE_ID_PREDICATE: f'{i} - {i+1}'}, new_base_id)
+				continue
+			paragraph_dict_list.append({
+				'text': paragraph,
+				'id': file_id,
+				'annotation': {
+					'root': f'{ANONYMOUS_PREFIX}{base_id}_0',
+					'content': jsonld_to_triples({PAGE_ID_PREDICATE: f'{i+1}'}, base_id),
+				}
+			})
+			last_page_paragraph = paragraph
+	return paragraph_dict_list
 
 def read_txt_file(filename):
 	file_id = os.path.basename(filename).replace(' ','_')+'.txt'
 	with open(filename+'.txt', 'rb') as f:
 		content = f.read()
 	content = content.decode(chardet.detect(content)['encoding'])
-	# print(content)
-	content = re.sub(r'\r?\n([^a-z]+)\r?\n\r?\n', r'\n##\1##\n\n', content) # identify titles
-	content = re.sub(r'\r?\n', ' ', content) # remove new lines
-	content = re.sub(r'- +', '', content) # remove hyphens
-	content = re.sub(r'([.!?])  +', r'\1\n\n', content) # separate paragraphs
-	content = re.sub(r'##([^a-z]+)##', r'\n\n\1\n\n', content) # separate titles
-	content = re.sub(r' +', ' ', content) # remove double whitespaces
+	content = clean_content(content)
 	return [
 		{
 			'text': paragraph.strip(),
@@ -232,7 +309,7 @@ def read_txt_file(filename):
 		if paragraph.strip()
 	]
 
-def read_akn_file(filename):
+def read_akn_file(filename, include_headings=False):
 	file_id = os.path.basename(filename).replace(' ','_')+'.akn'
 	doc_id = get_uri_from_txt(os.path.basename(filename))
 	def get_num_jsonld(e):
@@ -240,7 +317,7 @@ def read_akn_file(filename):
 		if not num:
 			return None
 		return {
-			'@id': doc_id+':'+e['eid'],
+			'@id': doc_id+':'+e.get('eid', num.casefold().replace('(','').replace(')','')),
 			HAS_LABEL_PREDICATE: num
 		}
 	def get_heading_jsonld(e):
@@ -256,13 +333,17 @@ def read_akn_file(filename):
 				}
 		return jsonld
 	
-	with open(filename+'.akn') as f: 
+	with open(filename+'.akn','rb') as f: 
 		file_content = f.read()
-
-	doc = BeautifulSoup(file_content, features="lxml")
+	file_content = file_content.decode(chardet.detect(file_content)['encoding'])
+	
+	doc = BeautifulSoup(file_content, features="xml")
 
 	annotated_text_list = []
-	for i,p in enumerate(doc.findAll("p")):
+	content_tags = ["p","block"]
+	if include_headings:
+		content_tags.append("heading")
+	for i,p in enumerate(doc.findAll(content_tags)):
 		text = get_bs_text(p)
 		# Get annotations
 		text_annotation = {}
@@ -288,7 +369,7 @@ def read_akn_file(filename):
 			item = p.find_parent('item')
 			item_num = get_num_jsonld(item)
 			if item_num:
-				text_annotation['my:block_id'] = item_num
+				text_annotation['my:block_id'] = item_num[HAS_LABEL_PREDICATE]
 		else:
 			intro = p.find_parent('intro') 
 			if intro:
@@ -301,25 +382,31 @@ def read_akn_file(filename):
 		if paragraph:
 			paragraph_num = get_num_jsonld(paragraph)
 			if paragraph_num:
-				text_annotation['my:paragraph_id'] = paragraph_num
+				text_annotation['my:paragraph_id'] = paragraph_num[HAS_LABEL_PREDICATE]
 		# Get article
 		article = p.find_parent('article')
 		if article:
 			article_num = get_num_jsonld(article)
 			if article_num:
-				text_annotation['my:article_id'] = article_num
+				text_annotation['my:article_id'] = article_num[HAS_LABEL_PREDICATE]
+		# Get recital
+		recital = p.find_parent('recital')
+		if recital:
+			recital_num = get_num_jsonld(recital)
+			if recital_num:
+				text_annotation['my:recital_id'] = recital_num[HAS_LABEL_PREDICATE]
 		# Get section
 		section = p.find_parent('section')
 		if section:
 			section_heading = get_heading_jsonld(section)
 			if section_heading:
-				text_annotation['my:section_id'] = section_heading
+				text_annotation['my:section_id'] = section_heading[HAS_LABEL_PREDICATE]
 		# Get chapter
 		chapter = p.find_parent('chapter')
 		if chapter:
 			chapter_heading = get_heading_jsonld(chapter)
 			if chapter_heading:
-				text_annotation['my:chapter_id'] = chapter_heading
+				text_annotation['my:chapter_id'] = chapter_heading[HAS_LABEL_PREDICATE]
 		# Get references
 		text_annotation['my:reference_id'] = [
 			{
@@ -328,7 +415,7 @@ def read_akn_file(filename):
 			}
 			for ref in p.findAll('ref', recursive=False)
 		]
-		base_id = f'{file_id}_{i}'
+		base_id = f'{doc_id}_{i}'
 		annotated_text_list.append({
 			'text': text,
 			'id': file_id,
@@ -405,8 +492,8 @@ class DocParser():
 	def process_content_list(self):
 		self.graph_tuple = tuple(filter(lambda x: x, map(lambda x: x.get('graph', None), self.content_tuple)))
 		self.content_tuple = tuple(filter(lambda x: 'text' in x, self.content_tuple))
-		for doc_dict in self.content_tuple:
-			doc_dict['normalised_text'] = normalize_string(doc_dict['text'])
+		# for doc_dict in self.content_tuple:
+		# 	doc_dict['normalised_text'] = normalize_string(doc_dict['text'])
 
 	def get_doc_iter(self):
 		for doc_dict in self.content_tuple:
@@ -419,8 +506,9 @@ class DocParser():
 	def get_graph_iter(self):
 		return self.graph_tuple
 
-	def get_content_iter(self, normalised=True):
+	def get_content_iter(self):
 		for doc_dict in self.content_tuple:
-			yield doc_dict['normalised_text' if normalised else 'text']
+			# yield doc_dict['normalised_text' if normalised else 'text']
+			yield doc_dict['text']
 
 # print(json.dumps(read_pdf_file('[2018]LAW 101 FUNDAMENTALS OF THE LAW - NEW YORK LAW AND FEDERAL LAW'), indent=4))

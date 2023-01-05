@@ -9,7 +9,7 @@ def build_tfidf(words_vector, very_big_corpus=False):
 	# Build the Bag-of-Words corpus from lemmatized documents
 	corpus = [dictionary.doc2bow(gen_doc) for gen_doc in words_vector]
 	# Build the tf-idf model from the corpus 
-	tfidf_model = gensim.models.TfidfModel(corpus)
+	tfidf_model = gensim.models.TfidfModel(corpus, dictionary=dictionary, smartirs='nfu')
 	# Build similarities cache
 	# Similarity with cache into temporary file is slower than MatrixSimilarity but it can handle bigger corpus
 	# very_big_corpus = very_big_corpus or (len(dictionary)*len(words_vector)*4)/(10**9) > 2
