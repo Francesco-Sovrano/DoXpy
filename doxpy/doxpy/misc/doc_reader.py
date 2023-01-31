@@ -229,29 +229,29 @@ def read_html_file(filename, short_extension=False, article_class_set=None, sect
 def read_pdf_file(filename): # https://unicodelookup.com
 	def pdf_to_text(input_file):
 		#### PDFMINER
-		# from pdfminer.pdfpage import PDFPage
-		# from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-		# from pdfminer.converter import TextConverter
-		# from pdfminer.layout import LAParams
-		# i_f = open(input_file,'rb')
-		# resMgr = PDFResourceManager()
-		# page_content_list = []
-		# for page in PDFPage.get_pages(i_f):
-		# 	retData = io.StringIO()
-		# 	TxtConverter = TextConverter(resMgr,retData, laparams= LAParams())
-		# 	interpreter = PDFPageInterpreter(resMgr,TxtConverter)
-		# 	interpreter.process_page(page)
-		# 	page_content_list.append(retData.getvalue())
-		# return page_content_list
+		from pdfminer.pdfpage import PDFPage
+		from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+		from pdfminer.converter import TextConverter
+		from pdfminer.layout import LAParams
+		i_f = open(input_file,'rb')
+		resMgr = PDFResourceManager()
+		page_content_list = []
+		for page in PDFPage.get_pages(i_f):
+			retData = io.StringIO()
+			TxtConverter = TextConverter(resMgr,retData, laparams= LAParams())
+			interpreter = PDFPageInterpreter(resMgr,TxtConverter)
+			interpreter.process_page(page)
+			page_content_list.append(retData.getvalue())
+		return page_content_list
 		##########
-		#### TIKA
-		from tika import parser
-		raw_xml = parser.from_file(input_file, xmlContent=True)
-		body = raw_xml['content'].split('<body>')[1].split('</body>')[0]
-		body_without_tag = body.replace("<p>", "").replace("</p>", "\n\n").replace("<div>", "\n\n").replace("</div>","").replace("<p />","\n\n")
-		body_without_tag = body_without_tag.split("""<div class="annotation">""")[0]
-		text_pages = body_without_tag.split("""<div class="page">""")[1:]
-		return text_pages
+		# #### TIKA
+		# from tika import parser
+		# raw_xml = parser.from_file(input_file, xmlContent=True)
+		# body = raw_xml['content'].split('<body>')[1].split('</body>')[0]
+		# body_without_tag = body.replace("<p>", "").replace("</p>", "\n\n").replace("<div>", "\n\n").replace("</div>","").replace("<p />","\n\n")
+		# body_without_tag = body_without_tag.split("""<div class="annotation">""")[0]
+		# text_pages = body_without_tag.split("""<div class="page">""")[1:]
+		# return text_pages
 		##########
 	file_id = os.path.basename(filename).replace(' ','_')+'.pdf'
 	doc_id = get_uri_from_txt(os.path.basename(filename))
