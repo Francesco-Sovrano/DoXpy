@@ -7,14 +7,14 @@ from itertools import islice
 from doxpy.misc.cache_lib import load_or_create_cache, create_cache, load_cache
 from doxpy.misc.levenshtein_lib import remove_similar_labels, labels_are_contained
 
-# from doxpy.models.reasoning.question_answerer import QuestionAnswerer
+# from doxpy.models.reasoning.answer_retriever import AnswerRetriever
 from doxpy.misc.jsonld_lib import *
 from doxpy.models.reasoning import is_not_wh_word
 from doxpy.misc.utils import *
 
 get_archetype_set = lambda x: [qp.archetype for qp in x['question_pertinence_set']]
 
-class ExplainabilityEstimator:
+class DoXEstimator:
 	
 	@staticmethod
 	def get_explanatory_illocution_from_archetype_fitness(fitness_dict):
@@ -27,9 +27,9 @@ class ExplainabilityEstimator:
 		# explanatory_illocution = weighted_level_of_detail + top1_weighted_level_of_detail, because this way higher importance is given to the best 10 information units
 		return fitness_dict["tot_relevance"]["mean"] if isinstance(fitness_dict["tot_relevance"],dict) else fitness_dict["tot_relevance"]
 
-	def __init__(self, question_answerer, archetypal_questions_dict=None):
-		self.question_answerer = question_answerer
-		self.archetypal_questions_dict = self.question_answerer.archetypal_questions_dict if archetypal_questions_dict is None else archetypal_questions_dict
+	def __init__(self, answer_retriever, archetypal_questions_dict=None):
+		self.answer_retriever = answer_retriever
+		self.archetypal_questions_dict = self.answer_retriever.archetypal_questions_dict if archetypal_questions_dict is None else archetypal_questions_dict
 
 	def get_aspect_wedox_dict(self, aspect_archetype_answers_dict, archetype_fitness_options=None, archetype_weight_dict=None):
 		if archetype_fitness_options is None:
@@ -58,27 +58,27 @@ class ExplainabilityEstimator:
 			archetypal_qa_options['answer_to_question_max_similarity_threshold'] = None
 			archetypal_qa_options['top_k'] = None
 		# archetypal_qa_options['filter_fn'] = lambda a: '?' not in a['abstract'] # use only most granular information units available: clauses
-		# self.question_answerer.logger.info(f"Extracting aspect_archetype_answers_dict with top_k {archetypal_qa_options.get('top_k',None)}..")
-		self.question_answerer.logger.info('Extract archetypal answer_list for each aspect')
+		# self.answer_retriever.logger.info(f"Extracting aspect_archetype_answers_dict with top_k {archetypal_qa_options.get('top_k',None)}..")
+		self.answer_retriever.logger.info('Extract archetypal answer_list for each aspect')
 		if not aspect_uri_iter:
-			aspect_uri_iter = unique_everseen(self.question_answerer.kg_manager.aspect_uri_list)
+			aspect_uri_iter = unique_everseen(self.answer_retriever.kg_manager.aspect_uri_list)
 		if query_template_list is None:
 			query_template_list = list(self.archetypal_questions_dict.values())
 		# ##################################################################
 		# ## Important: do not consider paragraphs during concept overview, they may duplicate the level of detail, causing over-estimated DoX scores
-		# old_max_paragraph_len = self.question_answerer.kg_manager.max_paragraph_len # memorise current max_paragraph_len
-		# self.question_answerer.kg_manager.max_paragraph_len = 0 # set max_paragraph_len to zero
+		# old_max_paragraph_len = self.answer_retriever.kg_manager.max_paragraph_len # memorise current max_paragraph_len
+		# self.answer_retriever.kg_manager.max_paragraph_len = 0 # set max_paragraph_len to zero
 		# ##################################################################
 		archetypal_answers_per_aspect = {
-			aspect_uri: self.question_answerer.get_concept_overview(
+			aspect_uri: self.answer_retriever.get_concept_overview(
 				query_template_list=query_template_list, 
 				concept_uri=aspect_uri, 
 				**archetypal_qa_options,
 			)
-			for aspect_uri in self.question_answerer.tqdm(aspect_uri_iter)	
+			for aspect_uri in self.answer_retriever.tqdm(aspect_uri_iter)	
 		}
 		# ##################################################################
-		# self.question_answerer.kg_manager.max_paragraph_len = old_max_paragraph_len # restore old max_paragraph_len
+		# self.answer_retriever.kg_manager.max_paragraph_len = old_max_paragraph_len # restore old max_paragraph_len
 		# ##################################################################
 		return archetypal_answers_per_aspect
 
@@ -116,12 +116,12 @@ class ExplainabilityEstimator:
 		}
 
 	def get_filtered_aspect_archetype_answers_dict(self, aspect_archetype_answers_dict, answer_pertinence_threshold=None, answer_to_question_max_similarity_threshold=None, answer_to_answer_max_similarity_threshold=None, one_answer_per_sentence=False):
-		self.question_answerer.logger.info("Adding question_pertinence_set to answer_list..")
+		self.answer_retriever.logger.info("Adding question_pertinence_set to answer_list..")
 		for archetype_dict in aspect_archetype_answers_dict.values():
-			self.question_answerer.get_answer_question_pertinence_dict(archetype_dict, update_answers=True)
-		self.question_answerer.logger.info("Getting cumulative pertinence and LoD, per archetype..")
+			self.answer_retriever.get_answer_question_pertinence_dict(archetype_dict, update_answers=True)
+		self.answer_retriever.logger.info("Getting cumulative pertinence and LoD, per archetype..")
 		filtered_aspect_archetype_answers_dict = {}
-		for aspect_uri, archetype_dict in self.question_answerer.tqdm(aspect_archetype_answers_dict.items(), total=len(aspect_archetype_answers_dict)):
+		for aspect_uri, archetype_dict in self.answer_retriever.tqdm(aspect_archetype_answers_dict.items(), total=len(aspect_archetype_answers_dict)):
 			archetype_fitness_dict = filtered_aspect_archetype_answers_dict[aspect_uri] = {}
 			for archetype,answer_iter in archetype_dict.items():
 				# Considered only sentences that can be seen
@@ -135,9 +135,9 @@ class ExplainabilityEstimator:
 					continue
 				# Answers contained in the question are not valid
 				if answer_to_question_max_similarity_threshold is not None:
-					answer_list = self.question_answerer.sentence_classifier.filter_by_similarity_to_target(
+					answer_list = self.answer_retriever.sentence_classifier.filter_by_similarity_to_target(
 						answer_list, 
-						[self.question_answerer.kg_manager.get_label(aspect_uri)], 
+						[self.answer_retriever.kg_manager.get_label(aspect_uri)], 
 						threshold=answer_to_question_max_similarity_threshold, 
 						source_key=lambda a: a['abstract'], 
 						target_key=lambda q: q,
@@ -147,7 +147,7 @@ class ExplainabilityEstimator:
 					continue
 				# Ignore similar-enough sentences with lower pertinence
 				if answer_to_answer_max_similarity_threshold is not None:
-					answer_list = self.question_answerer.sentence_classifier.remove_similar_labels(
+					answer_list = self.answer_retriever.sentence_classifier.remove_similar_labels(
 						answer_list, 
 						threshold=answer_to_answer_max_similarity_threshold, 
 						key=lambda x: (x['abstract'],x['sentence']),
@@ -183,7 +183,7 @@ class ExplainabilityEstimator:
 					overlap_list = archetype_overlap_dict[archetype] = []
 				covered_archetypes = flatten((get_archetype_set(answer_dict) for answer_dict in answer_list), as_list=True)
 				overlap_list.append((covered_archetypes,len(answer_list)))
-		self.question_answerer.logger.info("Computing total relevance and LoD per archetype..")
+		self.answer_retriever.logger.info("Computing total relevance and LoD per archetype..")
 		archetype_fitness_dict = {}
 		for archetype, aspect_fitness_list in archetype_aspects_fitness_dict.items():
 			aspect_fitness = aspect_fitness_list[0]
@@ -209,7 +209,7 @@ class ExplainabilityEstimator:
 					"std": 0,
 					"max": 0,
 				}
-		self.question_answerer.logger.info("Adding overlap ratios to fitness_dict..")
+		self.answer_retriever.logger.info("Adding overlap ratios to fitness_dict..")
 		for archetype, overlap_list in archetype_overlap_dict.items():
 			answers_count = sum(map(lambda x:x[1], overlap_list))
 			overlap_dict = Counter(flatten(map(lambda x:x[0], overlap_list)))
@@ -223,13 +223,13 @@ class ExplainabilityEstimator:
 		return archetype_fitness_dict
 
 	def get_abstract_dox_dict(self, aspect_dox_dict): # normalise abstract concepts' WeDoX (it should not be lower than their subclasses)
-		self.question_answerer.logger.info('Get WeDoX of best sub-class, a.k.a. Abstract WeDoX')
+		self.answer_retriever.logger.info('Get WeDoX of best sub-class, a.k.a. Abstract WeDoX')
 		return {
 			aspect_uri: max((
 				aspect_dox_dict.get(a,0) 
-				for a in self.question_answerer.kg_manager.get_sub_classes(
+				for a in self.answer_retriever.kg_manager.get_sub_classes(
 					set(
-						self.question_answerer.kg_manager.get_equivalent_concepts(aspect_uri)
+						self.answer_retriever.kg_manager.get_equivalent_concepts(aspect_uri)
 					)
 				)
 			))
@@ -265,10 +265,27 @@ class ExplainabilityEstimator:
 					aspect_dox[archetype] = sentence_dox
 		return sentence_aspect_dox_dict
 
+	def estimate(self, aspect_uri_iter=None, only_overview_exploration=False, query_template_list=None, archetype_fitness_options=None, **archetypal_qa_options):
+		aspect_archetype_answers_dict = self.extract_archetypal_answers_per_aspect(
+			aspect_uri_iter=aspect_uri_iter,
+			only_overview_exploration=only_overview_exploration,
+			query_template_list=query_template_list,
+			**archetypal_qa_options
+		)
+		# print('Aspect-Archetype-Answers dict:', json.dumps(aspect_archetype_answers_dict, indent=4))
+		if archetype_fitness_options is None:
+			archetype_fitness_options = {}
+		archetype_fitness_dict = self.get_archetype_fitness_dict(
+			aspect_archetype_answers_dict,
+			archetype_fitness_options
+		)
+		# print('Archetype Fitness:', json.dumps(archetype_fitness_dict, indent=4))
+		return self.get_degree_of_explainability_from_archetype_fitness(archetype_fitness_dict)
+
 	@staticmethod
 	def get_degree_of_explainability_from_archetype_fitness(archetype_fitness_dict):
 		# print(json.dumps(archetype_fitness_dict, indent=4))
-		dox_archetype_iter = zip(archetype_fitness_dict.keys(), map(ExplainabilityEstimator.get_explanatory_illocution_from_archetype_fitness, archetype_fitness_dict.values()))
+		dox_archetype_iter = zip(archetype_fitness_dict.keys(), map(DoXEstimator.get_explanatory_illocution_from_archetype_fitness, archetype_fitness_dict.values()))
 		dox_archetype_iter = sorted(dox_archetype_iter, key=lambda x: x[-1], reverse=True)
 		return dict(dox_archetype_iter)
 

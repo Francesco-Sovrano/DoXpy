@@ -26,7 +26,7 @@ ArchetypePertinence = namedtuple('ArchetypePertinence',['archetype','pertinence'
 InformationUnit = namedtuple('InformationUnit',['unit','context'])
 # get_information_unit = lambda x: InformationUnit(x['abstract'], x['sentence'])
 
-class QuestionAnswererBase(ModelManager):
+class AnswerRetrieverBase(ModelManager):
 	archetypal_questions_dict = {
 		##### Descriptive
 		# 'what': 'What is a description of {X}?',
@@ -216,9 +216,9 @@ class QuestionAnswererBase(ModelManager):
 
 	@staticmethod
 	def minimise_question_answer_dict(question_answer_dict):
-		QuestionAnswererBase.logger.info('Minimising question answer dict')
+		AnswerRetrieverBase.logger.info('Minimising question answer dict')
 		# remove duplicated answers
-		answer_question_dict = QuestionAnswererBase.get_answer_question_pertinence_dict(question_answer_dict, update_answers=True)
+		answer_question_dict = AnswerRetrieverBase.get_answer_question_pertinence_dict(question_answer_dict, update_answers=True)
 		get_best_answer_archetype = lambda a: max(answer_question_dict[a['sentence']], key=lambda y: y.pertinence).archetype
 		return {
 			question: list(filter(lambda x: get_best_answer_archetype(x)==question, answers))
@@ -227,7 +227,7 @@ class QuestionAnswererBase(ModelManager):
 
 	@staticmethod
 	def get_question_answer_overlap_dict(question_answer_dict):
-		answer_question_dict = QuestionAnswererBase.get_answer_question_pertinence_dict(question_answer_dict)
+		answer_question_dict = AnswerRetrieverBase.get_answer_question_pertinence_dict(question_answer_dict)
 		get_question_iter = lambda q,a_list: filter(lambda x: x!=q, (answer_question_pertinence_dict[a['sentence']].archetype for a in a_list))
 		return {
 			question: Counter(get_question_iter(question,answers))

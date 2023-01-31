@@ -6,11 +6,11 @@ import logging
 from doxpy.misc.doc_reader import DocParser
 
 from doxpy.misc.jsonld_lib import *
-from doxpy.models.reasoning.question_answerer_base import *
+from doxpy.models.reasoning.answer_retriever_base import *
 from doxpy.models.reasoning import is_not_wh_word
 from doxpy.models.knowledge_extraction.couple_extractor import filter_invalid_sentences
 
-class QuestionAnswerer(QuestionAnswererBase):
+class AnswerRetriever(AnswerRetrieverBase):
 	def __init__(self, kg_manager, concept_classifier_options, sentence_classifier_options, default_query_template_list=None, **args):
 		super().__init__(kg_manager, concept_classifier_options, sentence_classifier_options, **args)
 		self.default_query_template_list = default_query_template_list
@@ -194,7 +194,7 @@ class QuestionAnswerer(QuestionAnswererBase):
 			# # 'Whose {X}?',
 		]
 
-	def get_concept_overview(self, query_template_list=None, concept_uri=None, concept_label=None, answer_pertinence_threshold=0.3, add_external_definitions=True, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, sort_archetypes_by_relevance=True, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, minimise=True, use_weak_pointers=False, question_horizon=None, filter_fn=None, answer_horizon=None, top_k=None, **args):
+	def get_concept_overview(self, query_template_list=None, concept_uri=None, concept_label=None, answer_pertinence_threshold=0.3, add_external_definitions=True, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, sort_archetypes_by_relevance=True, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, minimise=True, use_weak_pointers=False, question_horizon=None, filter_fn=None, answer_horizon=None, top_k=None, question_generator=None, **args):
 		assert concept_uri, f"{concept_uri} is not a valid concept_uri"
 		if query_template_list is None:
 			query_template_list = self.get_default_template_list(concept_uri)
@@ -205,8 +205,10 @@ class QuestionAnswerer(QuestionAnswererBase):
 			concept_label = self.kg_manager.get_label(concept_uri)
 		question_answer_dict = {}
 		self.logger.info(f'get_concept_overview "{concept_label}" <{concept_uri}>: finding answers in concept graph..')
+		if question_generator is None:
+			question_generator = lambda x,l: x.replace('{X}',l)
 		self.find_answers_in_concept_graph(
-			query_list= tuple(map(lambda x:x.replace('{X}',concept_label), query_template_list)), 
+			query_list= tuple(map(question_generator(x,concept_label), query_template_list)), 
 			concept_uri= concept_uri, 
 			question_answer_dict= question_answer_dict, 
 			answer_pertinence_threshold= answer_pertinence_threshold,

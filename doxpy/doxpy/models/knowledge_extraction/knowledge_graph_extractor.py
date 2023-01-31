@@ -21,7 +21,7 @@ except OSError:
 	nltk.download('stopwords')
 	from nltk.corpus import stopwords
 
-class KnowledgeGraphBuilder(CoupleExtractor):
+class KnowledgeGraphExtractor(CoupleExtractor):
 	
 	def set_documents_path(self, doc_path, remove_stopwords=True, remove_numbers=False, avoid_jumps=True, parallel_extraction=True):
 		doc_parser = DocParser().set_documents_path(doc_path, with_tqdm=self.with_tqdm)
@@ -48,21 +48,21 @@ class KnowledgeGraphBuilder(CoupleExtractor):
 			# remove_idx=True, 
 			# remove_span=True,
 		)
-		self.logger.info('KnowledgeGraphbuilder::build_triplet_list - Filtering triplets..')
+		self.logger.info('KnowledgeGraphExtractor::build_triplet_list - Filtering triplets..')
 		triplet_iter = self.tqdm(triplet_iter)
 		# couple_iter = self.clean_couples_from_tokens(couple_iter)
 		# if remove_pronouns: # Ignore pronouns
-		# 	self.logger.info('KnowledgeGraphbuilder::build_triplet_list - Removing pronouns..')
+		# 	self.logger.info('KnowledgeGraphExtractor::build_triplet_list - Removing pronouns..')
 		# 	couple_iter = filter(lambda c: c['concept_core'][-1]['lemma'] not in ['-pron-',''], couple_iter)
 		if remove_stopwords: # Ignore stowords
 			stopwords_set = set(stopwords.words('english'))
-			self.logger.info('KnowledgeGraphbuilder::build_triplet_list - Removing stopwords..')
+			self.logger.info('KnowledgeGraphExtractor::build_triplet_list - Removing stopwords..')
 			triplet_iter = filter(lambda c: c[0]['concept_core'][-1]['lemma'], triplet_iter)
 			triplet_iter = filter(lambda c: c[-1]['concept_core'][-1]['lemma'], triplet_iter)
 			triplet_iter = filter(lambda c: c[0]['concept_core'][-1]['lemma'] not in stopwords_set, triplet_iter)
 			triplet_iter = filter(lambda c: c[-1]['concept_core'][-1]['lemma'] not in stopwords_set, triplet_iter)
 		if remove_numbers: # Ignore concepts containing digits
-			self.logger.info('KnowledgeGraphbuilder::build_triplet_list - Removing numbers..')
+			self.logger.info('KnowledgeGraphExtractor::build_triplet_list - Removing numbers..')
 			triplet_iter = filter(lambda c: re.search(r'\d', c[0]['concept']['text']) is None, triplet_iter)
 			triplet_iter = filter(lambda c: re.search(r'\d', c[-1]['concept']['text']) is None, triplet_iter)
 		self.triplet_tuple = tuple(triplet_iter)
@@ -113,11 +113,11 @@ class KnowledgeGraphBuilder(CoupleExtractor):
 		current_depth +=1
 		if len(sub_concept_set) == 0 or current_depth==max_depth:
 			return set(concept_set)
-		return KnowledgeGraphBuilder.get_family_concept_set(graph, concept_set.union(sub_concept_set), max_depth, current_depth)
+		return KnowledgeGraphExtractor.get_family_concept_set(graph, concept_set.union(sub_concept_set), max_depth, current_depth)
 
 	def get_edge_list(self, triplet_iter, add_subclasses=False, use_framenet_fe=False, use_wordnet=False, lemmatize_label=False, add_verbs=False, add_predicates_label=False):
 		# Format triples
-		self.logger.info('KnowledgeGraphbuilder::get_edge_list - Building formatted_edge_list')
+		self.logger.info('KnowledgeGraphExtractor::get_edge_list - Building formatted_edge_list')
 		get_concept_label = (lambda c: c['lemma']) if lemmatize_label else (lambda c: c['text'])
 		get_concept_id = lambda s: CONCEPT_PREFIX+get_uri_from_txt(s['lemma'])
 		# get_concept_doc_idx = lambda c: c['idx']
