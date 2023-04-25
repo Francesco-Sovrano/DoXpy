@@ -208,7 +208,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 		if question_generator is None:
 			question_generator = lambda x,l: x.replace('{X}',l)
 		self.find_answers_in_concept_graph(
-			query_list= tuple(map(question_generator(x,concept_label), query_template_list)), 
+			query_list= tuple(map(lambda x: question_generator(x,concept_label), query_template_list)), 
 			concept_uri= concept_uri, 
 			question_answer_dict= question_answer_dict, 
 			answer_pertinence_threshold= answer_pertinence_threshold,

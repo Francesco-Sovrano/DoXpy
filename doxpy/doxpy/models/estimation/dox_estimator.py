@@ -115,7 +115,7 @@ class DoXEstimator:
 			# "context_LoD": len(context_qa_list),
 		}
 
-	def get_filtered_aspect_archetype_answers_dict(self, aspect_archetype_answers_dict, answer_pertinence_threshold=None, answer_to_question_max_similarity_threshold=None, answer_to_answer_max_similarity_threshold=None, one_answer_per_sentence=False):
+	def get_filtered_aspect_archetype_answers_dict(self, aspect_archetype_answers_dict, answer_pertinence_threshold=None, answer_to_question_max_similarity_threshold=None, answer_to_answer_max_similarity_threshold=None, one_answer_per_sentence=False, **args):
 		self.answer_retriever.logger.info("Adding question_pertinence_set to answer_list..")
 		for archetype_dict in aspect_archetype_answers_dict.values():
 			self.answer_retriever.get_answer_question_pertinence_dict(archetype_dict, update_answers=True)
