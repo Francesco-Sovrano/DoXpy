@@ -22,7 +22,7 @@ EXPLANANDUM_ASPECTS = [ # A: the explanandum aspects
 	"my:symptom",
 ]
 
-answer_pertinence_threshold = 0.55
+answer_pertinence_threshold = 0.57
 
 ################ Configuration ################
 ARCHETYPE_FITNESS_OPTIONS = {
