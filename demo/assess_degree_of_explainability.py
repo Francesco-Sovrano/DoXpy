@@ -51,19 +51,6 @@ ARCHETYPE_FITNESS_OPTIONS = {
 	'answer_to_answer_max_similarity_threshold': None,
 }
 
-
-QA_EXTRACTOR_OPTIONS = {
-	'models_dir': '/home/toor/Desktop/data/models', 
-	# 'models_dir': '/Users/toor/Documents/University/PhD/Project/YAI/code/libraries/QuAnsX/data/models', 
-	# 'use_cuda': True,
-
-	'sbert_model': {
-		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		# 'use_cuda': True,
-	},
-}
-
 KG_MANAGER_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,

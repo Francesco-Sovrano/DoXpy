@@ -22,109 +22,119 @@ EXPLANANDUM_ASPECTS = [ # A: the explanandum aspects
 	"my:symptom",
 ]
 
+answer_pertinence_threshold = 0.55
+
 ################ Configuration ################
 ARCHETYPE_FITNESS_OPTIONS = {
-	'only_overview_exploration': False,
-	'answer_pertinence_threshold': 0.55, 
-	'answer_to_question_max_similarity_threshold': 0.9502, 
-	'answer_to_answer_max_similarity_threshold': 0.9502, 
+	'one_answer_per_sentence': False,
+	'answer_pertinence_threshold': None, 
+	'answer_to_question_max_similarity_threshold': None,
+	'answer_to_answer_max_similarity_threshold': None,
 }
 OVERVIEW_OPTIONS = {
-	'answer_pertinence_threshold': None, # default is None
-	'answer_to_question_max_similarity_threshold': None, # default is 0.9502
-	'answer_to_answer_max_similarity_threshold': None, # default is 0.9502
-	'minimise': False,
-	'sort_archetypes_by_relevance': False,
-	'set_of_archetypes_to_consider': None, # set(['why','how'])
 	'answer_horizon': None,
-	'remove_duplicate_answer_sentences': True,
-
-	'top_k': 100,
+	'question_horizon': None,
+	######################
+	## AnswerRetriever stuff
+	'tfidf_importance': 0,
+	'answer_pertinence_threshold': answer_pertinence_threshold, 
+	'answer_to_question_max_similarity_threshold': None,
+	'answer_to_answer_max_similarity_threshold': 0.85,
+	'use_weak_pointers': False,
+	# 'top_k': 100,
+	# 'filter_fn': OQA_OPTIONS['filter_fn'],
+	######################
 	'include_super_concepts_graph': False, 
 	'include_sub_concepts_graph': True, 
-	'add_external_definitions': False, 
 	'consider_incoming_relations': True,
-	'tfidf_importance': 0,
+	'minimise': False, 
+	######################
+	'sort_archetypes_by_relevance': False, 
 }
 
 KG_MANAGER_OPTIONS = {
-	# 'spacy_model': 'en_core_web_trf',
-	# 'n_threads': 1,
+	'spacy_model': 'en_core_web_trf',
+	'n_threads': 1,
 	# 'use_cuda': True,
 	'with_cache': False,
 	'with_tqdm': False,
-}
 
-QA_EXTRACTOR_OPTIONS = {
-	# 'models_dir': '/home/toor/Desktop/data/models', 
-	'models_dir': '/Users/toor/Documents/University/PhD/Project/YAI/code/libraries/QuAnsX/data/models', 
-	'use_cuda': True,
-
-	'sbert_model': {
-		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/sb_cache_dir',
-		'use_cuda': True,
-	},
+	# 'min_triplet_len': 0,
+	# 'max_triplet_len': float('inf'),
+	# 'min_sentence_len': 0,
+	# 'max_sentence_len': float('inf'),
+	# 'min_paragraph_len': 0,
+	# 'max_paragraph_len': 0, # do not use paragraphs for computing DoX
 }
 
 KG_BUILDER_DEFAULT_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
-	'use_cuda': True,
+	# 'use_cuda': True,
+
+	'with_cache': False,
+	'with_tqdm': False,
 
 	'max_syntagma_length': None,
+	'add_source': True,
+	'add_label': True,
 	'lemmatize_label': False,
 
-	'default_similarity_threshold': 0.75,
+	# 'default_similarity_threshold': 0.75,
+	'default_similarity_threshold': 0,
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
 		# 'url': 'https://tfhub.dev/google/universal-sentence-encoder/4', # DAN
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir',
-		'use_cuda': False,
+		# 'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir/',
+		# 'use_cuda': True,
+		# 'with_cache': True,
+		# 'batch_size': 100,
 	},
 	'with_centered_similarity': True,
 }
 
 CONCEPT_CLASSIFIER_DEFAULT_OPTIONS = {
-	# 'spacy_model': 'en_core_web_trf',
-	# 'n_threads': 1,
+	'spacy_model': 'en_core_web_trf',
+	'n_threads': 1,
 	# 'use_cuda': True,
+
+	'default_batch_size': 20,
+	'with_tqdm':False,
 
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
 		# 'url': 'https://tfhub.dev/google/universal-sentence-encoder/4', # DAN
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir',
-		'use_cuda': False,
+		# 'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir/',
 	},
+	# 'sbert_model': {
+	# 	'url': 'all-MiniLM-L12-v2',
+	# 	'use_cuda': True,
+	# },
 	'with_centered_similarity': True,
 	'default_similarity_threshold': 0.75,
 	# 'default_tfidf_importance': 3/4,
+	'default_tfidf_importance': 0,
 }
 
 SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
-	# 'spacy_model': 'en_core_web_trf',
-	# 'n_threads': 1,
+	'spacy_model': 'en_core_web_trf',
+	'n_threads': 1,
 	# 'use_cuda': True,
 
-	# 'tf_model': {
-	# 	# 'url': 'https://tfhub.dev/google/universal-sentence-encoder-qa2/3', # English QA
-	# 	'url': 'https://tfhub.dev/google/universal-sentence-encoder-multilingual-qa/3', # Multilingual QA # 16 languages (Arabic, Chinese-simplified, Chinese-traditional, English, French, German, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Spanish, Thai, Turkish, Russian)
-	# 	# 'url': 'https://tfhub.dev/google/LAReQA/mBERT_En_En/1',
-	# 	'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir/',
-	# 	'use_cuda': True,
-	# }, 
 	'sbert_model': {
-		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/sb_cache_dir',
-		'use_cuda': True,
+		'url': 'multi-qa-MiniLM-L6-cos-v1', # model for paraphrase identification
+		# 'use_cuda': True,
+		'with_cache': True,
 	},
+
+	# 'default_batch_size': 100,
+	'with_tqdm': False,
+	'with_cache': False,
+	
 	'with_centered_similarity': False,
-	'with_topic_scaling': False,
-	'with_stemmed_tfidf': False,
-	# 'default_tfidf_importance': 1/4,
+	# 'with_topic_scaling': False,
+	'with_stemmed_tfidf': True,
+	'default_tfidf_importance': 1/2,
 }
 
 ################ Initialise data structures ################
@@ -191,6 +201,7 @@ dox = dox_estimator.estimate(
 	aspect_uri_iter=list(explanandum_aspect_list), 
 	query_template_list=question_template_list, 
 	archetype_fitness_options=ARCHETYPE_FITNESS_OPTIONS, 
+	only_overview_exploration=True,
 	**OVERVIEW_OPTIONS
 )
 print(f'DoX:', json.dumps(dox, indent=4))

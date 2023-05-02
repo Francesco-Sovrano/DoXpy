@@ -272,7 +272,18 @@ class DoXEstimator:
 			query_template_list=query_template_list,
 			**archetypal_qa_options
 		)
-		# print('Aspect-Archetype-Answers dict:', json.dumps(aspect_archetype_answers_dict, indent=4))
+		print('Aspect-Archetype-Answers dict:', json.dumps(aspect_archetype_answers_dict, indent=4))
+		print('Aspect-Archetype dict:', 
+			json.dumps(
+				dict((q, dict(
+					sorted([
+						(k, np.mean([a["confidence"] for a in v]) if v else 0) 
+						for k,v in w.items()
+					], key=lambda x: x[-1], reverse=True)
+				))
+				for q,w in aspect_archetype_answers_dict.items()), indent=4
+			)
+		)
 		if archetype_fitness_options is None:
 			archetype_fitness_options = {}
 		archetype_fitness_dict = self.get_archetype_fitness_dict(
