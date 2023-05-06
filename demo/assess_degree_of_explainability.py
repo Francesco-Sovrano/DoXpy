@@ -10,6 +10,11 @@ from doxpy.misc.utils import *
 import json
 import os
 import sys
+# import logging
+# logger = logging.getLogger('doxpy')
+# logger.setLevel(logging.INFO)
+# # logger.setLevel(logging.ERROR)
+# logger.addHandler(logging.StreamHandler(sys.stdout))
 
 model_type, answer_pertinence_threshold, explicandum_path, explainable_information_path, cache_path = sys.argv[1:]
 answer_pertinence_threshold = float(answer_pertinence_threshold)
@@ -23,30 +28,9 @@ AVOID_JUMPS = True
 # keep_the_n_most_similar_concepts = 2 
 # query_concept_similarity_threshold = 0.75, 
 
-OVERVIEW_OPTIONS = {
-	'answer_horizon': None,
-	'question_horizon': None,
-	######################
-	## AnswerRetriever stuff
-	'tfidf_importance': 0,
-	'answer_pertinence_threshold': answer_pertinence_threshold, 
-	'answer_to_question_max_similarity_threshold': None,
-	'answer_to_answer_max_similarity_threshold': 0.85,
-	'use_weak_pointers': False,
-	# 'top_k': 100,
-	# 'filter_fn': OQA_OPTIONS['filter_fn'],
-	######################
-	'include_super_concepts_graph': False, 
-	'include_sub_concepts_graph': True, 
-	'consider_incoming_relations': True,
-	'minimise': False, 
-	######################
-	'sort_archetypes_by_relevance': False, 
-}
-
 ARCHETYPE_FITNESS_OPTIONS = {
 	'one_answer_per_sentence': False,
-	'answer_pertinence_threshold': None, 
+	'answer_pertinence_threshold': answer_pertinence_threshold, 
 	'answer_to_question_max_similarity_threshold': None,
 	'answer_to_answer_max_similarity_threshold': None,
 }
@@ -242,7 +226,7 @@ question_template_list = [
 ]
 
 ### Define a question generator
-OVERVIEW_OPTIONS['question_generator'] = lambda question_template,concept_label: question_template.replace('{X}',concept_label)
+question_generator = lambda question_template,concept_label: question_template.replace('{X}',concept_label)
 
 ### Initialise the DoX estimator
 dox_estimator = DoXEstimator(qa)
@@ -250,8 +234,8 @@ dox_estimator = DoXEstimator(qa)
 dox = dox_estimator.estimate(
 	aspect_uri_iter=list(explanandum_aspect_list), 
 	query_template_list=question_template_list, 
-	archetype_fitness_options=ARCHETYPE_FITNESS_OPTIONS, 
-	**OVERVIEW_OPTIONS
+	question_generator=question_generator,
+	**ARCHETYPE_FITNESS_OPTIONS, 
 )
 print(f'DoX:', json.dumps(dox, indent=4))
 ### Compute the average DoX

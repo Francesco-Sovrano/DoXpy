@@ -46,19 +46,30 @@ class DoXEstimator:
 		}
 		return aspect_wedox_dict
 
-	def extract_archetypal_answers_per_aspect(self, aspect_uri_iter=None, only_overview_exploration=False, query_template_list=None, **archetypal_qa_options):
-		if not only_overview_exploration:
-			archetypal_qa_options['answer_horizon'] = None
-			archetypal_qa_options['question_horizon'] = None
-			archetypal_qa_options['sort_archetypes_by_relevance'] = False # set it to False, important!
-			archetypal_qa_options['minimise'] = False # set it to False, important!
-			archetypal_qa_options['tfidf_importance'] = 0
-			archetypal_qa_options['answer_pertinence_threshold'] = None
-			archetypal_qa_options['answer_to_answer_max_similarity_threshold'] = None
-			archetypal_qa_options['answer_to_question_max_similarity_threshold'] = None
-			archetypal_qa_options['top_k'] = None
-		# archetypal_qa_options['filter_fn'] = lambda a: '?' not in a['abstract'] # use only most granular information units available: clauses
-		# self.answer_retriever.logger.info(f"Extracting aspect_archetype_answers_dict with top_k {archetypal_qa_options.get('top_k',None)}..")
+	def extract_archetypal_answers_per_aspect(self, aspect_uri_iter=None, query_template_list=None, question_generator=None, archetypal_qa_options=None):
+		_archetypal_qa_options = {
+			'answer_horizon': None,
+			'question_horizon': None,
+			######################
+			## AnswerRetriever stuff
+			'tfidf_importance': 0,
+			'answer_pertinence_threshold': None, 
+			'answer_to_question_max_similarity_threshold': None,
+			'answer_to_answer_max_similarity_threshold': None,
+			######################
+			'include_super_concepts_graph': False, 
+			'include_sub_concepts_graph': True, 
+			'consider_incoming_relations': True,
+			'minimise': False, 
+			######################
+			'sort_archetypes_by_relevance': False, 
+			'top_k': None,
+		}
+		if archetypal_qa_options:
+			_archetypal_qa_options.update(archetypal_qa_options)
+			
+		# _archetypal_qa_options['filter_fn'] = lambda a: '?' not in a['abstract'] # use only most granular information units available: clauses
+		# self.answer_retriever.logger.info(f"Extracting aspect_archetype_answers_dict with top_k {_archetypal_qa_options.get('top_k',None)}..")
 		self.answer_retriever.logger.info('Extract archetypal answer_list for each aspect')
 		if not aspect_uri_iter:
 			aspect_uri_iter = unique_everseen(self.answer_retriever.kg_manager.aspect_uri_list)
@@ -73,7 +84,8 @@ class DoXEstimator:
 			aspect_uri: self.answer_retriever.get_concept_overview(
 				query_template_list=query_template_list, 
 				concept_uri=aspect_uri, 
-				**archetypal_qa_options,
+				question_generator=question_generator,
+				**_archetypal_qa_options,
 			)
 			for aspect_uri in self.answer_retriever.tqdm(aspect_uri_iter)	
 		}
@@ -166,8 +178,7 @@ class DoXEstimator:
 			for aspect_uri, archetype_dict in aspect_archetype_answers_dict.items()
 		}
 
-	def get_archetype_fitness_dict(self, aspect_archetype_answers_dict, archetype_fitness_options):
-		aspect_archetype_answers_dict = self.get_filtered_aspect_archetype_answers_dict(aspect_archetype_answers_dict, **archetype_fitness_options)
+	def get_archetype_fitness_dict(self, aspect_archetype_answers_dict):
 		archetype_aspects_fitness_dict = {}
 		archetype_overlap_dict = {}
 		for aspect_uri, archetype_dict in aspect_archetype_answers_dict.items():
@@ -236,16 +247,16 @@ class DoXEstimator:
 			for aspect_uri in aspect_dox_dict.keys()
 		}
 
-	def get_sentence_aspect_dox_dict(self, aspect_uri_list, only_overview_exploration=False, query_template_list=False, overview_options=None, archetype_fitness_options=None):
+	def get_sentence_aspect_dox_dict(self, aspect_uri_list, query_template_list=False, question_generator=None, overview_options=None, archetype_fitness_options=None):
 		if archetype_fitness_options is None:
 			archetype_fitness_options = {}
 		if overview_options is None:
 			overview_options = {}
 		aspect_archetype_answers_dict = self.extract_archetypal_answers_per_aspect(
 			aspect_uri_iter=aspect_uri_list,
-			only_overview_exploration=only_overview_exploration, 
 			query_template_list=query_template_list,
-			**overview_options
+			question_generator=question_generator,
+			archetypal_qa_options=overview_options
 		)
 		aspect_archetype_answers_dict = self.get_filtered_aspect_archetype_answers_dict(aspect_archetype_answers_dict, **archetype_fitness_options)
 		sentence_aspect_dox_dict = {}
@@ -265,31 +276,17 @@ class DoXEstimator:
 					aspect_dox[archetype] = sentence_dox
 		return sentence_aspect_dox_dict
 
-	def estimate(self, aspect_uri_iter=None, only_overview_exploration=False, query_template_list=None, archetype_fitness_options=None, **archetypal_qa_options):
+	def estimate(self, aspect_uri_iter=None, query_template_list=None, question_generator=None, archetypal_qa_options=None, **archetype_fitness_options):
 		aspect_archetype_answers_dict = self.extract_archetypal_answers_per_aspect(
 			aspect_uri_iter=aspect_uri_iter,
-			only_overview_exploration=only_overview_exploration,
 			query_template_list=query_template_list,
-			**archetypal_qa_options
+			question_generator=question_generator,
+			archetypal_qa_options=archetypal_qa_options,
 		)
-		print('Aspect-Archetype-Answers dict:', json.dumps(aspect_archetype_answers_dict, indent=4))
-		print('Aspect-Archetype dict:', 
-			json.dumps(
-				dict((q, dict(
-					sorted([
-						(k, np.mean([a["confidence"] for a in v]) if v else 0) 
-						for k,v in w.items()
-					], key=lambda x: x[-1], reverse=True)
-				))
-				for q,w in aspect_archetype_answers_dict.items()), indent=4
-			)
-		)
-		if archetype_fitness_options is None:
-			archetype_fitness_options = {}
-		archetype_fitness_dict = self.get_archetype_fitness_dict(
-			aspect_archetype_answers_dict,
-			archetype_fitness_options
-		)
+		aspect_archetype_answers_dict = self.get_filtered_aspect_archetype_answers_dict(aspect_archetype_answers_dict, **archetype_fitness_options)
+		self.answer_retriever.logger.info(f'Aspect-Archetype-Answers dict: {json.dumps(aspect_archetype_answers_dict, indent=4)}')
+		self.answer_retriever.logger.info(f'Aspect-Archetype dict: {json.dumps(dict((q, dict(sorted([(k, np.mean([a["confidence"] for a in v]) if v else 0) for k,v in w.items()], key=lambda x: x[-1], reverse=True))) for q,w in aspect_archetype_answers_dict.items()), indent=4)}')
+		archetype_fitness_dict = self.get_archetype_fitness_dict(aspect_archetype_answers_dict)
 		# print('Archetype Fitness:', json.dumps(archetype_fitness_dict, indent=4))
 		return self.get_degree_of_explainability_from_archetype_fitness(archetype_fitness_dict)
 

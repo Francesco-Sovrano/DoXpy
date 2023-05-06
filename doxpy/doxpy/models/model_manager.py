@@ -52,7 +52,7 @@ class ModelManager():
 	__hf_embedders = {}
 	__sbert_embedders = {}
 
-	logger = logging.getLogger('knowpy')
+	logger = logging.getLogger('doxpy')
 
 	def __init__(self, model_options=None):
 		if not model_options:

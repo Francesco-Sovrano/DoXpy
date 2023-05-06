@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 
 from doxpy.models.knowledge_extraction.knowledge_graph_extractor import KnowledgeGraphExtractor
 from doxpy.models.estimation.dox_estimator import DoXEstimator
@@ -9,6 +8,13 @@ from doxpy.models.reasoning.answer_retriever import AnswerRetriever
 from doxpy.misc.doc_reader import load_or_create_cache
 from doxpy.misc.graph_builder import get_betweenness_centrality, save_graphml, get_concept_set, get_concept_description_dict
 from doxpy.misc.jsonld_lib import *
+
+import sys
+import logging
+logger = logging.getLogger('doxpy')
+logger.setLevel(logging.INFO)
+# logger.setLevel(logging.ERROR)
+logger.addHandler(logging.StreamHandler(sys.stdout))
 
 PHI = [ # Information whose explainability to assess
 	"Angina happens when some part of your heart doesn't get enough oxygen",
@@ -27,29 +33,9 @@ answer_pertinence_threshold = 0.57
 ################ Configuration ################
 ARCHETYPE_FITNESS_OPTIONS = {
 	'one_answer_per_sentence': False,
-	'answer_pertinence_threshold': None, 
-	'answer_to_question_max_similarity_threshold': None,
-	'answer_to_answer_max_similarity_threshold': None,
-}
-OVERVIEW_OPTIONS = {
-	'answer_horizon': None,
-	'question_horizon': None,
-	######################
-	## AnswerRetriever stuff
-	'tfidf_importance': 0,
 	'answer_pertinence_threshold': answer_pertinence_threshold, 
 	'answer_to_question_max_similarity_threshold': None,
-	'answer_to_answer_max_similarity_threshold': 0.85,
-	'use_weak_pointers': False,
-	# 'top_k': 100,
-	# 'filter_fn': OQA_OPTIONS['filter_fn'],
-	######################
-	'include_super_concepts_graph': False, 
-	'include_sub_concepts_graph': True, 
-	'consider_incoming_relations': True,
-	'minimise': False, 
-	######################
-	'sort_archetypes_by_relevance': False, 
+	'answer_to_answer_max_similarity_threshold': None,
 }
 
 KG_MANAGER_OPTIONS = {
@@ -192,7 +178,7 @@ question_template_list = [ # Q: the archetypal questions
 ]
 
 ### Define a question generator
-OVERVIEW_OPTIONS['question_generator'] = lambda question_template,concept_label: question_template.replace('{X}',concept_label)
+question_generator = lambda question_template,concept_label: question_template.replace('{X}',concept_label)
 
 ### Initialise the DoX estimator
 dox_estimator = DoXEstimator(qa)
@@ -200,9 +186,8 @@ dox_estimator = DoXEstimator(qa)
 dox = dox_estimator.estimate(
 	aspect_uri_iter=list(explanandum_aspect_list), 
 	query_template_list=question_template_list, 
-	archetype_fitness_options=ARCHETYPE_FITNESS_OPTIONS, 
-	only_overview_exploration=True,
-	**OVERVIEW_OPTIONS
+	question_generator=question_generator,
+	**ARCHETYPE_FITNESS_OPTIONS, 
 )
 print(f'DoX:', json.dumps(dox, indent=4))
 ### Compute the average DoX
