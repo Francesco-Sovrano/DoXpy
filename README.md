@@ -168,23 +168,6 @@ ARCHETYPE_FITNESS_OPTIONS = {
 	'answer_to_question_max_similarity_threshold': 0.9502, 
 	'answer_to_answer_max_similarity_threshold': 0.9502, 
 }
-OVERVIEW_OPTIONS = {
-	'answer_pertinence_threshold': None, # default is None
-	'answer_to_question_max_similarity_threshold': None, # default is 0.9502
-	'answer_to_answer_max_similarity_threshold': None, # default is 0.9502
-	'minimise': False,
-	'sort_archetypes_by_relevance': False,
-	'set_of_archetypes_to_consider': None, # set(['why','how'])
-	'answer_horizon': None,
-	'remove_duplicate_answer_sentences': True,
-
-	'top_k': 100,
-	'include_super_concepts_graph': False, 
-	'include_sub_concepts_graph': True, 
-	'add_external_definitions': False, 
-	'consider_incoming_relations': True,
-	'tfidf_importance': 0,
-}
 
 KG_MANAGER_OPTIONS = {
 	# 'spacy_model': 'en_core_web_trf',
@@ -192,18 +175,6 @@ KG_MANAGER_OPTIONS = {
 	# 'use_cuda': True,
 	'with_cache': False,
 	'with_tqdm': False,
-}
-
-QA_EXTRACTOR_OPTIONS = {
-	# 'models_dir': '/home/toor/Desktop/data/models', 
-	'models_dir': '/Users/toor/Documents/University/PhD/Project/YAI/code/libraries/QuAnsX/data/models', 
-	'use_cuda': True,
-
-	'sbert_model': {
-		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/sb_cache_dir',
-		'use_cuda': True,
-	},
 }
 
 KG_BUILDER_DEFAULT_OPTIONS = {
