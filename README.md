@@ -88,6 +88,65 @@ It is possible to manually specify a different list of archetypal questions, as 
 
 For more about why we selected all these archetypes and many more details, please read [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327). 
 
+## How DoX is computed: an example
+
+Let's walk through an example using Definitions 2 through 4 of [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327). We'll use the following sentence as our piece of information $\Phi$: "Aspirin is used to treat pain and reduce inflammation because it inhibits the production of prostaglandins."
+
+Let the set of relevant aspects $A = \{\textit{aspirin, pain, inflammation, prostaglandins}\}$.
+
+Now, let's go through each definition step by step:
+
+1. **Cumulative Pertinence (Definition 2)**: First, we need to compute the cumulative pertinence of details in $\Phi$ to each archetypal question $q_a$ about each aspect $a \in A$. For simplicity, let's consider just two archetypal questions: \texttt{why} and \texttt{how}. We have the following details $D_a$ for each aspect $a$:
+
+- Aspirin: "Aspirin is used to treat pain and inflammation", "Aspirin inhibits the production of prostaglandins"
+- Pain: "Aspirin is used to treat pain"
+- Inflammation: "Aspirin is used to reduce inflammation"
+- Prostaglandins: "Aspirin inhibits the production of prostaglandins"
+
+Next, we need to calculate the pertinence $p(d, q_a)$ of each detail $d \in D_a$ to each question $q_a$ (e.g., \texttt{why} and \texttt{how} questions about each aspect $a$). Let's assume we obtain the following pertinence values (on a scale from 0 to 1) for each detail and each question archetype:
+
+| Related Aspect | Detail                                         | Why Pertinence | How Pertinence |
+|----------------|------------------------------------------------|----------------|---------------|
+| Aspirin        | Aspirin is used to treat pain and inflammation | 0.8            | 0.6           |
+| Aspirin        | Aspirin inhibits the production of prostaglandins | 0.6            | 0.8           |
+| Pain           | Aspirin is used to treat pain                  | 0.4            | 0.3           |
+| Inflammation   | Aspirin is used to reduce inflammation         | 0.4            | 0.3           |
+| Prostaglandins | Aspirin inhibits the production of prostaglandins | 0.6            | 0.8           |
+
+Now, we can calculate the cumulative pertinence $P_{D_a, q_a}$ for each aspect $a \in A$ and each question $q_a$. Let's assume a pertinence threshold $t = 0.5$. The cumulative pertinence for each aspect and each question archetype would be:
+
+| Aspect         | Why Cumulative Pertinence | How Cumulative Pertinence |
+|----------------|---------------------------|---------------------------|
+| Aspirin        | 1.4                       | 1.4                       |
+| Pain           | 0                       | 0                       |
+| Inflammation   | 0                       | 0                       |
+| Prostaglandins | 0.6                       | 0.8                       |
+
+2. **Explanatory Illocution (Definition 3)**: Now, we can calculate the explanatory illocution for each aspect $a \in A$. This is a set of tuples containing each archetypal question and its corresponding cumulative pertinence. For example, the explanatory illocution for the aspect "prostaglandins" would be:
+
+$\{<\texttt{why}, 0.6>, <\texttt{how}, 0.8>\}$
+
+3. **Degree of Explainability (Definition 4)**: Finally, we can calculate the Degree of Explainability (DoX) as the average explanatory illocution per aspect. To do this, we sum the cumulative pertinences for each archetypal question and divide by the number of archetypal questions. In this case, we have two archetypal questions: \texttt{why} and \texttt{how}. The Degree of Explainability for each aspect would be:
+
+Aspect | Degree of Explainability
+--- | ---
+Aspirin | (1.4 + 1.4) / 2 = 1.4
+Pain | (0 + 0) / 2 = 0
+Inflammation | (0 + 0) / 2 = 0
+Prostaglandins | (0.6 + 0.8) / 2 = 0.7
+
+In this example, the Degree of Explainability for the aspect "prostaglandins" is 0.7 and for "aspirin" is 1.4, which is the highest among all aspects in the set $A$. This indicates that the information $\Phi$ is most explanatory regarding the aspect "aspirin" and its relation to pain, inflammation and prostaglandins.
+
+To compute the total Degree of Explainability (DoX) for the set of aspects $A$, we can sum the DoX values for each aspect and divide by the number of aspects. In our example, we have four aspects: aspirin, pain, inflammation, and prostaglandins. Using the previously calculated DoX values, we can compute the total DoX for $A$ as follows:
+
+Total DoX for A = (DoX_aspirin + DoX_pain + DoX_inflammation + DoX_prostaglandins) / 4
+
+Total DoX for A = (1.4 + 0 + 0 + 0.7) / 4 = 0.525
+
+So, the total Degree of Explainability for the set of aspects $A$ is 0.525. This value represents the average explainability of the given information $\Phi$ across all aspects in the set $A$. In this example, the total DoX is relatively low, indicating that the information is not highly explanatory across all aspects. However, it's important to note that the aspects "aspirin" and "prostaglandins" have high individual DoX values, meaning that the information $\Phi$ is more explanatory regarding those specific aspects.
+
+It's important to note that the values obtained for pertinence and the Degree of Explainability depend on the specific method used to calculate them, as well as the chosen threshold value. Different methods or thresholds might yield different results. This example demonstrates a simplified approach to the concepts of Cumulative Pertinence, Explanatory Illocution, and Degree of Explainability, and serves as a starting point for more complex or tailored approaches.
+
 ## How to use DoXpy in your project
 To use DoXpy on your project, you need to install it first. 
 Then you can import it as in [demo/assess_degree_of_explainability.py](demo/assess_degree_of_explainability.py).
