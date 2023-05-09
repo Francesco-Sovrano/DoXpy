@@ -35,7 +35,7 @@ ARCHETYPE_FITNESS_OPTIONS = {
 	'one_answer_per_sentence': False,
 	'answer_pertinence_threshold': answer_pertinence_threshold, 
 	'answer_to_question_max_similarity_threshold': None,
-	'answer_to_answer_max_similarity_threshold': None,
+	'answer_to_answer_max_similarity_threshold': 0.85,
 }
 
 KG_MANAGER_OPTIONS = {
