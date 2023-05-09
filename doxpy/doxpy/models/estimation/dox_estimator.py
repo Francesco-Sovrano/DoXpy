@@ -61,6 +61,7 @@ class DoXEstimator:
 			'include_sub_concepts_graph': True, 
 			'consider_incoming_relations': True,
 			'minimise': False, 
+			'use_weak_pointers': False,
 			######################
 			'sort_archetypes_by_relevance': False, 
 			'top_k': None,

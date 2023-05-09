@@ -10,10 +10,10 @@ from doxpy.misc.utils import *
 import json
 import os
 import sys
-# import logging
+import logging
 # logger = logging.getLogger('doxpy')
 # logger.setLevel(logging.INFO)
-# # logger.setLevel(logging.ERROR)
+# # logger.setLevel(logging.DEBUG)
 # logger.addHandler(logging.StreamHandler(sys.stdout))
 
 model_type, answer_pertinence_threshold, explicandum_path, explainable_information_path, cache_path = sys.argv[1:]
@@ -32,7 +32,7 @@ ARCHETYPE_FITNESS_OPTIONS = {
 	'one_answer_per_sentence': False,
 	'answer_pertinence_threshold': answer_pertinence_threshold, 
 	'answer_to_question_max_similarity_threshold': None,
-	'answer_to_answer_max_similarity_threshold': None,
+	'answer_to_answer_max_similarity_threshold': 0.85,
 }
 
 KG_MANAGER_OPTIONS = {
@@ -61,7 +61,7 @@ GRAPH_CLEANING_OPTIONS = {
 	'remove_stopwords': False,
 	'remove_numbers': False,
 	'avoid_jumps': AVOID_JUMPS,
-	'parallel_extraction': True,
+	'parallel_extraction': False,
 }
 
 GRAPH_BUILDER_OPTIONS = {
@@ -97,7 +97,7 @@ CONCEPT_CLASSIFIER_OPTIONS = {
 
 	'default_batch_size': 20,
 	'with_tqdm':False,
-	# 'with_cache': False,
+	'with_cache': True,
 
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
@@ -123,10 +123,10 @@ SENTENCE_CLASSIFIER_OPTIONS = {
 	'with_tqdm': False,
 	'with_cache': False,
 	
-	'with_centered_similarity': False,
-	# 'with_topic_scaling': False,
-	'with_stemmed_tfidf': True,
-	'default_tfidf_importance': 1/2,
+	# 'with_centered_similarity': False,
+	# # 'with_topic_scaling': False,
+	# 'with_stemmed_tfidf': True,
+	'default_tfidf_importance': 0,
 }
 
 if model_type == 'tf':
@@ -136,13 +136,13 @@ if model_type == 'tf':
 		# 'url': 'https://tfhub.dev/google/LAReQA/mBERT_En_En/1',
 		# 'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir/',
 		# 'use_cuda': True,
-		'with_cache': False,
+		'with_cache': True,
 	}
 else:
 	SENTENCE_CLASSIFIER_OPTIONS['sbert_model'] = {
 		'url': 'multi-qa-MiniLM-L6-cos-v1', # model for paraphrase identification
 		# 'use_cuda': True,
-		'with_cache': False,
+		'with_cache': True,
 	}
 
 ################ Initialise data structures ################

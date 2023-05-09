@@ -117,10 +117,10 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 	'with_tqdm': False,
 	'with_cache': False,
 	
-	'with_centered_similarity': False,
-	# 'with_topic_scaling': False,
-	'with_stemmed_tfidf': True,
-	'default_tfidf_importance': 1/2,
+	# 'with_centered_similarity': False,
+	# # 'with_topic_scaling': False,
+	# 'with_stemmed_tfidf': True,
+	'default_tfidf_importance': 0,
 }
 
 ################ Initialise data structures ################
