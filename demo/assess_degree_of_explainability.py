@@ -38,7 +38,7 @@ ARCHETYPE_FITNESS_OPTIONS = {
 KG_MANAGER_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
-	# 'use_cuda': True,
+	'use_cuda': True,
 	'with_cache': False,
 	'with_tqdm': False,
 
@@ -67,7 +67,7 @@ GRAPH_CLEANING_OPTIONS = {
 GRAPH_BUILDER_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
-	# 'use_cuda': True,
+	'use_cuda': True,
 
 	'with_cache': False,
 	'with_tqdm': False,
@@ -93,10 +93,11 @@ GRAPH_BUILDER_OPTIONS = {
 CONCEPT_CLASSIFIER_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
-	# 'use_cuda': True,
+	'use_cuda': True,
 
 	'default_batch_size': 20,
 	'with_tqdm':False,
+	# 'with_cache': False,
 
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
@@ -116,7 +117,7 @@ CONCEPT_CLASSIFIER_OPTIONS = {
 SENTENCE_CLASSIFIER_OPTIONS = {
 	'spacy_model': 'en_core_web_trf',
 	'n_threads': 1,
-	# 'use_cuda': True,
+	'use_cuda': True,
 
 	# 'default_batch_size': 100,
 	'with_tqdm': False,
@@ -135,13 +136,13 @@ if model_type == 'tf':
 		# 'url': 'https://tfhub.dev/google/LAReQA/mBERT_En_En/1',
 		# 'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir/',
 		# 'use_cuda': True,
-		'with_cache': True,
+		'with_cache': False,
 	}
 else:
 	SENTENCE_CLASSIFIER_OPTIONS['sbert_model'] = {
 		'url': 'multi-qa-MiniLM-L6-cos-v1', # model for paraphrase identification
 		# 'use_cuda': True,
-		'with_cache': True,
+		'with_cache': False,
 	}
 
 ################ Initialise data structures ################
