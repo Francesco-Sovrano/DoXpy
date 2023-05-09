@@ -98,7 +98,7 @@ Now, let's go through each definition step by step:
 
 1. **Cumulative Pertinence (Definition 2)**: First, we need to compute the cumulative pertinence of details in $\Phi$ to each archetypal question $q_a$ about each aspect $a \in A$. For simplicity, let's consider just two archetypal questions: \texttt{why} and \texttt{how}. We have the following details $D_a$ for each aspect $a$:
 
-- Aspirin: "Aspirin is used to treat pain and inflammation", "Aspirin inhibits the production of prostaglandins"
+- Aspirin: "Aspirin is used to treat pain and inflammation", "Aspirin is used to treat pain", "Aspirin is used to treat inflammation", "Aspirin inhibits the production of prostaglandins"
 - Pain: "Aspirin is used to treat pain"
 - Inflammation: "Aspirin is used to reduce inflammation"
 - Prostaglandins: "Aspirin inhibits the production of prostaglandins"
@@ -108,10 +108,22 @@ Next, we need to calculate the pertinence $p(d, q_a)$ of each detail $d \in D_a$
 | Related Aspect | Detail                                         | Why Pertinence | How Pertinence |
 |----------------|------------------------------------------------|----------------|---------------|
 | Aspirin        | Aspirin is used to treat pain and inflammation | 0.8            | 0.6           |
+| Aspirin        | Aspirin is used to treat pain | 0.7            | 0.5           |
+| Aspirin        | Aspirin is used to treat inflammation | 0.7            | 0.5           |
 | Aspirin        | Aspirin inhibits the production of prostaglandins | 0.6            | 0.8           |
 | Pain           | Aspirin is used to treat pain                  | 0.4            | 0.3           |
 | Inflammation   | Aspirin is used to reduce inflammation         | 0.4            | 0.3           |
 | Prostaglandins | Aspirin inhibits the production of prostaglandins | 0.6            | 0.8           |
+
+To refine the information, we have established a duplication threshold of 0.85. If the similarity between two details is above this threshold, we consider them to be duplicates. In this case, we found that "Aspirin is used to treat pain" and "Aspirin is used to treat inflammation" are highly similar to "Aspirin is used to treat pain and inflammation" and their similarity exceeds the duplication threshold. As a result, we have removed these two details and only retained "Aspirin is used to treat pain and inflammation," which is more comprehensive for all related questions.
+
+The following table shows the similarities between various details about aspirin and the detail "Aspirin is used to treat pain and inflammation":
+
+| Detail | Similarity to "Aspirin is used to treat pain and inflammation" | Above Duplication Threshold (r = 0.85) |
+|--------|--------|--------------------------------------------------------------|-----------------------------------------|
+| Aspirin is used to treat pain | 0.9 | Yes |
+| Aspirin is used to treat inflammation | 0.9 | Yes |
+| Aspirin inhibits the production of prostaglandins | 0.6 | No |
 
 Now, we can calculate the cumulative pertinence $P_{D_a, q_a}$ for each aspect $a \in A$ and each question $q_a$. Let's assume a pertinence threshold $t = 0.5$. The cumulative pertinence for each aspect and each question archetype would be:
 
@@ -163,16 +175,13 @@ from doxpy.models.reasoning.answer_retriever import AnswerRetriever
 An example of configuration options is the following:
 ```
 ARCHETYPE_FITNESS_OPTIONS = {
-	'only_overview_exploration': False,
-	'answer_pertinence_threshold': 0.55, 
-	'answer_to_question_max_similarity_threshold': 0.9502, 
-	'answer_to_answer_max_similarity_threshold': 0.9502, 
+	'one_answer_per_sentence': False,
+	'answer_pertinence_threshold': 0.6, 
+	'answer_to_question_max_similarity_threshold': None,
+	'answer_to_answer_max_similarity_threshold': 0.85,
 }
 
 KG_MANAGER_OPTIONS = {
-	# 'spacy_model': 'en_core_web_trf',
-	# 'n_threads': 1,
-	# 'use_cuda': True,
 	'with_cache': False,
 	'with_tqdm': False,
 }
@@ -185,56 +194,31 @@ KG_BUILDER_DEFAULT_OPTIONS = {
 	'max_syntagma_length': None,
 	'lemmatize_label': False,
 
-	'default_similarity_threshold': 0.75,
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
-		# 'url': 'https://tfhub.dev/google/universal-sentence-encoder/4', # DAN
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir',
+		#'cache_dir': '/Users/root/Documents/Software/DLModels/tf_cache_dir',
 		'use_cuda': False,
 	},
-	'with_centered_similarity': True,
 }
 
 CONCEPT_CLASSIFIER_DEFAULT_OPTIONS = {
-	# 'spacy_model': 'en_core_web_trf',
-	# 'n_threads': 1,
-	# 'use_cuda': True,
-
 	'tf_model': {
 		'url': 'https://tfhub.dev/google/universal-sentence-encoder-large/5', # Transformer
-		# 'url': 'https://tfhub.dev/google/universal-sentence-encoder/4', # DAN
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir',
+		#'cache_dir': '/Users/root/Documents/Software/DLModels/tf_cache_dir',
 		'use_cuda': False,
 	},
 	'with_centered_similarity': True,
 	'default_similarity_threshold': 0.75,
-	# 'default_tfidf_importance': 3/4,
+    'default_tfidf_importance': 0,
 }
 
 SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
-	# 'spacy_model': 'en_core_web_trf',
-	# 'n_threads': 1,
-	# 'use_cuda': True,
-
-	# 'tf_model': {
-	# 	# 'url': 'https://tfhub.dev/google/universal-sentence-encoder-qa2/3', # English QA
-	# 	'url': 'https://tfhub.dev/google/universal-sentence-encoder-multilingual-qa/3', # Multilingual QA # 16 languages (Arabic, Chinese-simplified, Chinese-traditional, English, French, German, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Spanish, Thai, Turkish, Russian)
-	# 	# 'url': 'https://tfhub.dev/google/LAReQA/mBERT_En_En/1',
-	# 	'cache_dir': '/Users/toor/Documents/Software/DLModels/tf_cache_dir/',
-	# 	'use_cuda': True,
-	# }, 
 	'sbert_model': {
-		'url': 'facebook-dpr-question_encoder-multiset-base', # model for paraphrase identification
-		# 'cache_dir': '/public/francesco_sovrano/DoX/Scripts/.env',
-		'cache_dir': '/Users/toor/Documents/Software/DLModels/sb_cache_dir',
+		'url': 'multi-qa-MiniLM-L6-cos-v1',
+		#'cache_dir': '/Users/root/Documents/Software/DLModels/sb_cache_dir',
 		'use_cuda': True,
 	},
-	'with_centered_similarity': False,
-	'with_topic_scaling': False,
-	'with_stemmed_tfidf': False,
-	# 'default_tfidf_importance': 1/4,
+	'default_tfidf_importance': 0,
 }
 ```
 

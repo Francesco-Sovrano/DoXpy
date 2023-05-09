@@ -108,7 +108,7 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 	# 'use_cuda': True,
 
 	'sbert_model': {
-		'url': 'multi-qa-MiniLM-L6-cos-v1', # model for paraphrase identification
+		'url': 'multi-qa-MiniLM-L6-cos-v1',
 		# 'use_cuda': True,
 		'with_cache': True,
 	},
