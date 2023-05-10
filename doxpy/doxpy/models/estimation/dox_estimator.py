@@ -65,6 +65,7 @@ class DoXEstimator:
 			######################
 			'sort_archetypes_by_relevance': False, 
 			'top_k': None,
+			'keep_the_n_most_similar_concepts': 3,
 		}
 		if archetypal_qa_options:
 			_archetypal_qa_options.update(archetypal_qa_options)
@@ -88,7 +89,7 @@ class DoXEstimator:
 				question_generator=question_generator,
 				**_archetypal_qa_options,
 			)
-			for aspect_uri in self.answer_retriever.tqdm(aspect_uri_iter)	
+			for aspect_uri in self.answer_retriever.tqdm(aspect_uri_iter)
 		}
 		# ##################################################################
 		# self.answer_retriever.kg_manager.max_paragraph_len = old_max_paragraph_len # restore old max_paragraph_len

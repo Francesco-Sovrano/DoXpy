@@ -10,10 +10,10 @@ from doxpy.misc.utils import *
 import json
 import os
 import sys
-import logging
+# import logging
 # logger = logging.getLogger('doxpy')
 # logger.setLevel(logging.INFO)
-# # logger.setLevel(logging.DEBUG)
+# # logger.setLevel(logging.WARNING)
 # logger.addHandler(logging.StreamHandler(sys.stdout))
 
 model_type, answer_pertinence_threshold, explicandum_path, explainable_information_path, cache_path = sys.argv[1:]

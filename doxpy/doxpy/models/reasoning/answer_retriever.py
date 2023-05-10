@@ -194,32 +194,50 @@ class AnswerRetriever(AnswerRetrieverBase):
 			# # 'Whose {X}?',
 		]
 
-	def get_concept_overview(self, query_template_list=None, concept_uri=None, concept_label=None, answer_pertinence_threshold=0.3, add_external_definitions=True, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, sort_archetypes_by_relevance=True, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, minimise=True, use_weak_pointers=False, question_horizon=None, filter_fn=None, answer_horizon=None, top_k=None, question_generator=None, **args):
+	def get_concept_overview(self, query_template_list=None, concept_uri=None, concept_label=None, answer_pertinence_threshold=0.3, add_external_definitions=True, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, sort_archetypes_by_relevance=True, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, minimise=True, use_weak_pointers=False, question_horizon=None, filter_fn=None, answer_horizon=None, top_k=None, question_generator=None, keep_the_n_most_similar_concepts=0, query_concept_similarity_threshold=None, **args):
 		assert concept_uri, f"{concept_uri} is not a valid concept_uri"
 		if query_template_list is None:
 			query_template_list = self.get_default_template_list(concept_uri)
 		elif not query_template_list:
 			return {}
+		if question_generator is None:
+			question_generator = lambda x,l: x.replace('{X}',l)
 		# set consider_incoming_relations to False with concept-centred generic questions (e.g. what is it?), otherwise the answers won't be the sought ones
 		if not concept_label:
 			concept_label = self.kg_manager.get_label(concept_uri)
+		concept_uri_set = set([concept_uri])
+		if keep_the_n_most_similar_concepts:
+			self.logger.info(f'Extracting concepts from concept_label_list: {concept_uri}..')
+			concepts_dict = self.concept_classifier.get_concept_dict(
+				doc_parser=DocParser().set_content_list(self.kg_manager.get_label_list(concept_uri)),
+				size=keep_the_n_most_similar_concepts,
+				similarity_threshold=query_concept_similarity_threshold, 
+			)
+			self.logger.debug('######## Concepts Dict ########')
+			self.logger.debug(json.dumps(concepts_dict, indent=4))
+			concept_uri_set |= set((
+				concept_similarity_dict["id"]
+				for concept_label, concept_count_dict in concepts_dict.items()
+				for concept_similarity_dict in itertools.islice(unique_everseen(concept_count_dict["similar_to"], key=lambda x: x["id"]), max(1,keep_the_n_most_similar_concepts))
+			))	
+						
+		# For every aligned concept, extract from the ontology all the incoming and outgoing triples, thus building a partial graph (a view).
 		question_answer_dict = {}
-		self.logger.info(f'get_concept_overview "{concept_label}" <{concept_uri}>: finding answers in concept graph..')
-		if question_generator is None:
-			question_generator = lambda x,l: x.replace('{X}',l)
-		self.find_answers_in_concept_graph(
-			query_list= tuple(map(lambda x: question_generator(x,concept_label), query_template_list)), 
-			concept_uri= concept_uri, 
-			question_answer_dict= question_answer_dict, 
-			answer_pertinence_threshold= answer_pertinence_threshold,
-			add_external_definitions= add_external_definitions,
-			include_super_concepts_graph= include_super_concepts_graph, 
-			include_sub_concepts_graph= include_sub_concepts_graph, 
-			consider_incoming_relations= consider_incoming_relations,
-			tfidf_importance= tfidf_importance,
-			use_weak_pointers= use_weak_pointers,
-			top_k= top_k,
-		)
+		for concept_uri in concept_uri_set:
+			self.logger.info(f'get_concept_overview "{concept_label}" <{concept_uri}>: finding answers in concept graph..')
+			self.find_answers_in_concept_graph(
+				query_list= tuple(map(lambda x: question_generator(x,concept_label), query_template_list)), 
+				concept_uri= concept_uri, 
+				question_answer_dict= question_answer_dict, 
+				answer_pertinence_threshold= answer_pertinence_threshold,
+				add_external_definitions= add_external_definitions,
+				include_super_concepts_graph= include_super_concepts_graph, 
+				include_sub_concepts_graph= include_sub_concepts_graph, 
+				consider_incoming_relations= consider_incoming_relations,
+				tfidf_importance= tfidf_importance,
+				use_weak_pointers= use_weak_pointers,
+				top_k= top_k,
+			)
 		question_answer_items = zip(query_template_list, question_answer_dict.values())
 		if filter_fn:
 			question_answer_items = map(lambda x: (x[0], list(filter(filter_fn,x[-1]))), question_answer_items) # remove unwanted answers
