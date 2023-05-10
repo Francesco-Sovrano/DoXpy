@@ -309,21 +309,6 @@ def read_txt_file(filename):
 		if paragraph.strip()
 	]
 
-def read_md_file(filename):
-	file_id = os.path.basename(filename).replace(' ','_')+'.md'
-	with open(filename+'.md', 'rb') as f:
-		content = f.read()
-	content = content.decode(chardet.detect(content)['encoding'])
-	content = clean_content(content)
-	return [
-		{
-			'text': paragraph.strip(),
-			'id': file_id
-		}
-		for paragraph in content.split('\n\n')
-		if paragraph.strip()
-	]
-
 def read_akn_file(filename, include_headings=False):
 	file_id = os.path.basename(filename).replace(' ','_')+'.akn'
 	doc_id = get_uri_from_txt(os.path.basename(filename))
@@ -468,9 +453,6 @@ def get_content_list(doc_list, with_tqdm=False):
 			elif obj_name+'.txt' in doc_set:
 				# print('Parsing TXT:', obj_name)
 				content_list += read_txt_file(obj_name)
-			elif obj_name+'.md' in doc_set:
-				# print('Parsing TXT:', obj_name)
-				content_list += read_md_file(obj_name)
 		return content_list
 
 	name_list = list(name_iter)
