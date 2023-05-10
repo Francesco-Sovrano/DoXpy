@@ -82,13 +82,11 @@ class DoXEstimator:
 		# self.answer_retriever.kg_manager.max_paragraph_len = 0 # set max_paragraph_len to zero
 		# ##################################################################
 		archetypal_answers_per_aspect = {
-			aspect_uri: self.answer_retriever.get_concept_overview(
-				query_template_list=query_template_list, 
-				concept_uri=aspect_uri, 
-				question_generator=question_generator,
+			aspect_uri: self.answer_retriever.ask(
+				list(map(lambda x: question_generator(x,concept_label),query_template_list)),
 				**_archetypal_qa_options,
 			)
-			for aspect_uri in self.answer_retriever.tqdm(aspect_uri_iter)	
+			for concept_label,aspect_uri in zip(map(self.answer_retriever.kg_manager.get_label, aspect_uri_iter),aspect_uri_iter)
 		}
 		# ##################################################################
 		# self.answer_retriever.kg_manager.max_paragraph_len = old_max_paragraph_len # restore old max_paragraph_len
