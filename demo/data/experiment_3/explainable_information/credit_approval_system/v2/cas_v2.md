@@ -21,6 +21,7 @@ The following are the system requirements for the AI-based Credit Approval Syste
 - Storage: A minimum of 100 GB of free disk space.
 - Graphics Card: A dedicated Nvidia graphics card, such as Nvidia A100.
 - Internet Connection: A stable connection for seamless API access.
+
 These requirements may be subject to changes depending on the system configuration and the volume of data involved.
 
 The Credit Approval AI Model is a cloud-based solution, which enables seamless integration and interaction with other hardware and software systems. It is designed to work efficiently on standard server-grade hardware with a robust computational capability. The AI system is placed on the market as a Software as a Service (SaaS) product, allowing banks and financial institutions to subscribe to the service and integrate it into their existing credit approval processes.
@@ -297,7 +298,7 @@ We also employ a Reweighing algorithm to mitigate any detected bias. This algori
 
 If any bias is detected, we conduct a thorough investigation to identify the root cause of the bias and implement appropriate mitigation measures. This could involve retraining the AI model, adjusting the model's parameters, or revising the data pre-processing procedures.
 
-#v# 8.4 System Updates
+### System Updates
 
 Based on the results of the ongoing monitoring and routine performance evaluations, we may implement updates to the AI system to improve its performance or functionality. These updates could involve adjusting the AI model's parameters, incorporating new features or data sources, or upgrading the AI algorithms.
 
