@@ -206,7 +206,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 		if not concept_label:
 			concept_label = self.kg_manager.get_label(concept_uri)
 		concept_uri_set = set([concept_uri])
-		if keep_the_n_most_similar_concepts:
+		if keep_the_n_most_similar_concepts: # and ((query_concept_similarity_threshold and query_concept_similarity_threshold < 1) or (query_concept_similarity_threshold is None and self.concept_classifier.default_similarity_threshold < 1)):
 			self.logger.info(f'Extracting concepts from concept_label_list: {concept_uri}..')
 			concepts_dict = self.concept_classifier.get_concept_dict(
 				doc_parser=DocParser().set_content_list(self.kg_manager.get_label_list(concept_uri)),

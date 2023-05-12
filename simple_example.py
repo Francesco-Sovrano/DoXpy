@@ -76,7 +76,6 @@ KG_BUILDER_DEFAULT_OPTIONS = {
 		# 'with_cache': True,
 		# 'batch_size': 100,
 	},
-	'with_centered_similarity': True,
 }
 
 CONCEPT_CLASSIFIER_DEFAULT_OPTIONS = {
@@ -96,9 +95,8 @@ CONCEPT_CLASSIFIER_DEFAULT_OPTIONS = {
 	# 	'url': 'all-MiniLM-L12-v2',
 	# 	'use_cuda': True,
 	# },
-	'with_centered_similarity': True,
-	'default_similarity_threshold': 0.75,
-	# 'default_tfidf_importance': 3/4,
+	'default_similarity_threshold': 0.5,
+	# 'with_stemmed_tfidf': True,
 	'default_tfidf_importance': 0,
 }
 
@@ -117,9 +115,6 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 	'with_tqdm': False,
 	'with_cache': False,
 	
-	# 'with_centered_similarity': False,
-	# # 'with_topic_scaling': False,
-	# 'with_stemmed_tfidf': True,
 	'default_tfidf_importance': 0,
 }
 
