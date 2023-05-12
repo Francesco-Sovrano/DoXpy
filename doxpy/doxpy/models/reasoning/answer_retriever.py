@@ -209,7 +209,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 			self.logger.info(f'Extracting concepts from concept_label_list: {concept_uri}..')
 			super_n_sub_classes = concept_uri_set | self.kg_manager.get_sub_classes(concept_uri_set) | self.kg_manager.get_super_classes(concept_uri_set)
 			concepts_dict = self.concept_classifier.get_concept_dict(
-				doc_parser=DocParser().set_content_list(self.kg_manager.get_label_list(concept_uri)),
+				doc_parser=DocParser().set_content_list([concept_label]),
 				size=keep_the_n_most_similar_concepts,
 				similarity_threshold=query_concept_similarity_threshold, 
 				concept_id_filter=lambda x: x not in super_n_sub_classes
