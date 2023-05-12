@@ -213,8 +213,8 @@ class AnswerRetriever(AnswerRetrieverBase):
 				size=keep_the_n_most_similar_concepts,
 				similarity_threshold=query_concept_similarity_threshold, 
 			)
-			self.logger.debug('######## Concepts Dict ########')
-			self.logger.debug(json.dumps(concepts_dict, indent=4))
+			self.logger.info('######## Concepts Dict ########')
+			self.logger.info(json.dumps(concepts_dict, indent=4))
 			concept_uri_set |= set((
 				concept_similarity_dict["id"]
 				for concept_label, concept_count_dict in concepts_dict.items()
@@ -224,7 +224,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 		# For every aligned concept, extract from the ontology all the incoming and outgoing triples, thus building a partial graph (a view).
 		question_answer_dict = {}
 		for concept_uri in concept_uri_set:
-			self.logger.info(f'get_concept_overview "{concept_label}" <{concept_uri}>: finding answers in concept graph..')
+			self.logger.info(f'get_concept_overview for "{concept_label}": finding answers in concept graph of <{concept_uri}>..')
 			self.find_answers_in_concept_graph(
 				query_list= tuple(map(lambda x: question_generator(x,concept_label), query_template_list)), 
 				concept_uri= concept_uri, 

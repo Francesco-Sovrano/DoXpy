@@ -16,8 +16,9 @@ import sys
 # # logger.setLevel(logging.WARNING)
 # logger.addHandler(logging.StreamHandler(sys.stdout))
 
-model_type, answer_pertinence_threshold, explicandum_path, explainable_information_path, cache_path = sys.argv[1:]
+model_type, answer_pertinence_threshold, synonymity_threshold, explicandum_path, explainable_information_path, cache_path = sys.argv[1:]
 answer_pertinence_threshold = float(answer_pertinence_threshold)
+synonymity_threshold = float(synonymity_threshold)
 if not os.path.exists(cache_path): os.mkdir(cache_path)
 
 print('Assessing DoX of:', json.dumps(sys.argv[1:], indent=4))
@@ -109,7 +110,7 @@ CONCEPT_CLASSIFIER_OPTIONS = {
 	# 	'use_cuda': True,
 	# },
 	'with_centered_similarity': True,
-	'default_similarity_threshold': 0.75,
+	'default_similarity_threshold': synonymity_threshold,
 	# 'default_tfidf_importance': 3/4,
 	'default_tfidf_importance': 0,
 }

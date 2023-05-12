@@ -223,7 +223,7 @@ SENTENCE_CLASSIFIER_DEFAULT_OPTIONS = {
 ```
 
 ## Experiments
-Part of the experiments discussed in [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327) can be run by executing the script [run_dox_assessment.sh](run_dox_assessment.sh).
+Part of the experiments discussed in [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327) can be run by executing the script [assessment_software_documentation.sh](assessment_software_documentation.sh).
 This script runs the automatic assessment of the DoX for the two experiments on all the different versions of the two considered AI-based systems.
 The results of the automatic assessment can be found at [demo/logs](demo/logs).
 
