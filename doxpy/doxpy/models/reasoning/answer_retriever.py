@@ -35,9 +35,8 @@ class AnswerRetriever(AnswerRetrieverBase):
 			'confidence': answer['similarity'],
 			'syntactic_similarity': answer['syntactic_similarity'],
 			'semantic_similarity': answer['semantic_similarity'],
-			'extra_info': self.kg_manager.get_sub_graph(source_uri) if source_uri else None,
-			# 'sentence': paragraph if paragraph else sentence, 
-			'sentence': sentence, 
+			# 'extra_info': self.kg_manager.get_sub_graph(source_uri) if source_uri else None,
+			'sentence': sentence, # paragraph if paragraph else sentence, 
 			'triple': triple, 
 			'source_id': source_uri if source_uri else sentence, 
 			'source_sentence_uri': source_sentence_uri,
@@ -208,10 +207,12 @@ class AnswerRetriever(AnswerRetrieverBase):
 		concept_uri_set = set([concept_uri])
 		if keep_the_n_most_similar_concepts: # and ((query_concept_similarity_threshold and query_concept_similarity_threshold < 1) or (query_concept_similarity_threshold is None and self.concept_classifier.default_similarity_threshold < 1)):
 			self.logger.info(f'Extracting concepts from concept_label_list: {concept_uri}..')
+			super_n_sub_classes = concept_uri_set | self.kg_manager.get_sub_classes(concept_uri_set) | self.kg_manager.get_super_classes(concept_uri_set)
 			concepts_dict = self.concept_classifier.get_concept_dict(
 				doc_parser=DocParser().set_content_list(self.kg_manager.get_label_list(concept_uri)),
 				size=keep_the_n_most_similar_concepts,
 				similarity_threshold=query_concept_similarity_threshold, 
+				concept_id_filter=lambda x: x not in super_n_sub_classes
 			)
 			self.logger.info('######## Concepts Dict ########')
 			self.logger.info(json.dumps(concepts_dict, indent=4))

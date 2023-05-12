@@ -14,7 +14,7 @@ import logging
 logger = logging.getLogger('doxpy')
 logger.setLevel(logging.INFO)
 # logger.setLevel(logging.ERROR)
-logger.addHandler(logging.StreamHandler(sys.stdout))
+# logger.addHandler(logging.StreamHandler(sys.stdout))
 
 PHI = [ # Information whose explainability to assess
 	"Angina happens when some part of your heart doesn't get enough oxygen",
