@@ -6,7 +6,7 @@ cd demo
 mkdir logs
 mkdir cache
 
-ANSWER_PERTINENCE_THRESHOLD=0.3
+ANSWER_PERTINENCE_THRESHOLD=0.6
 SYNONYMITY_THRESHOLD=0.5
 
 #### Credit Approval System - V1

@@ -96,7 +96,7 @@ class ConceptClassifier(SentenceClassifier):
 				index_of_most_similar_documents = filter(lambda x: concept_id_filter(x['id']), index_of_most_similar_documents)
 			if concept_label_filter is not None:
 				index_of_most_similar_documents = filter(lambda x: concept_label_filter(x['doc']), index_of_most_similar_documents)
-			concept_counter_dict[concept]['similar_to'] = tuple(itertools.islice(index_of_most_similar_documents, size))
+			concept_counter_dict[concept]['similar_to'] = tuple(itertools.islice(index_of_most_similar_documents, size) if size else index_of_most_similar_documents)
 			concept_counter_dict[concept]['source_list'] = tuple(unique_everseen(concept_counter_dict[concept]['source_list'], key=lambda x:x['sentence_text']))
 		return concept_counter_dict
 

@@ -116,7 +116,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 
 ################################################################################################################################################
 
-	def ask(self, question_list, query_concept_similarity_threshold=0.55, answer_pertinence_threshold=0.55, with_numbers=True, remove_stopwords=False, lemmatized=False, keep_the_n_most_similar_concepts=1, add_external_definitions=False, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, concept_label_filter=is_not_wh_word, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, use_weak_pointers=False, filter_fn=None, top_k=None, answer_horizon=None, minimise=False, **args):
+	def ask(self, question_list, query_concept_similarity_threshold=0.55, answer_pertinence_threshold=0.55, with_numbers=True, remove_stopwords=False, lemmatized=False, keep_the_n_most_similar_concepts=None, add_external_definitions=False, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, concept_label_filter=is_not_wh_word, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, use_weak_pointers=False, filter_fn=None, top_k=None, answer_horizon=None, minimise=False, **args):
 		# set consider_incoming_relations to False with concept-centred generic questions (e.g. what is it?), otherwise the answers won't be the sought ones
 		self.logger.info(f'Extracting concepts from question_list: {json.dumps(question_list, indent=4)}..')
 		concepts_dict = self.concept_classifier.get_concept_dict(
@@ -193,7 +193,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 			# # 'Whose {X}?',
 		]
 
-	def get_concept_overview(self, query_template_list=None, concept_uri=None, concept_label=None, answer_pertinence_threshold=0.3, add_external_definitions=True, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, sort_archetypes_by_relevance=True, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, minimise=True, use_weak_pointers=False, question_horizon=None, filter_fn=None, answer_horizon=None, top_k=None, question_generator=None, keep_the_n_most_similar_concepts=0, query_concept_similarity_threshold=None, **args):
+	def get_concept_overview(self, query_template_list=None, concept_uri=None, concept_label=None, answer_pertinence_threshold=0.3, add_external_definitions=True, include_super_concepts_graph=True, include_sub_concepts_graph=True, consider_incoming_relations=True, tfidf_importance=None, sort_archetypes_by_relevance=True, answer_to_question_max_similarity_threshold=0.97, answer_to_answer_max_similarity_threshold=0.97, minimise=True, use_weak_pointers=False, question_horizon=None, filter_fn=None, answer_horizon=None, top_k=None, question_generator=None, keep_the_n_most_similar_concepts=None, query_concept_similarity_threshold=None, **args):
 		assert concept_uri, f"{concept_uri} is not a valid concept_uri"
 		if query_template_list is None:
 			query_template_list = self.get_default_template_list(concept_uri)
@@ -205,7 +205,7 @@ class AnswerRetriever(AnswerRetrieverBase):
 		if not concept_label:
 			concept_label = self.kg_manager.get_label(concept_uri)
 		concept_uri_set = set([concept_uri])
-		if keep_the_n_most_similar_concepts: # and ((query_concept_similarity_threshold and query_concept_similarity_threshold < 1) or (query_concept_similarity_threshold is None and self.concept_classifier.default_similarity_threshold < 1)):
+		if keep_the_n_most_similar_concepts!=0 and (query_concept_similarity_threshold or (query_concept_similarity_threshold is None and self.concept_classifier.default_similarity_threshold)):
 			self.logger.info(f'Extracting concepts from concept_label_list: {concept_uri}..')
 			concepts_iter = flatten(self.concept_classifier.classify(
 				query_list=self.kg_manager.get_label_list(concept_uri), 
@@ -217,7 +217,8 @@ class AnswerRetriever(AnswerRetrieverBase):
 			super_n_sub_classes = concept_uri_set | self.kg_manager.get_sub_classes(concept_uri_set) | self.kg_manager.get_super_classes(concept_uri_set)
 			concepts_iter = filter(lambda x: x["id"] not in super_n_sub_classes, concepts_iter)
 			
-			concepts_iter = itertools.islice(concepts_iter, max(1,keep_the_n_most_similar_concepts))
+			if keep_the_n_most_similar_concepts:
+				concepts_iter = itertools.islice(concepts_iter, max(1,keep_the_n_most_similar_concepts))
 			concepts_list = list(concepts_iter)
 			self.logger.info('######## Concepts Dict ########')
 			self.logger.info(json.dumps(concepts_list, indent=4))

@@ -65,7 +65,7 @@ class DoXEstimator:
 			######################
 			'sort_archetypes_by_relevance': False, 
 			'top_k': None,
-			'keep_the_n_most_similar_concepts': 3,
+			# 'keep_the_n_most_similar_concepts': 3,
 		}
 		if archetypal_qa_options:
 			_archetypal_qa_options.update(archetypal_qa_options)
