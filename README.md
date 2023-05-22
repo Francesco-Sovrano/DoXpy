@@ -120,7 +120,7 @@ To refine the information, we have established a duplication threshold of 0.85. 
 The following table shows the similarities between various details about aspirin and the detail "Aspirin is used to treat pain and inflammation":
 
 | Detail | Similarity to "Aspirin is used to treat pain and inflammation" | Above Duplication Threshold (r = 0.85) |
-|--------|--------|--------------------------------------------------------------|-----------------------------------------|
+|--------|--------|--------------------------------------------------------------|
 | Aspirin is used to treat pain | 0.9 | Yes |
 | Aspirin is used to treat inflammation | 0.9 | Yes |
 | Aspirin inhibits the production of prostaglandins | 0.6 | No |
