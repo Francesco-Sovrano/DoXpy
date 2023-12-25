@@ -1,7 +1,5 @@
 # DoXpy: An Objective Metric for Explainable AI
 
-**NB This documentation will be updated soon**
-
 DoXpy is a pip-installable python library giving you all that is necessary to objectively estimate the amount of explainability of any English piece of information (i.e. the output of an Explainable AI), scaling pretty well from single paragraphs to whole sets of documents.
 
 DoXpy relies on deep language models for
