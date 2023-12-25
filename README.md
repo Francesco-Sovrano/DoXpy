@@ -17,7 +17,9 @@ The supported libraries are:
 
 DoXpy is model-agnostic, which means that it can work with the output of any AI, if in English, regardless of its specific characteristics.
 To do so, DoXpy exploits a specific theoretical model from Ordinary Language Philosophy called Achinstein's Theory of Explanations. 
-You may find a thorough discussion of the underlying theory in this paper [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](http://arxiv.org/abs/2109.05327).
+You may find a thorough discussion of the underlying theory in this paper [An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability](https://www.sciencedirect.com/science/article/abs/pii/S0950705123006160). 
+
+**Preprint available at: [http://arxiv.org/abs/2109.05327](http://arxiv.org/abs/2109.05327)**
   
 ## Installation
 This project has been tested on Debian 9 and macOS Mojave 10.14 with Python 3.7. 
