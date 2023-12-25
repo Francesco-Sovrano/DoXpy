@@ -253,12 +253,14 @@ The two experiments are the following:
 ## Citations
 This code is free. So, if you use this code anywhere, please cite us:
 ```
-@article{sovrano2021metric,
-  title={An Objective Metric for Explainable AI: How and Why to Estimate the Degree of Explainability},
+@article{sovrano2023objective,
+  title={An objective metric for explainable AI: how and why to estimate the degree of explainability},
   author={Sovrano, Francesco and Vitali, Fabio},
-  journal={arXiv preprint arXiv:2109.05327},
-  url={https://arxiv.org/abs/2109.05327},
-  year={2021}
+  journal={Knowledge-Based Systems},
+  volume={278},
+  pages={110866},
+  year={2023},
+  publisher={Elsevier}
 }
 ```
 
